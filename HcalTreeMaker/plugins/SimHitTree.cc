@@ -51,7 +51,6 @@
 
 
 //SimHits stuff
-
 #include "SimDataFormats/CaloHit/interface/PCaloHitContainer.h"
 #include "Geometry/CaloGeometry/interface/CaloGeometry.h"
 #include "Geometry/CaloGeometry/interface/CaloCellGeometry.h"
@@ -79,6 +78,8 @@
  
 //relabeling of test configs
 #include "Geometry/HcalCommonData/interface/HcalHitRelabeller.h"
+
+#include "DataFormats/HcalDetId/interface/HcalTestNumbering.h"
 
 #include <vector>
 #include <utility>
@@ -123,6 +124,7 @@ class SimHitTree : public edm::stream::EDFilter<> {
 	std::vector<int> SimHitsIeta;
 	std::vector<int> SimHitsDepth;
 	std::vector<int> SimHitsSub;	
+	std::vector<int> SimHitsLayer;	
 	
 	//SimHit Stuff
 	edm::EDGetTokenT<edm::PCaloHitContainer> tok_hcal_;
@@ -178,6 +180,7 @@ SimHitTree::SimHitTree(const edm::ParameterSet& iConfig)
 	tt1->Branch("SimHitsIphi","std::vector<int>",&SimHitsIphi);
 	tt1->Branch("SimHitsDepth","std::vector<int>",&SimHitsDepth);
 	tt1->Branch("SimHitsSub","std::vector<int>",&SimHitsSub);
+	tt1->Branch("SimHitsLayer","std::vector<int>",&SimHitsLayer);
 
 	std::cout << "constructor2" << std::endl;
 }
@@ -207,6 +210,7 @@ SimHitTree::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
 	SimHitsIphi.clear();
 	SimHitsDepth.clear();
 	SimHitsSub.clear();
+	SimHitsLayer.clear();
 
 	//run:lumi:event
 	run = iEvent.id().run();
@@ -220,10 +224,8 @@ SimHitTree::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
 	iEvent.getByToken(tok_hcal_,hcalHits);
 	std::vector<PCaloHit>  SimHitResult = *hcalHits.product () ;
 
-	std::cout << "test1" << std::endl;
 	iSetup.get<HcalRecNumberingRecord>().get( pHRNDC );
 	theRecNumber = &(*pHRNDC);
-	std::cout << "test2" << std::endl;
 	/*
 	if(testNumbering_){
 		iSetup.get<CaloGeometryRecord>().get(geometry);
@@ -241,14 +243,10 @@ SimHitTree::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
 
 	for (std::vector<PCaloHit>::const_iterator SimHits = SimHitResult.begin () ; SimHits != SimHitResult.end(); ++SimHits){
 
-	        std::cout << "test3" << std::endl;
-
 	        HcalDetId cell;
 		if (testNumbering_) cell = HcalHitRelabeller::relabel(SimHits->id(),theRecNumber);
 		else cell = HcalDetId(SimHits->id());
 		//HcalDetId cell(SimHits->id());
-
-	        std::cout << "test4" << std::endl;
 
 		double en   = SimHits->energy();     
 		int sub     = cell.subdet();
@@ -256,12 +254,23 @@ SimHitTree::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
 		int ieta = cell.ieta();
 		int iphi = cell.iphi();
 
+		int       det2, z2, depth2, eta2, phi2, layer2=0.;
+		if (testNumbering_){
+		HcalTestNumbering::unpackHcalIndex(SimHits->id(),det2,z2,depth2,eta2,phi2,layer2);
+		if (depth!=depth2 || fabs(ieta)!=fabs(eta2) || iphi!=phi2){
+		  std::cout << "depth: " << depth << " " << depth2 << std::endl;
+		  std::cout << "ieta:  " << ieta  << " " << eta2   << std::endl;
+		  std::cout << "iphi:  " << iphi  << " " << phi2   << std::endl;
+		}
+		}
+
 		if (sub_<=0.) {
 			SimHitsEn.push_back(en);
 			SimHitsIphi.push_back(iphi);
 			SimHitsIeta.push_back(ieta);
 			SimHitsDepth.push_back(depth);
 			SimHitsSub.push_back(sub);
+			SimHitsLayer.push_back(layer2);
 		}
 		else if(sub == sub_ ){
 			SimHitsEn.push_back(en);
@@ -269,6 +278,7 @@ SimHitTree::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
 			SimHitsIeta.push_back(ieta);
 			SimHitsDepth.push_back(depth);			
 			SimHitsSub.push_back(sub);
+			SimHitsLayer.push_back(layer2);
 		}
 
 	}

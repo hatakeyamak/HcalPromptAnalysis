@@ -155,6 +155,7 @@ class RecHitTree : public edm::EDAnalyzer {
       // ----------member data ---------------------------
 
   std::string outputfile_;
+  std::string treename_;
 
   edm::EDGetTokenT<HBHERecHitCollection> tok_hbhe_;
 //  edm::EDGetTokenT<HORecHitCollection> tok_ho_;
@@ -224,6 +225,7 @@ RecHitTree::RecHitTree(const edm::ParameterSet& iConfig)
 
 {
   outputfile_ = iConfig.getParameter<std::string>("rootOutputFile");
+  treename_ = iConfig.getParameter<std::string>("treeName");
 
   //Collections
   tok_hbhe_ = consumes<HBHERecHitCollection>(iConfig.getUntrackedParameter<edm::InputTag>("HBHERecHitCollectionLabel"));
@@ -239,7 +241,7 @@ RecHitTree::RecHitTree(const edm::ParameterSet& iConfig)
   //Now we use the modification so that we can use the TFileService
   edm::Service<TFileService> fs;
 
-  tt1 = fs->make<TTree>("RecHitTree","RecHitTree");
+  tt1 = fs->make<TTree>(treename_.c_str(),treename_.c_str());
 
   //branches
 
