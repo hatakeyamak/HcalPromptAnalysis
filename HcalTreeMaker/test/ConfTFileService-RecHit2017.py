@@ -83,5 +83,5 @@ process.load('HcalPromptAnalysis/HcalTreeMaker/RecHitTree_cfi')
 process.hcalRecHitTree.HBHERecHitCollectionLabel = cms.untracked.InputTag("hbheUpgradeReco")
 process.hcalRecHitTree.HFRecHitCollectionLabel   = cms.untracked.InputTag("hfUpgradeReco")
 
-process.plots = cms.Path(process.hcalSimHitTree*process.hcalRecHitTree)
+process.plots = cms.Path(process.hcalRecHitTree)
 
