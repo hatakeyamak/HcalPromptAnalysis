@@ -201,6 +201,7 @@ class RecHitTree : public edm::EDAnalyzer {
   std::vector<float> recHitHF_time;
   std::vector<int>   recHitHF_depth;
 
+  bool testNumbering_;
 
    // for checking the status of ECAL and HCAL channels stored in the DB 
   //const HcalChannelQuality* theHcalChStatus;
@@ -226,6 +227,7 @@ RecHitTree::RecHitTree(const edm::ParameterSet& iConfig)
 {
   outputfile_ = iConfig.getParameter<std::string>("rootOutputFile");
   treename_ = iConfig.getParameter<std::string>("treeName");
+  testNumbering_ = iConfig.getParameter<bool>("TestNumbering");
 
   //Collections
   tok_hbhe_ = consumes<HBHERecHitCollection>(iConfig.getUntrackedParameter<edm::InputTag>("HBHERecHitCollectionLabel"));
@@ -436,8 +438,14 @@ RecHitTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    int severityLevel = 0;
 
    for(HBHERecHitCollection::const_iterator j=hbhecoll->begin(); j != hbhecoll->end(); j++){
-     HcalDetId cell(j->id());
+
+     HcalDetId cell;
+     if (testNumbering_) cell = HcalHitRelabeller::relabel(j->id(),theRecNumber);
+     else cell = HcalDetId(j->id());
      depth = cell.depth();
+
+     //HcalDetId cell(j->id());
+     //depth = cell.depth();
      //severityLevel = hcalSevLvl( (CaloRecHit*) &*j );
      //if(severityLevel > 8) continue;
      

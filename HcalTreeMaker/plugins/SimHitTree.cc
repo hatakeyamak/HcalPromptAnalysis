@@ -124,7 +124,7 @@ class SimHitTree : public edm::stream::EDFilter<> {
 	std::vector<int> SimHitsIeta;
 	std::vector<int> SimHitsDepth;
 	std::vector<int> SimHitsSub;	
-	std::vector<int> SimHitsLayer;	
+        //std::vector<int> SimHitsLayer;	
 	
 	//SimHit Stuff
 	edm::EDGetTokenT<edm::PCaloHitContainer> tok_hcal_;
@@ -180,7 +180,7 @@ SimHitTree::SimHitTree(const edm::ParameterSet& iConfig)
 	tt1->Branch("SimHitsIphi","std::vector<int>",&SimHitsIphi);
 	tt1->Branch("SimHitsDepth","std::vector<int>",&SimHitsDepth);
 	tt1->Branch("SimHitsSub","std::vector<int>",&SimHitsSub);
-	tt1->Branch("SimHitsLayer","std::vector<int>",&SimHitsLayer);
+	//tt1->Branch("SimHitsLayer","std::vector<int>",&SimHitsLayer);
 
 	std::cout << "constructor2" << std::endl;
 }
@@ -210,7 +210,7 @@ SimHitTree::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
 	SimHitsIphi.clear();
 	SimHitsDepth.clear();
 	SimHitsSub.clear();
-	SimHitsLayer.clear();
+	//SimHitsLayer.clear();
 
 	//run:lumi:event
 	run = iEvent.id().run();
@@ -254,6 +254,7 @@ SimHitTree::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
 		int ieta = cell.ieta();
 		int iphi = cell.iphi();
 
+		/*
 		int       det2, z2, depth2, eta2, phi2, layer2=0.;
 		if (testNumbering_){
 		HcalTestNumbering::unpackHcalIndex(SimHits->id(),det2,z2,depth2,eta2,phi2,layer2);
@@ -263,6 +264,7 @@ SimHitTree::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
 		  std::cout << "iphi:  " << iphi  << " " << phi2   << std::endl;
 		}
 		}
+		*/
 
 		if (sub_<=0.) {
 			SimHitsEn.push_back(en);
@@ -270,7 +272,7 @@ SimHitTree::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
 			SimHitsIeta.push_back(ieta);
 			SimHitsDepth.push_back(depth);
 			SimHitsSub.push_back(sub);
-			SimHitsLayer.push_back(layer2);
+			//SimHitsLayer.push_back(layer2);
 		}
 		else if(sub == sub_ ){
 			SimHitsEn.push_back(en);
@@ -278,7 +280,7 @@ SimHitTree::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
 			SimHitsIeta.push_back(ieta);
 			SimHitsDepth.push_back(depth);			
 			SimHitsSub.push_back(sub);
-			SimHitsLayer.push_back(layer2);
+			//SimHitsLayer.push_back(layer2);
 		}
 
 	}
