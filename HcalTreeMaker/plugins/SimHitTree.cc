@@ -131,7 +131,7 @@ class SimHitTree : public edm::stream::EDFilter<> {
 
 	const CaloGeometry * theGeometry;
 	const HcalDDDRecConstants * theRecNumber;
-        const HcalDDDRecConstants               *hcons;
+        const HcalDDDRecConstants * hcons;
 
 	int sub_;
 	bool testNumbering_;
@@ -164,6 +164,8 @@ SimHitTree::SimHitTree(const edm::ParameterSet& iConfig)
 	}
 	*/
 
+	std::cout << "constructor1" << std::endl;
+
 	edm::Service<TFileService> fs;
 	tt1 = fs->make<TTree>("SimHitTree","SimHitTree");
 
@@ -176,6 +178,8 @@ SimHitTree::SimHitTree(const edm::ParameterSet& iConfig)
 	tt1->Branch("SimHitsIphi","std::vector<int>",&SimHitsIphi);
 	tt1->Branch("SimHitsDepth","std::vector<int>",&SimHitsDepth);
 	tt1->Branch("SimHitsSub","std::vector<int>",&SimHitsSub);
+
+	std::cout << "constructor2" << std::endl;
 }
 
 SimHitTree::~SimHitTree()
@@ -202,6 +206,7 @@ SimHitTree::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
 	SimHitsIeta.clear();
 	SimHitsIphi.clear();
 	SimHitsDepth.clear();
+	SimHitsSub.clear();
 
 	//run:lumi:event
 	run = iEvent.id().run();
@@ -215,9 +220,10 @@ SimHitTree::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
 	iEvent.getByToken(tok_hcal_,hcalHits);
 	std::vector<PCaloHit>  SimHitResult = *hcalHits.product () ;
 
-	edm::ESHandle<HcalDDDRecConstants> pHRNDC;
+	std::cout << "test1" << std::endl;
 	iSetup.get<HcalRecNumberingRecord>().get( pHRNDC );
 	theRecNumber = &(*pHRNDC);
+	std::cout << "test2" << std::endl;
 	/*
 	if(testNumbering_){
 		iSetup.get<CaloGeometryRecord>().get(geometry);
@@ -235,10 +241,14 @@ SimHitTree::filter(edm::Event& iEvent, const edm::EventSetup& iSetup)
 
 	for (std::vector<PCaloHit>::const_iterator SimHits = SimHitResult.begin () ; SimHits != SimHitResult.end(); ++SimHits){
 
+	        std::cout << "test3" << std::endl;
+
 	        HcalDetId cell;
 		if (testNumbering_) cell = HcalHitRelabeller::relabel(SimHits->id(),theRecNumber);
 		else cell = HcalDetId(SimHits->id());
 		//HcalDetId cell(SimHits->id());
+
+	        std::cout << "test4" << std::endl;
 
 		double en   = SimHits->energy();     
 		int sub     = cell.subdet();

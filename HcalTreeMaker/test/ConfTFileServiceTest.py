@@ -11,6 +11,8 @@ process.load('Configuration.StandardSequences.Services_cff')
 process.load('FWCore.MessageService.MessageLogger_cfi')
 process.load('Configuration.EventContent.EventContent_cff')
 #process.load('Configuration.Geometry.GeometryExtended2023simReco_cff')
+process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
+process.load('Configuration.StandardSequences.GeometrySimDB_cff')
 process.load('Configuration.StandardSequences.MagneticField_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
@@ -31,7 +33,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 500
 #process.GlobalTag.globaltag = 'MCRUN2_74_V8B::All'
 
 from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
+process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:phase1_2017_realistic', '')
 
 process.source = cms.Source("PoolSource",
     # replace 'myfile.root' with the source file you want to use
