@@ -47,6 +47,9 @@
 
 #include "SimDataFormats/CaloHit/interface/PCaloHitContainer.h"
 #include "SimDataFormats/GeneratorProducts/interface/HepMCProduct.h"
+
+#include "Geometry/HcalCommonData/interface/HcalHitRelabeller.h"
+#include "DataFormats/HcalDetId/interface/HcalTestNumbering.h"
  
 #include <vector>
 #include <utility>
@@ -329,6 +332,9 @@ RecHitTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    using namespace edm;
    using namespace reco;
 
+   edm::ESHandle<HcalDDDRecConstants> pHRNDC;
+   iSetup.get<HcalRecNumberingRecord>().get( pHRNDC );
+   const HcalDDDRecConstants* hcons = &(*pHRNDC);
 
    // HCAL channel status map ****************************************
    
@@ -437,12 +443,19 @@ RecHitTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    int depth = 0;
    int severityLevel = 0;
 
+   std::cout << "HBHE size: " << hbhecoll->size() << std::endl;
+
    for(HBHERecHitCollection::const_iterator j=hbhecoll->begin(); j != hbhecoll->end(); j++){
 
+     std::cout << "HBHE size: " << hbhecoll->size() << std::endl;
+
      HcalDetId cell;
-     if (testNumbering_) cell = HcalHitRelabeller::relabel(j->id(),theRecNumber);
+     if (testNumbering_) cell = HcalHitRelabeller::relabel(j->id(),hcons);
      else cell = HcalDetId(j->id());
      depth = cell.depth();
+
+     std::cout << depth << " " << cell.det()<< " " << cell.subdet() << " " << cell.ieta() << std::endl;
+     if (testNumbering_) std::cout << "testNumbering_: " << depth << " " << cell.subdet() << std::endl;
 
      //HcalDetId cell(j->id());
      //depth = cell.depth();
@@ -462,6 +475,9 @@ RecHitTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
      }//HB
 
      if(cell.subdet() == HcalEndcap){
+
+       std::cout << depth << " " << cell.subdet() << " " << j->energy() << std::endl;
+       
        //nrechits++;
        //recHitEn_HE.push_back(j->energy());
 	 recHitHE_En.push_back(j->energy());

@@ -78,7 +78,6 @@
  
 //relabeling of test configs
 #include "Geometry/HcalCommonData/interface/HcalHitRelabeller.h"
-
 #include "DataFormats/HcalDetId/interface/HcalTestNumbering.h"
 
 #include <vector>
