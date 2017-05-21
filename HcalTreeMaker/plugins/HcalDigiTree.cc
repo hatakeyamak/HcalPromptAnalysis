@@ -1,9 +1,9 @@
 // -*- C++ -*-
 //
-// Package:    METPlots/RecHitTree
-// Class:      RecHitTree
+// Package:    HcalPromptAnalysis/HcalTreeMaker/
+// Class:      HcalDigiTree
 // 
-/**\class RecHitTree RecHitTree.cc METPlots/RecHitTree/plugins/RecHitTree.cc
+/**\class HcalDigiTree HcalDigiTree.cc HcalPromptAnalysis/HcalTreeMaker/plugins/HcalDigiTree.cc
 
  Description: [one line class summary]
 
@@ -11,8 +11,8 @@
      [Notes on implementation]
 */
 //
-// Original Author:  kenneth call
-//         Created:  Wed, 15 Jul 2015 16:05:14 GMT
+// Original Authors:  Kenneth Call and Christopher Madrid
+//         Created:  Sun, 21 May 2017 16:05:14 GMT
 //
 //
 
@@ -137,10 +137,10 @@
 // class declaration
 //
 
-class RecHitTree : public edm::EDAnalyzer {
+class HcalDigiTree : public edm::EDAnalyzer {
    public:
-      explicit RecHitTree(const edm::ParameterSet&);
-      ~RecHitTree();
+      explicit HcalDigiTree(const edm::ParameterSet&);
+      ~HcalDigiTree();
 
       static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
 
@@ -225,7 +225,7 @@ class RecHitTree : public edm::EDAnalyzer {
 //
 // constructors and destructor
 //
-RecHitTree::RecHitTree(const edm::ParameterSet& iConfig)
+HcalDigiTree::HcalDigiTree(const edm::ParameterSet& iConfig)
 
 {
   outputfile_ = iConfig.getParameter<std::string>("rootOutputFile");
@@ -308,7 +308,7 @@ RecHitTree::RecHitTree(const edm::ParameterSet& iConfig)
 }
 
 
-RecHitTree::~RecHitTree()
+HcalDigiTree::~HcalDigiTree()
 {
  
    // do anything here that needs to be done at desctruction time
@@ -327,7 +327,7 @@ RecHitTree::~RecHitTree()
 
 // ------------ method called for each event  ------------
 void
-RecHitTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
+HcalDigiTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
    using namespace edm;
    using namespace reco;
@@ -548,20 +548,20 @@ RecHitTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 
 // ------------ method called once each job just before starting event loop  ------------
 void 
-RecHitTree::beginJob()
+HcalDigiTree::beginJob()
 {
 }
 
 // ------------ method called once each job just after ending the event loop  ------------
 void 
-RecHitTree::endJob() 
+HcalDigiTree::endJob() 
 {
 }
 
 // ------------ method called when starting to processes a run  ------------
 /*
 void 
-RecHitTree::beginRun(edm::Run const&, edm::EventSetup const&)
+HcalDigiTree::beginRun(edm::Run const&, edm::EventSetup const&)
 {
 }
 */
@@ -569,7 +569,7 @@ RecHitTree::beginRun(edm::Run const&, edm::EventSetup const&)
 // ------------ method called when ending the processing of a run  ------------
 /*
 void 
-RecHitTree::endRun(edm::Run const&, edm::EventSetup const&)
+HcalDigiTree::endRun(edm::Run const&, edm::EventSetup const&)
 {
 }
 */
@@ -577,7 +577,7 @@ RecHitTree::endRun(edm::Run const&, edm::EventSetup const&)
 // ------------ method called when starting to processes a luminosity block  ------------
 /*
 void 
-RecHitTree::beginLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&)
+HcalDigiTree::beginLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&)
 {
 }
 */
@@ -585,14 +585,14 @@ RecHitTree::beginLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup co
 // ------------ method called when ending the processing of a luminosity block  ------------
 /*
 void 
-RecHitTree::endLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&)
+HcalDigiTree::endLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&)
 {
 }
 */
 
 // ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
 void
-RecHitTree::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
+HcalDigiTree::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
   //The following says we do not know what parameters are allowed so do no validation
   // Please change this to state exactly what you do use, even if it is no parameters
   edm::ParameterSetDescription desc;
@@ -601,7 +601,7 @@ RecHitTree::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
 }
 
 //int 
-//RecHitTree::hcalSevLvl(const CaloRecHit* hit){
+//HcalDigiTree::hcalSevLvl(const CaloRecHit* hit){
  
 //   const DetId id = hit->detid();
 
@@ -615,4 +615,4 @@ RecHitTree::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
 //}
 
 //define this as a plug-in
-DEFINE_FWK_MODULE(RecHitTree);
+DEFINE_FWK_MODULE(HcalDigiTree);
