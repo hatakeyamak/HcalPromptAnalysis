@@ -1,0 +1,4 @@
+HcalDataFrameContainer<QIE10DataFrame>    "hcalDigis"                 "ZDC"             "RECO"    
+HcalUnpackerReport                    "castorDigis"               ""                "RECO"    
+HcalUnpackerReport                    "hcalDigis"                 ""                "RECO"    
+edm::SortedCollection<ZDCDataFrame,edm::StrictWeakOrdering<ZDCDataFrame> >    "hcalDigis"                 ""                "RECO"    
