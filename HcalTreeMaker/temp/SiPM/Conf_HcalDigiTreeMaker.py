@@ -42,7 +42,7 @@ process.source = cms.Source("PoolSource",
 ##########
 
 
-process.TFileService = cms.Service("TFileService", fileName = cms.string("TFileServiceTest1.root") )
+process.TFileService = cms.Service("TFileService", fileName = cms.string("HcalDigiTree.root") )
 
 #process.load('RecoLocalCalo/HcalRecAlgos/hcalRecAlgoESProd_cfi')
 
@@ -68,7 +68,7 @@ process.load('HcalPromptAnalysis/HcalTreeMaker/RecHitTree_cfi')
 
 #---------------------------------------------------------------------------
 #Chris' Changes
-process.load('HcalPromtAnalysis/HcalTreeMaker/HcalDigiTree_cfi')
+process.load('HcalPromptAnalysis/HcalTreeMaker/HcalDigiTree_cfi')
 #---------------------------------------------------------------------------
 
 #process.hcalRecHitTree.rootOutputFile            = cms.string('TFileServiceTest2.root')
@@ -86,6 +86,6 @@ process.hcalRecHitTree.HFRecHitCollectionLabel   = cms.untracked.InputTag("hfrec
 
 #---------------------------------------------------------------------------
 #Chris' Changes
-###process.plots = cms.Path(process.hcalSimHitTree*process.hcalRecHitTree)
-#process.plots = cms.Path(process.hcalSimHitTree*process.hcalRecHitTree*process.hcalDigiTree)
+#process.plots = cms.Path(process.hcalSimHitTree*process.hcalDigiTree)
+process.plots = cms.Path(process.hcalDigiTree)
 #---------------------------------------------------------------------------

@@ -1,0 +1,20 @@
+Reading cached build data
+>> Local Products Rules ..... started
+>> Local Products Rules ..... done
+>> Entering Package HcalPromptAnalysis/HcalTreeMaker
+>> Creating project symlinks
+  src/HcalPromptAnalysis/HcalTreeMaker/python -> python/HcalPromptAnalysis/HcalTreeMaker
+>> Compiling edm plugin /uscms_data/d3/cmadrid/ana/HCAL/digi_pulseshape/CMSSW_9_0_0_DIGITreeMaker/src/HcalPromptAnalysis/HcalTreeMaker/plugins/HcalDigiTree.cc 
+/uscms_data/d3/cmadrid/ana/HCAL/digi_pulseshape/CMSSW_9_0_0_DIGITreeMaker/src/HcalPromptAnalysis/HcalTreeMaker/plugins/HcalDigiTree.cc: In member function 'virtual void HcalDigiTree::analyze(const edm::Event&, const edm::EventSetup&)':
+/uscms_data/d3/cmadrid/ana/HCAL/digi_pulseshape/CMSSW_9_0_0_DIGITreeMaker/src/HcalPromptAnalysis/HcalTreeMaker/plugins/HcalDigiTree.cc:464:50: error: conflicting declaration 'const HcalDataFrameContainer<HBHEDataFrame>* digiCollection'
+    const HcalDataFrameContainer<HBHEDataFrame > *digiCollection = digiTag.product();   
+                                                  ^
+/uscms_data/d3/cmadrid/ana/HCAL/digi_pulseshape/CMSSW_9_0_0_DIGITreeMaker/src/HcalPromptAnalysis/HcalTreeMaker/plugins/HcalDigiTree.cc:458:69: note: previous declaration as 'edm::Handle<edm::SortedCollection<edm::SortedCollection<HBHEDataFrame> > > digiCollection'
+    typename edm::Handle<edm::SortedCollection<HBHEDigiCollection> > digiCollection;
+                                                                     ^
+/uscms_data/d3/cmadrid/ana/HCAL/digi_pulseshape/CMSSW_9_0_0_DIGITreeMaker/src/HcalPromptAnalysis/HcalTreeMaker/plugins/HcalDigiTree.cc:385:31: warning: unused variable 'hcons' [-Wunused-variable]
+    const HcalDDDRecConstants* hcons = &(*pHRNDC);
+                               ^
+config/SCRAM/GMake/Makefile.rules:2005: recipe for target 'tmp/slc6_amd64_gcc530/src/HcalPromptAnalysis/HcalTreeMaker/plugins/HcalPromptAnalysisHcalTreeMakerAuto/HcalDigiTree.o' failed
+gmake: *** [tmp/slc6_amd64_gcc530/src/HcalPromptAnalysis/HcalTreeMaker/plugins/HcalPromptAnalysisHcalTreeMakerAuto/HcalDigiTree.o] Error 1
+gmake: *** [There are compilation/build errors. Please see the detail log above.] Error 2

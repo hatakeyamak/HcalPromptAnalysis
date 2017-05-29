@@ -11,7 +11,7 @@
      [Notes on implementation]
 */
 //
-// Original Authors:  Kenneth Call and Christopher Madrid
+// Original Author:  Christopher Madrid
 //         Created:  Sun, 21 May 2017 16:05:14 GMT
 //
 //
@@ -191,60 +191,35 @@ class HcalDigiTree : public edm::EDAnalyzer {
       ~HcalDigiTree();
 
       static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
-
-
+  
    private:
       virtual void beginJob() override;
       virtual void analyze(const edm::Event&, const edm::EventSetup&) override;
       virtual void endJob() override;
 
       // ----------member data ---------------------------
-
+  
   std::string outputfile_;
   std::string treename_;
 
-  //edm::EDGetTokenT<HBHERecHitCollection> tok_hbhe_;
-  //edm::EDGetTokenT<HFRecHitCollection> tok_hf_;
-
-  //  edm::EDGetTokenT<reco::VertexCollection> tok_vertexc_;
-  //  edm::EDGetTokenT<CaloTowerCollection> tok_calo_;
-
   TFile *tf1;
   TTree *tt1;
-
-  //int nrechits;
-  //int nvertx;
+  
 
   // run:lumi:event
   int run;
   int lumi;
   int event;
 
-  //std::vector<float> recHitEn_HB;
-  //std::vector<float> recHitEn_HE;
-  //std::vector<float> recHitEn_HF;
-  //std::vector<float> recHitEn_HO;  
+  std::vector<int> DigiHB_ieta;
+  std::vector<int> DigiHB_iphi;
+  std::vector<int> DigiHB_depth; 
+  std::vector<int> DigiHB_sub;
 
-  std::vector<float> recHitHB_En;
-  std::vector<float> recHitHB_EnRAW;
-  std::vector<int>   recHitHB_ieta;
-  std::vector<int>   recHitHB_iphi;
-  std::vector<float> recHitHB_time;
-  std::vector<int>   recHitHB_depth;
-
-  std::vector<float> recHitHE_En;
-  std::vector<float> recHitHE_EnRAW;
-  std::vector<int>   recHitHE_ieta;
-  std::vector<int>   recHitHE_iphi;
-  std::vector<float> recHitHE_time;
-  std::vector<int>   recHitHE_depth;
-
-  std::vector<float> recHitHF_En;
-  std::vector<float> recHitHF_EnRAW;
-  std::vector<int>   recHitHF_ieta;
-  std::vector<int>   recHitHF_iphi;
-  std::vector<float> recHitHF_time;
-  std::vector<int>   recHitHF_depth;
+  std::vector<int> DigiHE_ieta;
+  std::vector<int> DigiHE_iphi;
+  std::vector<int> DigiHE_depth; 
+  std::vector<int> DigiHE_sub;
 
   bool testNumbering_;
 
@@ -259,17 +234,11 @@ class HcalDigiTree : public edm::EDAnalyzer {
   edm::EDGetTokenT< QIE10DigiCollection > tok_qie10_hf_; 
   edm::EDGetTokenT< QIE11DigiCollection > tok_qie11_hbhe_; 
 
-   // for checking the status of ECAL and HCAL channels stored in the DB 
-  //const HcalChannelQuality* theHcalChStatus;
-  // calculator of severety level for HCAL
-  //const HcalSeverityLevelComputer* theHcalSevLvlComputer;
-  //int hcalSevLvl(const CaloRecHit* hit);
-
-  /*
+   
+  
   template<class Digi> void reco(const edm::Event& iEvent, const edm::EventSetup& iSetup, const edm::EDGetTokenT<edm::SortedCollection<Digi> > &tok);
   template<class dataFrameType> void reco(const edm::Event& iEvent, const edm::EventSetup& iSetup, const edm::EDGetTokenT<HcalDataFrameContainer<dataFrameType> > &tok);
-  */
-
+   
 };
 
 //
@@ -284,7 +253,6 @@ class HcalDigiTree : public edm::EDAnalyzer {
 // constructors and destructor
 //
 HcalDigiTree::HcalDigiTree(const edm::ParameterSet& iConfig)
-
 {
   outputfile_ = iConfig.getParameter<std::string>("rootOutputFile");
   treename_ = iConfig.getParameter<std::string>("treeName");
@@ -305,68 +273,51 @@ HcalDigiTree::HcalDigiTree(const edm::ParameterSet& iConfig)
   //hep17_     = iConfig.getParameter<bool>("hep17");
 
   //Collections
-  //tok_hbhe_ = consumes<HBHERecHitCollection>(iConfig.getUntrackedParameter<edm::InputTag>("HBHERecHitCollectionLabel"));
-  //tok_hf_  = consumes<HFRecHitCollection>(iConfig.getUntrackedParameter<edm::InputTag>("HFRecHitCollectionLabel"));
-  //tok_ho_ = consumes<HORecHitCollection>(iConfig.getUntrackedParameter<edm::InputTag>("HORecHitCollectionLabel"));
-  //tok_vertexc_ = consumes<reco::VertexCollection>(iConfig.getUntrackedParameter<edm::InputTag>("VertexCollectionLabel"));
-  //tok_calo_ = consumes<CaloTowerCollection>(iConfig.getUntrackedParameter<edm::InputTag>("CaloTowerCollectionLabel"));
-
   tok_hbhe_ = consumes< HBHEDigiCollection >(inputTag_);
   tok_ho_ = consumes< HODigiCollection >(inputTag_);
   tok_hf_ = consumes< HFDigiCollection >(inputTag_);
 
   tok_qie10_hf_ = consumes< QIE10DigiCollection >(QIE10inputTag_);
   tok_qie11_hbhe_ = consumes< QIE11DigiCollection >(QIE11inputTag_);
-  
-  //now do what ever initialization is needed
+ 
+  //Now do what ever initialization is needed
 
   tf1 = new TFile(outputfile_.c_str(), "RECREATE");
 
   //Now we use the modification so that we can use the TFileService
   edm::Service<TFileService> fs;
-
+  ///tt1 = fs->make<TTree>("HcalDigiTree","HcalDigiTree");
   tt1 = fs->make<TTree>(treename_.c_str(),treename_.c_str());
 
-  //branches
-
+  //Branches
   tt1->Branch("run", &run, "run/I");
   tt1->Branch("lumi", &lumi, "lumi/I");
   tt1->Branch("event", &event, "event/I");
 
-  tt1->Branch("recHitHB_En","std::vector<float>", &recHitHB_En, 32000, 0);
-  tt1->Branch("recHitHB_ieta","std::vector<int>", &recHitHB_ieta, 32000, 0);
-  tt1->Branch("recHitHB_iphi","std::vector<int>", &recHitHB_iphi, 32000, 0);
-  tt1->Branch("recHitHB_depth","std::vector<int>", &recHitHB_depth, 32000, 0);
-  tt1->Branch("recHitHB_time","std::vector<float>", &recHitHB_time, 32000, 0);
+  tt1->Branch("DigiHB_ieta","std::vector<int>", &DigiHB_ieta, 32000, 0);
+  tt1->Branch("DigiHB_iphi","std::vector<int>", &DigiHB_iphi, 32000, 0);
+  tt1->Branch("DigiHB_depth","std::vector<int>", &DigiHB_depth, 32000, 0);
+  tt1->Branch("DigiHB_sub","std::vector<int>", &DigiHB_sub, 32000, 0);
 
-  tt1->Branch("recHitHE_En","std::vector<float>", &recHitHE_En, 32000, 0);
-  //tt1->Branch("recHitHE_EnRAW","std::vector<float>", &recHitHE_EnRAW, 32000, 0);
-  tt1->Branch("recHitHE_ieta","std::vector<int>", &recHitHE_ieta, 32000, 0);
-  tt1->Branch("recHitHE_iphi","std::vector<int>", &recHitHE_iphi, 32000, 0);
-  tt1->Branch("recHitHE_depth","std::vector<int>", &recHitHE_depth, 32000, 0);
-  tt1->Branch("recHitHE_time","std::vector<float>", &recHitHE_time, 32000, 0);
-
-  tt1->Branch("recHitHF_En","std::vector<float>", &recHitHF_En, 32000, 0);
-  //tt1->Branch("recHitHF_EnRAW","std::vector<float>", &recHitHF_EnRAW, 32000, 0);
-  tt1->Branch("recHitHF_ieta","std::vector<int>", &recHitHF_ieta, 32000, 0);
-  tt1->Branch("recHitHF_iphi","std::vector<int>", &recHitHF_iphi, 32000, 0);
-  tt1->Branch("recHitHF_depth","std::vector<int>", &recHitHF_depth, 32000, 0);
-  tt1->Branch("recHitHF_time","std::vector<float>", &recHitHF_time, 32000, 0);
-
+  tt1->Branch("DigiHE_ieta","std::vector<int>", &DigiHE_ieta, 32000, 0);
+  tt1->Branch("DigiHE_iphi","std::vector<int>", &DigiHE_iphi, 32000, 0);
+  tt1->Branch("DigiHE_depth","std::vector<int>", &DigiHE_depth, 32000, 0);
+  tt1->Branch("DigiHE_sub","std::vector<int>", &DigiHE_sub, 32000, 0);
+  
+  std::cout << "Made it Here 1" << std::endl;
 }
-
 
 HcalDigiTree::~HcalDigiTree()
 {
  
    // do anything here that needs to be done at desctruction time
    // (e.g. close files, deallocate resources etc.)
-
+  
   tf1->cd();
   tt1->Write();
   tf1->Write();
   tf1->Close();
-
+ 
 }
 
 //
@@ -374,76 +325,34 @@ HcalDigiTree::~HcalDigiTree()
 //
 
 // ------------ method called for each event  ------------
-void HcalDigiTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
+void 
+HcalDigiTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
-   using namespace edm;
-   using namespace reco;
+  using namespace edm;
+  using namespace reco;
 
-   edm::ESHandle<HcalDDDRecConstants> pHRNDC;
-   iSetup.get<HcalRecNumberingRecord>().get( pHRNDC );
-   const HcalDDDRecConstants* hcons = &(*pHRNDC);
+  ///edm::ESHandle<HcalDDDRecConstants> pHRNDC;
+  ///iSetup.get<HcalRecNumberingRecord>().get( pHRNDC );
+   ///const HcalDDDRecConstants* hcons = &(*pHRNDC);
 
    // HCAL channel status map ****************************************
-   
-   recHitHB_En.clear();
-   //recHitHB_EnRAW.clear();
-   recHitHB_ieta.clear();
-   recHitHB_iphi.clear();
-   recHitHB_depth.clear();
-   recHitHB_time.clear();
 
-   recHitHE_En.clear();
-   //recHitHE_EnRAW.clear();
-   recHitHE_ieta.clear();
-   recHitHE_iphi.clear();
-   recHitHE_depth.clear();
-   recHitHE_time.clear();
+   DigiHB_ieta.clear();
+   DigiHB_iphi.clear();
+   DigiHB_depth.clear();
+   DigiHB_sub.clear();
 
-   recHitHF_En.clear();
-   //recHitHF_EnRAW.clear();
-   recHitHF_ieta.clear();
-   recHitHF_iphi.clear();
-   recHitHF_depth.clear();
-   recHitHF_time.clear();
+   DigiHE_ieta.clear();
+   DigiHE_iphi.clear();
+   DigiHE_depth.clear();
+   DigiHE_sub.clear();
 
    //run:lumi:event
    run = iEvent.id().run();
    lumi = iEvent.id().luminosityBlock();
    event = iEvent.id().event();
 
-   //Clear the nvertx
-   //nvertx = 0;
-   //nrechits = 0;
-
-   //Good Vertices
-   //edm::Handle<VertexCollection> vertexcoll;
-   //iEvent.getByToken(tok_vertexc_, vertexcoll);
-
-   //for(VertexCollection::const_iterator vitr = vertexcoll->begin(); vitr != vertexcoll->end(); vitr++){
-     //if(vitr->isFake()) continue;
-     //if(vitr->ndof() <= 4) continue;
-     //if(vitr->z() > 24) continue;
-     //if(vitr->z() < -24) continue;
-     //if(vitr->position().Rho()>=2) continue;
-     //if(vitr->position().Rho()<=-2) continue;
-
-     //nvertx++;
-     
-   //} //Good Vertices
-
-   // CaloTowers
-   //edm::Handle<CaloTowerCollection> towers;
-   //iEvent.getByToken(tok_calo_,towers);
-   //CaloTowerCollection::const_iterator cal;
-
-   //for(cal = towers->begin(); cal != towers->end(); cal++){
-   //  CaloTowerDetId idT = cal->id();
-   //  caloTower_HadEt.push_back(cal->hadEt());
-   //  caloTower_EmEt.push_back(cal->emEt());
-   //  caloTower_ieta.push_back(idT.ieta());
-   //  caloTower_iphi.push_back(idT.iphi());
-   //}
-
+   std::cout << "Made it Here 2" << std::endl;
 
    //-------------------------------------------------------------------------------------
    //HCAL DIGIS 
@@ -452,240 +361,123 @@ void HcalDigiTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
    //-------------------------------------------------------------------------------------
    //HBHE digis
    //-------------------------------------------------------------------------------------
+  
+   
    edm::Handle< HBHEDigiCollection > digiTag;
    iEvent.getByToken(tok_hbhe_, digiTag);
-   typename edm::Handle<edm::SortedCollection<HBHEDigiCollection> > digiCollection;
-   typename edm::SortedCollection<HBHEDigiCollection>::const_iterator digiItr;
-
-   //reco<HBHEDataFrame > (iEvent, iSetup, tok_hbhe_);
-
-   if (!digiTag.isValid()) return;
-   ////   const HcalDataFrameContainer<HBHEDataFrame > *digiCollection = digiTag.product();   
-
+  
    /*
-   for (digiItr = digiTag->begin(); digiItr != digiTag->end(); digiItr++) { 
-       HcalDetId cell(digiItr->id());
-       int depth = cell.depth();
-       int iphi = cell.iphi();
-       int ieta = cell.ieta();
-       int sub = cell.subdet();
-       
-       //std::cout << depth << std::endl;
-       //std::cout << iphi << std::endl;
-       //std::cout << ieta << std::endl;
-       //std::cout << sub << std::endl;
-   }
+   // ADC2fC
+   HcalCalibrations calibrations;
+   CaloSamples tool;
+   iEvent.getByToken(tok, digiCollection);
    */
 
+   std::cout << "Made it Here 3" << std::endl;
 
-   // //------------------------------------------------------------------------------------
-   // //HO digis
-   // //------------------------------------------------------------------------------------
-   // edm::Handle< HODigiCollection > digiTag;
-   // iEvent.getByToken(tok_ho_, digiTag);
+   for(HBHEDigiCollection::const_iterator j=digiTag->begin(); j != digiTag->end(); j++){
+     HcalDetId cell;
+     cell = HcalDetId(j->id());
+     int ieta = cell.ieta();
+     int iphi = cell.iphi();
+     int depth = cell.depth();
+     int sub = cell.subdet();
+     
+     ///if(cell.subdet() == HcalBarrel){
+       //DigiHB_ieta.push_back(j->energy());
+       DigiHB_ieta.push_back(ieta);
+       DigiHB_iphi.push_back(iphi);
+       DigiHB_depth.push_back(depth);
+       DigiHB_sub.push_back(sub);
+       
+       std::cout << "Made it Here 4" << std::endl;
 
-   // //reco<HODataFrame > (iEvent, iSetup, tok_ho_);
+     ///}//HB
+     /*
+     if(cell.subdet() == HcalEndcap){
+       //DigiHE_ieta.push_back(j->energy());
+       DigiHE_ieta.push_back(ieta);
+       DigiHE_iphi.push_back(iphi);
+       DigiHE_depth.push_back(depth);
+       DigiHE_sub.push_back(sub);
 
-   // //------------------------------------------------------------------------------------
-   // //HF digis
-   // //------------------------------------------------------------------------------------
-   // edm::Handle< HFDigiCollection > digiTag;
-   // iEvent.getByToken(tok_hf_, digiTag);
+     }//HE 
+     */
 
-   // //reco<HFDataFrame > (iEvent, iSetup, tok_hf_);
+     /*
+     for (int i = 0; i < 10; i++) {
+       HcalCalibrations calibrations = conditions->getHcalCalibrations(cell);
+       const HcalQIECoder* channelCoder = conditions->getHcalCoder(cell);
+       const HcalQIEShape* shape = conditions->getHcalShape(channelCoder);
+       HcalCoderDb coder(*channelCoder, *shape);
+       coder.adc2fC(*digiItr, tool);
 
-   // //------------------------------------------------------------------------------------
-   // //HF QIE10Digis
-   // //------------------------------------------------------------------------------------
-   // edm::Handle< QIE10DigiCollection > QIE10digiTag;
-   // iEvent.getByToken(tok_qie10_hf_, QIE10digiTag);
+     }//Loop over Time Steps 
+     */
 
-   // //reco<QIE10DataFrame>(iEvent, iSetup, tok_qie10_hf_);
+   }//Loop over HBHE Digis 
 
-   // //------------------------------------------------------------------------------------
-   // //HBHE QIE11Digis
-   // //------------------------------------------------------------------------------------
-   // edm::Handle< QIE11DigiCollection > QIE11digiTag;
-   // iEvent.getByToken(tok_qie11_hbhe_, QIE11digiTag);
+   /*
+   //------------------------------------------------------------------------------------
+   //HO digis
+   //------------------------------------------------------------------------------------
+   edm::Handle< HODigiCollection > digiTag;
+   iEvent.getByToken(tok_ho_, digiTag);
 
-   //reco<QIE11DataFrame>(iEvent, iSetup, tok_qie11_hbhe_);
+   //reco<HODataFrame > (iEvent, iSetup, tok_ho_);
 
    //------------------------------------------------------------------------------------
+   //HF digis
+   //------------------------------------------------------------------------------------
+   edm::Handle< HFDigiCollection > digiTag;
+   iEvent.getByToken(tok_hf_, digiTag);
 
-   // //HBHE RecHits
-   // edm::Handle<HBHERecHitCollection> hbhecoll;
-   // iEvent.getByToken(tok_hbhe_, hbhecoll);
+   //reco<HFDataFrame > (iEvent, iSetup, tok_hf_);
 
-   // int depth = 0;
-   // //int severityLevel = 0;
+   //------------------------------------------------------------------------------------
+   //HF QIE10Digis
+   //------------------------------------------------------------------------------------
+   edm::Handle< QIE10DigiCollection > QIE10digiTag;
+   iEvent.getByToken(tok_qie10_hf_, QIE10digiTag);
 
-   // std::cout << "HBHE size: " << hbhecoll->size() << std::endl;
+   //reco<QIE10DataFrame>(iEvent, iSetup, tok_qie10_hf_);
 
-   // for(HBHERecHitCollection::const_iterator j=hbhecoll->begin(); j != hbhecoll->end(); j++){
+   //------------------------------------------------------------------------------------
+   //HBHE QIE11Digis
+   //------------------------------------------------------------------------------------
+   edm::Handle< QIE11DigiCollection > QIE11digiTag;
+   iEvent.getByToken(tok_qie11_hbhe_, QIE11digiTag);
 
-   //    std::cout << "HBHE size: " << hbhecoll->size() << std::endl;
+   reco<QIE11DataFrame>(iEvent, iSetup, tok_qie11_hbhe_);
 
-   //    HcalDetId cell;
-   //    if (testNumbering_) cell = HcalHitRelabeller::relabel(j->id(),hcons);
-   //    else cell = HcalDetId(j->id());
-   //    depth = cell.depth();
+   //------------------------------------------------------------------------------------
+   */
 
-   //    std::cout << depth << " " << cell.det()<< " " << cell.subdet() << " " << cell.ieta() << std::endl;
-   //    if (testNumbering_) std::cout << "testNumbering_: " << depth << " " << cell.subdet() << std::endl;
-
-   //    //HcalDetId cell(j->id());
-   //    //depth = cell.depth();
-   //    //severityLevel = hcalSevLvl( (CaloRecHit*) &*j );
-   //    //if(severityLevel > 8) continue;
-
-   //    if(cell.subdet() == HcalBarrel){
-   // 	//nrechits++;
-   // 	//recHitEn_HB.push_back(j->energy());
-   // 	  recHitHB_En.push_back(j->energy());
-   // 	 //recHitHB1_EnRAW.push_back(j->eraw());
-   // 	  recHitHB_ieta.push_back(cell.ieta());
-   // 	  recHitHB_iphi.push_back(cell.iphi());
-   // 	  recHitHB_depth.push_back(depth);
-   // 	  recHitHB_time.push_back(j->time());
-
-   //    }//HB
-
-   //    if(cell.subdet() == HcalEndcap){
-
-   // 	std::cout << depth << " " << cell.subdet() << " " << j->energy() << std::endl;
-
-   // 	//nrechits++;
-   // 	//recHitEn_HE.push_back(j->energy());
-   // 	  recHitHE_En.push_back(j->energy());
-   // 	  //recHitHE_EnRAW.push_back(j->eraw());
-   // 	  recHitHE_ieta.push_back(cell.ieta());
-   // 	  recHitHE_iphi.push_back(cell.iphi());
-   // 	  recHitHE_depth.push_back(depth);
-   // 	  recHitHE_time.push_back(j->time());
-   //    }//HE     
-
-   //  } //HBHE
-
-   //  //HF RecHits
-   //  edm::Handle<HFRecHitCollection> hfcoll;
-   //  iEvent.getByToken(tok_hf_, hfcoll);
-
-   //  for( HFRecHitCollection::const_iterator j = hfcoll->begin(); j != hfcoll->end(); j++){
-   //   HcalDetId cell(j->id());
-   //   depth = cell.depth();
-   //   //severityLevel = hcalSevLvl( (CaloRecHit*) &*j );
-
-   //   //ZS emulation
-   //   //int auxwd = j->aux();
-   //   //bool reject = true;
-
-   //   //for(int TSidx = 0; TSidx < 3; TSidx++){
-   //     //int TS2 = (auxwd >> (TSidx*7)) & 0x7F;
-   //     //int TS3 = (auxwd >> (TSidx*7+7)) & 0x7F;
-   //     //if(TS2+TS3 >= 10) reject = false;
-   //   //}
-   //   //if(reject) continue;
-   //   //ZS emulation
-
-   //   //if(severityLevel > 8) continue;
-
-   //   //nrechits++;
-   //   //recHitEn_HF.push_back(j->energy());
-   // 	 recHitHF_En.push_back(j->energy());
-   // 	 //recHitHF1_EnRAW.push_back(j->eraw());
-   // 	 recHitHF_ieta.push_back(cell.ieta());
-   // 	 recHitHF_iphi.push_back(cell.iphi());
-   // 	 recHitHF_depth.push_back(depth);
-   // 	 recHitHF_time.push_back(j->time());
-     
-   // } //HF
-
-   // //HO RecHits
-   // //edm::Handle<HORecHitCollection> hocoll;
-   // //iEvent.getByToken(tok_ho_, hocoll);
-   // //for( HORecHitCollection::const_iterator j = hocoll->begin(); j != hocoll->end(); j++){
-   //   //HcalDetId cell(j->id());
-   //   //severityLevel = hcalSevLvl( (CaloRecHit*) &*j );
-   //   //if(severityLevel > 8) continue;
-   //   //nrechits++;
-   //   //recHitEn_HO.push_back(j->energy());
-   // 	 //recHitHO_En.push_back(j->energy());
-   // 	 //recHitHO_EnRAW.push_back(j->eraw());
-   // 	 //recHitHO_ieta.push_back(cell.ieta());
-   // 	 //recHitHO_iphi.push_back(cell.iphi());
-   // 	 //recHitHO_time.push_back(j->time());
-       
-   // //} //HO
-
-   //Fill Tree
+   //Fill the tree
    tt1->Fill();
 }
 
-
 // ------------ method called once each job just before starting event loop  ------------
-void HcalDigiTree::beginJob()
+void
+HcalDigiTree::beginJob()
 {
 }
 
 // ------------ method called once each job just after ending the event loop  ------------
-void HcalDigiTree::endJob() 
-{
-}
-
-// ------------ method called when starting to processes a run  ------------
-/*
 void 
-HcalDigiTree::beginRun(edm::Run const&, edm::EventSetup const&)
+HcalDigiTree::endJob() 
 {
 }
-*/
-
-// ------------ method called when ending the processing of a run  ------------
-/*
-void 
-HcalDigiTree::endRun(edm::Run const&, edm::EventSetup const&)
-{
-}
-*/
-
-// ------------ method called when starting to processes a luminosity block  ------------
-/*
-void 
-HcalDigiTree::beginLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&)
-{
-}
-*/
-
-// ------------ method called when ending the processing of a luminosity block  ------------
-/*
-void 
-HcalDigiTree::endLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&)
-{
-}
-*/
 
 // ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
-void HcalDigiTree::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
+void 
+HcalDigiTree::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
   //The following says we do not know what parameters are allowed so do no validation
   // Please change this to state exactly what you do use, even if it is no parameters
   edm::ParameterSetDescription desc;
   desc.setUnknown();
   descriptions.addDefault(desc);
 }
-
-//int 
-//HcalDigiTree::hcalSevLvl(const CaloRecHit* hit){
- 
-//   const DetId id = hit->detid();
-
-//   const uint32_t recHitFlag = hit->flags();
-//   const uint32_t dbStatusFlag = theHcalChStatus->getValues(id)->getValue();
-
-//   int severityLevel = theHcalSevLvlComputer->getSeverityLevel(id, recHitFlag, dbStatusFlag);
-
-//   return severityLevel;
-
-//}
 
 //define this as a plug-in
 DEFINE_FWK_MODULE(HcalDigiTree);

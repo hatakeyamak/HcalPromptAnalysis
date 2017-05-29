@@ -1,0 +1,16 @@
+>> Local Products Rules ..... started
+>> Local Products Rules ..... done
+>> Creating project symlinks
+>> Entering Package HcalPromptAnalysis/HcalTreeMaker
+  src/HcalPromptAnalysis/HcalTreeMaker/python -> python/HcalPromptAnalysis/HcalTreeMaker
+>> Compiling edm plugin /uscms_data/d3/cmadrid/ana/HCAL/digi_pulseshape/CMSSW_9_0_0_DIGITreeMaker/src/HcalPromptAnalysis/HcalTreeMaker/plugins/HcalDigiTree.cc 
+/uscms_data/d3/cmadrid/ana/HCAL/digi_pulseshape/CMSSW_9_0_0_DIGITreeMaker/src/HcalPromptAnalysis/HcalTreeMaker/plugins/HcalDigiTree.cc: In member function 'virtual void HcalDigiTree::analyze(const edm::Event&, const edm::EventSetup&)':
+/uscms_data/d3/cmadrid/ana/HCAL/digi_pulseshape/CMSSW_9_0_0_DIGITreeMaker/src/HcalPromptAnalysis/HcalTreeMaker/plugins/HcalDigiTree.cc:475:32: error: 'const class edm::SortedCollection<HBHEDataFrame>' has no member named 'id'
+        HcalDetId cell(digiItr->id());
+                                ^
+/uscms_data/d3/cmadrid/ana/HCAL/digi_pulseshape/CMSSW_9_0_0_DIGITreeMaker/src/HcalPromptAnalysis/HcalTreeMaker/plugins/HcalDigiTree.cc:385:31: warning: unused variable 'hcons' [-Wunused-variable]
+    const HcalDDDRecConstants* hcons = &(*pHRNDC);
+                               ^
+config/SCRAM/GMake/Makefile.rules:2005: recipe for target 'tmp/slc6_amd64_gcc530/src/HcalPromptAnalysis/HcalTreeMaker/plugins/HcalPromptAnalysisHcalTreeMakerAuto/HcalDigiTree.o' failed
+gmake: *** [tmp/slc6_amd64_gcc530/src/HcalPromptAnalysis/HcalTreeMaker/plugins/HcalPromptAnalysisHcalTreeMakerAuto/HcalDigiTree.o] Error 1
+gmake: *** [There are compilation/build errors. Please see the detail log above.] Error 2
