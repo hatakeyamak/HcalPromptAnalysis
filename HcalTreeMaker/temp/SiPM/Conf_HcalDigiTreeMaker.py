@@ -41,8 +41,7 @@ process.source = cms.Source("PoolSource",
 #process.source.lumisToProcess = LumiList.LumiList(filename = 'Cert_136033-149442_7TeV_Apr21ReReco_Collisions10_JSON_v2.txt').getVLuminosityBlockRange()
 ##########
 
-
-process.TFileService = cms.Service("TFileService", fileName = cms.string("HcalDigiTree.root") )
+process.TFileService = cms.Service("TFileService", fileName = cms.string("TFileServiceOutputTree.root") )
 
 #process.load('RecoLocalCalo/HcalRecAlgos/hcalRecAlgoESProd_cfi')
 
@@ -83,6 +82,11 @@ process.hcalRecHitTree.HFRecHitCollectionLabel   = cms.untracked.InputTag("hfrec
 #process.hcalRecHitTreePre.HBHERecHitCollectionLabel = cms.untracked.InputTag("hbheprereco")
 #process.hcalRecHitTreePre.HFRecHitCollectionLabel   = cms.untracked.InputTag("hfreco")
 
+#KH
+
+process.hcalDigiTree.digiTag                   = cms.InputTag("simHcalDigis")
+process.hcalDigiTree.QIE10digiTag              = cms.InputTag("simHcalDigis")
+process.hcalDigiTree.QIE11digiTag              = cms.InputTag("simHcalDigis")
 
 #---------------------------------------------------------------------------
 #Chris' Changes
