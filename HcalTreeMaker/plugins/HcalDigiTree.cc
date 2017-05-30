@@ -243,6 +243,7 @@ class HcalDigiTree : public edm::EDAnalyzer {
   edm::EDGetTokenT< HFDigiCollection > tok_hf_;
 
   edm::EDGetTokenT< QIE10DigiCollection > tok_qie10_hf_; 
+  ///edm::EDGetTokenT< HBHEQIE11DigiCollection > tok_qie11_hbhe_; 
   edm::EDGetTokenT< QIE11DigiCollection > tok_qie11_hbhe_; 
 
   edm::ESHandle<HcalDbService> conditions;
@@ -289,6 +290,7 @@ HcalDigiTree::HcalDigiTree(const edm::ParameterSet& iConfig)
   tok_hf_ = consumes< HFDigiCollection >(inputTag_);
 
   tok_qie10_hf_ = consumes< QIE10DigiCollection >(QIE10inputTag_);
+  ///tok_qie11_hbhe_ = consumes< HBHEQIE11DigiCollection >(QIE11inputTag_);
   tok_qie11_hbhe_ = consumes< QIE11DigiCollection >(QIE11inputTag_);
  
   //Now do what ever initialization is needed
@@ -352,9 +354,9 @@ HcalDigiTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
   using namespace edm;
   using namespace reco;
 
-  ///edm::ESHandle<HcalDDDRecConstants> pHRNDC;
-  ///iSetup.get<HcalRecNumberingRecord>().get( pHRNDC );
-  ///const HcalDDDRecConstants* hcons = &(*pHRNDC);
+  //edm::ESHandle<HcalDDDRecConstants> pHRNDC;
+  //iSetup.get<HcalRecNumberingRecord>().get( pHRNDC );
+  //const HcalDDDRecConstants* hcons = &(*pHRNDC);
 
    // HCAL channel status map ****************************************
 
@@ -394,7 +396,7 @@ HcalDigiTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    iSetup.get<HcalDbRecord > ().get(conditions);
    HcalCalibrations calibrations;
    CaloSamples tool;
-   ///iEvent.getByToken(tok, digiCollection);
+   //iEvent.getByToken(tok, digiCollection);
 
    //-------------------------------------------------------------------------------------
    //HBHE digis
@@ -469,10 +471,12 @@ HcalDigiTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    //------------------------------------------------------------------------------------
    //HBHE QIE11Digis
    //------------------------------------------------------------------------------------
+   ///edm::Handle< HBHEQIE11DigiCollection > QIE11digiTag;
    edm::Handle< QIE11DigiCollection > QIE11digiTag;
    iEvent.getByToken(tok_qie11_hbhe_, QIE11digiTag);
 
-   for(QIE11DigiCollection::const_iterator j=QIE11digiTag->begin(); j != QIE11digiTag->end(); j++){
+   ///for(HBHEQIE11DigiCollection::const_iterator j=QIE11digiTag->begin(); j != QIE11digiTag->end(); j++){
+   for(QIE11DigiCollection::const_iterator j=QIE11digiTag->begin(); j != QIE11digiTag->end(); j++){  
      HcalDetId cell;
      cell = HcalDetId(j->id());
      int ieta = cell.ieta();
@@ -487,6 +491,7 @@ HcalDigiTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 
      //std::cout << ieta << " " << iphi << " " << depth << " " << sub << std::endl;
 
+     
      HcalCalibrations calibrations = conditions->getHcalCalibrations(cell);
      const HcalQIECoder* channelCoder = conditions->getHcalCoder(cell);
      const HcalQIEShape* shape = conditions->getHcalShape(channelCoder);
@@ -501,6 +506,7 @@ HcalDigiTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
        DigiHBHE_QIE11_charge.push_back(val);
 
      }//Loop to get Charge
+     
 
    }//Loop over HBHE_QIE11 Digis
    */

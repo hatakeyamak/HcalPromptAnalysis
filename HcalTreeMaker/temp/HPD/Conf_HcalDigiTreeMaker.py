@@ -41,8 +41,7 @@ process.source = cms.Source("PoolSource",
 #process.source.lumisToProcess = LumiList.LumiList(filename = 'Cert_136033-149442_7TeV_Apr21ReReco_Collisions10_JSON_v2.txt').getVLuminosityBlockRange()
 ##########
 
-
-process.TFileService = cms.Service("TFileService", fileName = cms.string("TFileServiceTest1.root") )
+process.TFileService = cms.Service("TFileService", fileName = cms.string("TFileServiceOutputTree.root") )
 
 #process.load('RecoLocalCalo/HcalRecAlgos/hcalRecAlgoESProd_cfi')
 
@@ -65,16 +64,32 @@ process.TFileService = cms.Service("TFileService", fileName = cms.string("TFileS
 process.load('HcalPromptAnalysis/HcalTreeMaker/SimHitTree_cfi')
 
 process.load('HcalPromptAnalysis/HcalTreeMaker/RecHitTree_cfi')
+
+#---------------------------------------------------------------------------
+#Chris' Changes
+process.load('HcalPromptAnalysis/HcalTreeMaker/HcalDigiTree_cfi')
+#---------------------------------------------------------------------------
+
 #process.hcalRecHitTree.rootOutputFile            = cms.string('TFileServiceTest2.root')
 #process.hcalRecHitTree.HBHERecHitCollectionLabel = cms.untracked.InputTag("hbhereco")
 #process.hcalRecHitTree.HFRecHitCollectionLabel   = cms.untracked.InputTag("hfreco")
 process.hcalRecHitTree.HBHERecHitCollectionLabel = cms.untracked.InputTag("hbheprereco")
 process.hcalRecHitTree.HFRecHitCollectionLabel   = cms.untracked.InputTag("hfreco")
 
+
 #process.hcalRecHitTreePre = process.hcalRecHitTree.clone()
 #process.hcalRecHitTreePre.treeName = cms.string('HcalRecHitPre')
 #process.hcalRecHitTreePre.HBHERecHitCollectionLabel = cms.untracked.InputTag("hbheprereco")
 #process.hcalRecHitTreePre.HFRecHitCollectionLabel   = cms.untracked.InputTag("hfreco")
 
-process.plots = cms.Path(process.hcalSimHitTree*process.hcalRecHitTree)
+#KH
 
+process.hcalDigiTree.digiTag                   = cms.InputTag("simHcalDigis")
+process.hcalDigiTree.QIE10digiTag              = cms.InputTag("simHcalDigis")
+process.hcalDigiTree.QIE11digiTag              = cms.InputTag("simHcalDigis")
+
+#---------------------------------------------------------------------------
+#Chris' Changes
+#process.plots = cms.Path(process.hcalSimHitTree*process.hcalDigiTree)
+process.plots = cms.Path(process.hcalDigiTree)
+#---------------------------------------------------------------------------
