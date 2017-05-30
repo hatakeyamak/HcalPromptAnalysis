@@ -16,7 +16,6 @@ process.load('Configuration.StandardSequences.MagneticField_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.options = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )                                              
-
 #mylist = FileUtils.loadListFromFile ('dataset.txt')
 
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
@@ -76,17 +75,10 @@ process.load('HcalPromptAnalysis/HcalTreeMaker/HcalDigiTree_cfi')
 process.hcalRecHitTree.HBHERecHitCollectionLabel = cms.untracked.InputTag("hbheprereco")
 process.hcalRecHitTree.HFRecHitCollectionLabel   = cms.untracked.InputTag("hfreco")
 
-
 #process.hcalRecHitTreePre = process.hcalRecHitTree.clone()
 #process.hcalRecHitTreePre.treeName = cms.string('HcalRecHitPre')
 #process.hcalRecHitTreePre.HBHERecHitCollectionLabel = cms.untracked.InputTag("hbheprereco")
 #process.hcalRecHitTreePre.HFRecHitCollectionLabel   = cms.untracked.InputTag("hfreco")
-
-#KH
-
-process.hcalDigiTree.digiTag                   = cms.InputTag("simHcalDigis")
-process.hcalDigiTree.QIE10digiTag              = cms.InputTag("simHcalDigis")
-process.hcalDigiTree.QIE11digiTag              = cms.InputTag("simHcalDigis")
 
 #---------------------------------------------------------------------------
 #Chris' Changes

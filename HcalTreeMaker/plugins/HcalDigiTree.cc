@@ -164,12 +164,10 @@
 
 #include "DataFormats/HcalDigi/interface/HBHEDataFrame.h"
 
-
 #include "CalibFormats/HcalObjects/interface/HcalDbService.h"
 #include "DataFormats/HcalDigi/interface/HcalDigiCollections.h"
 
 #include "Geometry/CaloTopology/interface/HcalTopology.h"
-
 
 /*TP Code*/
 #include "Geometry/CaloTopology/interface/HcalTopology.h"
@@ -178,7 +176,6 @@
 #include "DataFormats/HcalDetId/interface/HcalSubdetector.h"
 /*~TP Code*/
 //--KH
-
 
 //
 // class declaration
@@ -204,7 +201,6 @@ class HcalDigiTree : public edm::EDAnalyzer {
   TFile *tf1;
   TTree *tt1;
   
-
   // run:lumi:event
   int run;
   int lumi;
@@ -230,7 +226,42 @@ class HcalDigiTree : public edm::EDAnalyzer {
   std::vector<int> DigiHBHE_QIE11_depth; 
   std::vector<int> DigiHBHE_QIE11_sub;
   std::vector<float> DigiHBHE_QIE11_charge;
+
+  std::vector<int> DigiHO_ieta;
+  std::vector<int> DigiHO_iphi;
+  std::vector<int> DigiHO_depth; 
+  std::vector<int> DigiHO_sub;
+  std::vector<float> DigiHO_charge0;
+  std::vector<float> DigiHO_charge1;
+  std::vector<float> DigiHO_charge2;
+  std::vector<float> DigiHO_charge3;
+  std::vector<float> DigiHO_charge4;
+  std::vector<float> DigiHO_charge5;
+  std::vector<float> DigiHO_charge6;
+  std::vector<float> DigiHO_charge7;
+  std::vector<float> DigiHO_charge8;
+  std::vector<float> DigiHO_charge9;
+    
+  std::vector<int> DigiHF_ieta;
+  std::vector<int> DigiHF_iphi;
+  std::vector<int> DigiHF_depth; 
+  std::vector<int> DigiHF_sub;
+  std::vector<float> DigiHF_charge0;
+  std::vector<float> DigiHF_charge1;
+  std::vector<float> DigiHF_charge2;
+  std::vector<float> DigiHF_charge3;
+  std::vector<float> DigiHF_charge4;
+  std::vector<float> DigiHF_charge5;
+  std::vector<float> DigiHF_charge6;
+  std::vector<float> DigiHF_charge7;
+  std::vector<float> DigiHF_charge8;
+  std::vector<float> DigiHF_charge9;
   
+  std::vector<int> DigiHF_QIE10_ieta;
+  std::vector<int> DigiHF_QIE10_iphi;
+  std::vector<int> DigiHF_QIE10_depth; 
+  std::vector<int> DigiHF_QIE10_sub;
+  std::vector<float> DigiHF_QIE10_charge;
 
   bool testNumbering_;
  
@@ -241,9 +272,7 @@ class HcalDigiTree : public edm::EDAnalyzer {
   edm::EDGetTokenT< HBHEDigiCollection > tok_hbhe_; 
   edm::EDGetTokenT< HODigiCollection > tok_ho_;
   edm::EDGetTokenT< HFDigiCollection > tok_hf_;
-
   edm::EDGetTokenT< QIE10DigiCollection > tok_qie10_hf_; 
-  ///edm::EDGetTokenT< HBHEQIE11DigiCollection > tok_qie11_hbhe_; 
   edm::EDGetTokenT< QIE11DigiCollection > tok_qie11_hbhe_; 
 
   edm::ESHandle<HcalDbService> conditions;
@@ -288,9 +317,7 @@ HcalDigiTree::HcalDigiTree(const edm::ParameterSet& iConfig)
   tok_hbhe_ = consumes< HBHEDigiCollection >(inputTag_);
   tok_ho_ = consumes< HODigiCollection >(inputTag_);
   tok_hf_ = consumes< HFDigiCollection >(inputTag_);
-
   tok_qie10_hf_ = consumes< QIE10DigiCollection >(QIE10inputTag_);
-  ///tok_qie11_hbhe_ = consumes< HBHEQIE11DigiCollection >(QIE11inputTag_);
   tok_qie11_hbhe_ = consumes< QIE11DigiCollection >(QIE11inputTag_);
  
   //Now do what ever initialization is needed
@@ -326,6 +353,42 @@ HcalDigiTree::HcalDigiTree(const edm::ParameterSet& iConfig)
   tt1->Branch("DigiHBHE_QIE11_depth","std::vector<int>", &DigiHBHE_QIE11_depth, 32000, 0);
   tt1->Branch("DigiHBHE_QIE11_sub","std::vector<int>", &DigiHBHE_QIE11_sub, 32000, 0);
   tt1->Branch("DigiHBHE_QIE11_charge","std::vector<float>", &DigiHBHE_QIE11_charge, 32000, 0);
+
+  tt1->Branch("DigiHO_ieta","std::vector<int>", &DigiHO_ieta, 32000, 0);
+  tt1->Branch("DigiHO_iphi","std::vector<int>", &DigiHO_iphi, 32000, 0);
+  tt1->Branch("DigiHO_depth","std::vector<int>", &DigiHO_depth, 32000, 0);
+  tt1->Branch("DigiHO_sub","std::vector<int>", &DigiHO_sub, 32000, 0);
+  tt1->Branch("DigiHO_charge0","std::vector<float>", &DigiHO_charge0, 32000, 0);
+  tt1->Branch("DigiHO_charge1","std::vector<float>", &DigiHO_charge1, 32000, 0);
+  tt1->Branch("DigiHO_charge2","std::vector<float>", &DigiHO_charge2, 32000, 0);
+  tt1->Branch("DigiHO_charge3","std::vector<float>", &DigiHO_charge3, 32000, 0);
+  tt1->Branch("DigiHO_charge4","std::vector<float>", &DigiHO_charge4, 32000, 0);
+  tt1->Branch("DigiHO_charge5","std::vector<float>", &DigiHO_charge5, 32000, 0);
+  tt1->Branch("DigiHO_charge6","std::vector<float>", &DigiHO_charge6, 32000, 0);
+  tt1->Branch("DigiHO_charge7","std::vector<float>", &DigiHO_charge7, 32000, 0);
+  tt1->Branch("DigiHO_charge8","std::vector<float>", &DigiHO_charge8, 32000, 0);
+  tt1->Branch("DigiHO_charge9","std::vector<float>", &DigiHO_charge9, 32000, 0);
+
+  tt1->Branch("DigiHF_ieta","std::vector<int>", &DigiHF_ieta, 32000, 0);
+  tt1->Branch("DigiHF_iphi","std::vector<int>", &DigiHF_iphi, 32000, 0);
+  tt1->Branch("DigiHF_depth","std::vector<int>", &DigiHF_depth, 32000, 0);
+  tt1->Branch("DigiHF_sub","std::vector<int>", &DigiHF_sub, 32000, 0);
+  tt1->Branch("DigiHF_charge0","std::vector<float>", &DigiHF_charge0, 32000, 0);
+  tt1->Branch("DigiHF_charge1","std::vector<float>", &DigiHF_charge1, 32000, 0);
+  tt1->Branch("DigiHF_charge2","std::vector<float>", &DigiHF_charge2, 32000, 0);
+  tt1->Branch("DigiHF_charge3","std::vector<float>", &DigiHF_charge3, 32000, 0);
+  tt1->Branch("DigiHF_charge4","std::vector<float>", &DigiHF_charge4, 32000, 0);
+  tt1->Branch("DigiHF_charge5","std::vector<float>", &DigiHF_charge5, 32000, 0);
+  tt1->Branch("DigiHF_charge6","std::vector<float>", &DigiHF_charge6, 32000, 0);
+  tt1->Branch("DigiHF_charge7","std::vector<float>", &DigiHF_charge7, 32000, 0);
+  tt1->Branch("DigiHF_charge8","std::vector<float>", &DigiHF_charge8, 32000, 0);
+  tt1->Branch("DigiHF_charge9","std::vector<float>", &DigiHF_charge9, 32000, 0);
+
+  tt1->Branch("DigiHF_QIE10_ieta","std::vector<int>", &DigiHF_QIE10_ieta, 32000, 0);
+  tt1->Branch("DigiHF_QIE10_iphi","std::vector<int>", &DigiHF_QIE10_iphi, 32000, 0);
+  tt1->Branch("DigiHF_QIE10_depth","std::vector<int>", &DigiHF_QIE10_depth, 32000, 0);
+  tt1->Branch("DigiHF_QIE10_sub","std::vector<int>", &DigiHF_QIE10_sub, 32000, 0);
+  tt1->Branch("DigiHF_QIE10_charge","std::vector<float>", &DigiHF_QIE10_charge, 32000, 0);
 
   //std::cout << "Made it Here 1" << std::endl;
 }
@@ -381,6 +444,42 @@ HcalDigiTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    DigiHBHE_QIE11_sub.clear();
    DigiHBHE_QIE11_charge.clear();
 
+   DigiHO_ieta.clear();
+   DigiHO_iphi.clear();
+   DigiHO_depth.clear();
+   DigiHO_sub.clear();
+   DigiHO_charge0.clear();
+   DigiHO_charge1.clear();
+   DigiHO_charge2.clear();
+   DigiHO_charge3.clear();
+   DigiHO_charge4.clear();
+   DigiHO_charge5.clear();
+   DigiHO_charge6.clear();
+   DigiHO_charge7.clear();
+   DigiHO_charge8.clear();
+   DigiHO_charge9.clear();
+
+   DigiHF_ieta.clear();
+   DigiHF_iphi.clear();
+   DigiHF_depth.clear();
+   DigiHF_sub.clear();
+   DigiHF_charge0.clear();
+   DigiHF_charge1.clear();
+   DigiHF_charge2.clear();
+   DigiHF_charge3.clear();
+   DigiHF_charge4.clear();
+   DigiHF_charge5.clear();
+   DigiHF_charge6.clear();
+   DigiHF_charge7.clear();
+   DigiHF_charge8.clear();
+   DigiHF_charge9.clear();
+   
+   DigiHF_QIE10_ieta.clear();
+   DigiHF_QIE10_iphi.clear();
+   DigiHF_QIE10_depth.clear();
+   DigiHF_QIE10_sub.clear();
+   DigiHF_QIE10_charge.clear();
+
    //run:lumi:event
    run = iEvent.id().run();
    lumi = iEvent.id().luminosityBlock();
@@ -401,12 +500,12 @@ HcalDigiTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    //-------------------------------------------------------------------------------------
    //HBHE digis
    //-------------------------------------------------------------------------------------
-   edm::Handle< HBHEDigiCollection > digiTag;
-   iEvent.getByToken(tok_hbhe_, digiTag);
+   edm::Handle< HBHEDigiCollection >HBHEdigiTag;
+   iEvent.getByToken(tok_hbhe_, HBHEdigiTag);
     
    //std::cout << "Made it Here 3" << std::endl;
 
-   for(HBHEDigiCollection::const_iterator j=digiTag->begin(); j != digiTag->end(); j++){
+   for(HBHEDigiCollection::const_iterator j=HBHEdigiTag->begin(); j != HBHEdigiTag->end(); j++){
      HcalDetId cell;
      cell = HcalDetId(j->id());
      int ieta = cell.ieta();
@@ -433,36 +532,17 @@ HcalDigiTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
        double val = (tool[ii] - calibrations.pedestal(capid));
        //std::cout << "val: " << ii << ": " << val << std::endl;
 
-       if(ii==0){
-	 DigiHBHE_charge0.push_back(val);
-       }
-       if(ii==1){
-	 DigiHBHE_charge1.push_back(val);
-       }
-       if(ii==2){
-	 DigiHBHE_charge2.push_back(val);
-       }
-       if(ii==3){
-	 DigiHBHE_charge3.push_back(val);
-       }
-       if(ii==4){
-	 DigiHBHE_charge4.push_back(val);
-       }
-       if(ii==5){
-	 DigiHBHE_charge5.push_back(val);
-       }
-       if(ii==6){
-	 DigiHBHE_charge6.push_back(val);
-       }
-       if(ii==7){
-	 DigiHBHE_charge7.push_back(val);
-       }
-       if(ii==8){
-	 DigiHBHE_charge8.push_back(val);
-       }
-       if(ii==9){
-	 DigiHBHE_charge9.push_back(val);
-       }
+       if(ii==0) DigiHBHE_charge0.push_back(val);      
+       if(ii==1) DigiHBHE_charge1.push_back(val);
+       if(ii==2) DigiHBHE_charge2.push_back(val);
+       if(ii==3) DigiHBHE_charge3.push_back(val);
+       if(ii==4) DigiHBHE_charge4.push_back(val);
+       if(ii==5) DigiHBHE_charge5.push_back(val);
+       if(ii==6) DigiHBHE_charge6.push_back(val);
+       if(ii==7) DigiHBHE_charge7.push_back(val);
+       if(ii==8) DigiHBHE_charge8.push_back(val);
+       if(ii==9) DigiHBHE_charge9.push_back(val);
+       
      }//Loop to get Charge
 
    }//Loop over HBHE Digis 
@@ -471,11 +551,10 @@ HcalDigiTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    //------------------------------------------------------------------------------------
    //HBHE QIE11Digis
    //------------------------------------------------------------------------------------
-   ///edm::Handle< HBHEQIE11DigiCollection > QIE11digiTag;
    edm::Handle< QIE11DigiCollection > QIE11digiTag;
    iEvent.getByToken(tok_qie11_hbhe_, QIE11digiTag);
+   //reco<QIE11DataFrame>(iEvent, iSetup, tok_qie11_hbhe_);
 
-   ///for(HBHEQIE11DigiCollection::const_iterator j=QIE11digiTag->begin(); j != QIE11digiTag->end(); j++){
    for(QIE11DigiCollection::const_iterator j=QIE11digiTag->begin(); j != QIE11digiTag->end(); j++){  
      HcalDetId cell;
      cell = HcalDetId(j->id());
@@ -491,7 +570,6 @@ HcalDigiTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 
      //std::cout << ieta << " " << iphi << " " << depth << " " << sub << std::endl;
 
-     
      HcalCalibrations calibrations = conditions->getHcalCalibrations(cell);
      const HcalQIECoder* channelCoder = conditions->getHcalCoder(cell);
      const HcalQIEShape* shape = conditions->getHcalShape(channelCoder);
@@ -506,32 +584,147 @@ HcalDigiTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
        DigiHBHE_QIE11_charge.push_back(val);
 
      }//Loop to get Charge
-     
 
    }//Loop over HBHE_QIE11 Digis
    */
 
-   /*
    //------------------------------------------------------------------------------------
    //HO digis
    //------------------------------------------------------------------------------------
-   edm::Handle< HODigiCollection > digiTag;
-   iEvent.getByToken(tok_ho_, digiTag);
+   edm::Handle< HODigiCollection > HOdigiTag;
+   iEvent.getByToken(tok_ho_, HOdigiTag);
    //reco<HODataFrame > (iEvent, iSetup, tok_ho_);
+
+   for(HODigiCollection::const_iterator j=HOdigiTag->begin(); j != HOdigiTag->end(); j++){  
+     HcalDetId cell;
+     cell = HcalDetId(j->id());
+     int ieta = cell.ieta();
+     int iphi = cell.iphi();
+     int depth = cell.depth();
+     int sub = cell.subdet();
+
+     DigiHO_ieta.push_back(ieta);
+     DigiHO_iphi.push_back(iphi);
+     DigiHO_depth.push_back(depth);
+     DigiHO_sub.push_back(sub);
+
+     //std::cout << ieta << " " << iphi << " " << depth << " " << sub << std::endl;
+
+     HcalCalibrations calibrations = conditions->getHcalCalibrations(cell);
+     const HcalQIECoder* channelCoder = conditions->getHcalCoder(cell);
+     const HcalQIEShape* shape = conditions->getHcalShape(channelCoder);
+     HcalCoderDb coder(*channelCoder, *shape);
+     coder.adc2fC(*j, tool);
+
+     for (int ii = 0; ii < tool.size(); ii++) {
+       int capid = (*j)[ii].capid();
+       // single ts amplitude                                                                               
+       double val = (tool[ii] - calibrations.pedestal(capid));
+       //std::cout << "val: " << ii << ": " << val << std::endl;
+      
+       if(ii==0) DigiHO_charge0.push_back(val);      
+       if(ii==1) DigiHO_charge1.push_back(val);
+       if(ii==2) DigiHO_charge2.push_back(val);
+       if(ii==3) DigiHO_charge3.push_back(val);
+       if(ii==4) DigiHO_charge4.push_back(val);
+       if(ii==5) DigiHO_charge5.push_back(val);
+       if(ii==6) DigiHO_charge6.push_back(val);
+       if(ii==7) DigiHO_charge7.push_back(val);
+       if(ii==8) DigiHO_charge8.push_back(val);
+       if(ii==9) DigiHO_charge9.push_back(val);
+	 
+     }//Loop to get Charge
+
+   }//Loop over HO Digis
 
    //------------------------------------------------------------------------------------
    //HF digis
    //------------------------------------------------------------------------------------
-   edm::Handle< HFDigiCollection > digiTag;
-   iEvent.getByToken(tok_hf_, digiTag);
+   edm::Handle< HFDigiCollection > HFdigiTag;
+   iEvent.getByToken(tok_hf_, HFdigiTag);
    //reco<HFDataFrame > (iEvent, iSetup, tok_hf_);
 
+   for(HFDigiCollection::const_iterator j=HFdigiTag->begin(); j != HFdigiTag->end(); j++){  
+     HcalDetId cell;
+     cell = HcalDetId(j->id());
+     int ieta = cell.ieta();
+     int iphi = cell.iphi();
+     int depth = cell.depth();
+     int sub = cell.subdet();
+
+     DigiHF_ieta.push_back(ieta);
+     DigiHF_iphi.push_back(iphi);
+     DigiHF_depth.push_back(depth);
+     DigiHF_sub.push_back(sub);
+
+     //std::cout << ieta << " " << iphi << " " << depth << " " << sub << std::endl;
+
+     HcalCalibrations calibrations = conditions->getHcalCalibrations(cell);
+     const HcalQIECoder* channelCoder = conditions->getHcalCoder(cell);
+     const HcalQIEShape* shape = conditions->getHcalShape(channelCoder);
+     HcalCoderDb coder(*channelCoder, *shape);
+     coder.adc2fC(*j, tool);
+
+     for (int ii = 0; ii < tool.size(); ii++) {
+       int capid = (*j)[ii].capid();
+       // single ts amplitude                                                                               
+       double val = (tool[ii] - calibrations.pedestal(capid));
+       //std::cout << "val: " << ii << ": " << val << std::endl;
+      
+       if(ii==0) DigiHF_charge0.push_back(val);      
+       if(ii==1) DigiHF_charge1.push_back(val);
+       if(ii==2) DigiHF_charge2.push_back(val);
+       if(ii==3) DigiHF_charge3.push_back(val);
+       if(ii==4) DigiHF_charge4.push_back(val);
+       if(ii==5) DigiHF_charge5.push_back(val);
+       if(ii==6) DigiHF_charge6.push_back(val);
+       if(ii==7) DigiHF_charge7.push_back(val);
+       if(ii==8) DigiHF_charge8.push_back(val);
+       if(ii==9) DigiHF_charge9.push_back(val);
+
+     }//Loop to get Charge
+
+   }//Loop over HF Digis
+
+   /*
    //------------------------------------------------------------------------------------
    //HF QIE10Digis
    //------------------------------------------------------------------------------------
    edm::Handle< QIE10DigiCollection > QIE10digiTag;
    iEvent.getByToken(tok_qie10_hf_, QIE10digiTag);
-   //reco<QIE10DataFrame>(iEvent, iSetup, tok_qie10_hf_);
+   //reco<QIE10DataFrame>(iEvent, iSetup, tok_qie10_hf_);   
+   
+   for(QIE10DigiCollection::const_iterator j=QIE10digiTag->begin(); j != QIE10digiTag->end(); j++){  
+     HcalDetId cell;
+     cell = HcalDetId(j->id());
+     int ieta = cell.ieta();
+     int iphi = cell.iphi();
+     int depth = cell.depth();
+     int sub = cell.subdet();
+
+     DigiHF_QIE10_ieta.push_back(ieta);
+     DigiHF_QIE10_iphi.push_back(iphi);
+     DigiHF_QIE10_depth.push_back(depth);
+     DigiHF_QIE10_sub.push_back(sub);
+
+     //std::cout << ieta << " " << iphi << " " << depth << " " << sub << std::endl;
+     
+     HcalCalibrations calibrations = conditions->getHcalCalibrations(cell);
+     const HcalQIECoder* channelCoder = conditions->getHcalCoder(cell);
+     const HcalQIEShape* shape = conditions->getHcalShape(channelCoder);
+     HcalCoderDb coder(*channelCoder, *shape);
+     coder.adc2fC(*j, tool);
+
+     for (int ii = 0; ii < tool.size(); ii++) {
+       int capid = (*j)[ii].capid();
+       // single ts amplitude                                                                               
+       double val = (tool[ii] - calibrations.pedestal(capid));
+       //std::cout << "val: " << ii << ": " << val << std::endl;
+       DigiHF_QIE10_charge.push_back(val);
+
+     }//Loop to get Charge
+
+   }//Loop over HF_QIE10 Digis
    */
 
    //Fill the tree

@@ -16,7 +16,6 @@ process.load('Configuration.StandardSequences.MagneticField_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.options = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )                                              
-
 #mylist = FileUtils.loadListFromFile ('dataset.txt')
 
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
@@ -81,12 +80,6 @@ process.hcalRecHitTree.HFRecHitCollectionLabel   = cms.untracked.InputTag("hfrec
 #process.hcalRecHitTreePre.treeName = cms.string('HcalRecHitPre')
 #process.hcalRecHitTreePre.HBHERecHitCollectionLabel = cms.untracked.InputTag("hbheprereco")
 #process.hcalRecHitTreePre.HFRecHitCollectionLabel   = cms.untracked.InputTag("hfreco")
-
-#KH
-
-process.hcalDigiTree.digiTag                   = cms.InputTag("simHcalDigis")
-process.hcalDigiTree.QIE10digiTag              = cms.InputTag("simHcalDigis")
-process.hcalDigiTree.QIE11digiTag              = cms.InputTag("simHcalDigis")
 
 #---------------------------------------------------------------------------
 #Chris' Changes
