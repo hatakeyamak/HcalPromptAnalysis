@@ -2,17 +2,14 @@ import FWCore.ParameterSet.Config as cms
 
 hcalDigiTree = cms.EDAnalyzer("HcalDigiTree",
     rootOutputFile            = cms.string('HcalDigiTree.root'),
-    treeName                  = cms.string('HcalDigi'),
+    treeName                  = cms.string('HcalDigiTree'),
     TestNumbering             = cms.bool(True),
-
     digiTag                   = cms.InputTag("simHcalDigis"),
-    QIE10digiTag              = cms.InputTag("simHcalDigis"),
-    QIE11digiTag              = cms.InputTag("simHcalDigis"),
-
+    QIE10digiTag              = cms.InputTag("simHcalDigis","HFQIE10DigiCollection"),
+    QIE11digiTag              = cms.InputTag("simHcalDigis","HBHEQIE11DigiCollection"),
     #digiTag                   = cms.InputTag("hcalDigis"),
-    #QIE10digiTag              = cms.InputTag("hcalDigis"),
-    #QIE11digiTag              = cms.InputTag("simHcalUnsuppressedDigis"),
-
+    #QIE10digiTag              = cms.InputTag("hcalDigis","HFQIE10DigiCollection"),
+    #QIE11digiTag              = cms.InputTag("hcalDigis","HBHEQIE11DigiCollection"),
     HFRecHitCollectionLabel   = cms.untracked.InputTag("hfUpgradeReco")
 )
 

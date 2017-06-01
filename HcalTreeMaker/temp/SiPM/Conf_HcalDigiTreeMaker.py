@@ -84,5 +84,5 @@ process.hcalRecHitTree.HFRecHitCollectionLabel   = cms.untracked.InputTag("hfrec
 #---------------------------------------------------------------------------
 #Chris' Changes
 #process.plots = cms.Path(process.hcalSimHitTree*process.hcalDigiTree)
-process.plots = cms.Path(process.hcalDigiTree)
+process.plots = cms.Path(process.hcalDigiTree*process.hcalSimHitTree*process.hcalRecHitTree)
 #---------------------------------------------------------------------------
