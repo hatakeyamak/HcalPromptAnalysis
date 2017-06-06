@@ -63,6 +63,9 @@ process.load('HcalPromptAnalysis/HcalTreeMaker/RecHitTree_cfi')
 #---------------------------------------------------------------------------
 #Chris' Changes
 process.load('HcalPromptAnalysis/HcalTreeMaker/HcalDigiTree_cfi')
+process.hcalDigiTree.digiTag                   = cms.InputTag("simHcalDigis")
+process.hcalDigiTree.QIE10digiTag              = cms.InputTag("simHcalDigis","HFQIE10DigiCollection")
+process.hcalDigiTree.QIE11digiTag              = cms.InputTag("simHcalDigis","HBHEQIE11DigiCollection")
 #---------------------------------------------------------------------------
 
 #process.hcalRecHitTree.rootOutputFile            = cms.string('TFileServiceTest2.root')
