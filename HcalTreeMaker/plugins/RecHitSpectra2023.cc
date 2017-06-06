@@ -423,7 +423,7 @@ RecHitSpectra2023::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
    iEvent.getByToken(tok_hbhe_, hbhecoll);
 
    int depth = 0;
-   int severityLevel = 0;
+   //int severityLevel = 0;
 
    for(HBHERecHitCollection::const_iterator j=hbhecoll->begin(); j != hbhecoll->end(); j++){
      HcalDetId cell(j->id());

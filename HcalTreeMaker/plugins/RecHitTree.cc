@@ -441,7 +441,7 @@ RecHitTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    iEvent.getByToken(tok_hbhe_, hbhecoll);
 
    int depth = 0;
-   int severityLevel = 0;
+   //int severityLevel = 0;
 
    std::cout << "HBHE size: " << hbhecoll->size() << std::endl;
 
