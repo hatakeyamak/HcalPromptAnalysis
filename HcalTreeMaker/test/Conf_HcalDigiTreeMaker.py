@@ -13,10 +13,11 @@ process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
 process.load('Configuration.StandardSequences.GeometrySimDB_cff')
 process.load('Configuration.StandardSequences.MagneticField_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
+process.load('Configuration.StandardSequences.RawToDigi_cff')
 
 process.options = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )                                              
-mylist2 = FileUtils.loadListFromFile ('step2.txt')
-mylist1 = FileUtils.loadListFromFile ('step1.txt')
+mylist2 = FileUtils.loadListFromFile ('data.txt')
+#mylist1 = FileUtils.loadListFromFile ('step1.txt')
 
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 
@@ -27,8 +28,8 @@ process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:phase1_2017_realistic', '
 
 process.source = cms.Source("PoolSource",
     # replace 'myfile.root' with the source file you want to use
-    fileNames = cms.untracked.vstring(*mylist2),
-      secondaryFileNames=cms.untracked.vstring(*mylist1)  
+    fileNames = cms.untracked.vstring(*mylist2)#,
+      #secondaryFileNames=cms.untracked.vstring(*mylist1)  
 )
 
 ########## Good run list ##########
@@ -63,9 +64,9 @@ process.load('HcalPromptAnalysis/HcalTreeMaker/RecHitTree_cfi')
 #---------------------------------------------------------------------------
 #Chris' Changes
 process.load('HcalPromptAnalysis/HcalTreeMaker/HcalDigiTree_cfi')
-process.hcalDigiTree.digiTag                   = cms.InputTag("simHcalDigis")
-process.hcalDigiTree.QIE10digiTag              = cms.InputTag("simHcalDigis","HFQIE10DigiCollection")
-process.hcalDigiTree.QIE11digiTag              = cms.InputTag("simHcalDigis","HBHEQIE11DigiCollection")
+#process.hcalDigiTree.digiTag                   = cms.InputTag("simHcalDigis")
+#process.hcalDigiTree.QIE10digiTag              = cms.InputTag("simHcalDigis","HFQIE10DigiCollection")
+#process.hcalDigiTree.QIE11digiTag              = cms.InputTag("simHcalDigis","HBHEQIE11DigiCollection")
 #---------------------------------------------------------------------------
 
 #process.hcalRecHitTree.rootOutputFile            = cms.string('TFileServiceTest2.root')
@@ -82,5 +83,5 @@ process.hcalRecHitTree.HFRecHitCollectionLabel   = cms.untracked.InputTag("hfrec
 #---------------------------------------------------------------------------
 #Chris' Changes
 #process.plots = cms.Path(process.hcalSimHitTree*process.hcalDigiTree)
-process.plots = cms.Path(process.hcalDigiTree)
+process.plots = cms.Path(process.hcalDigis*process.hcalDigiTree)
 #---------------------------------------------------------------------------
