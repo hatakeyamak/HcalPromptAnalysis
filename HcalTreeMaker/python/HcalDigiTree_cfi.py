@@ -8,8 +8,10 @@ hcalDigiTree = cms.EDAnalyzer("HcalDigiTree",
     #QIE10digiTag              = cms.InputTag("simHcalDigis","HFQIE10DigiCollection"),
     #QIE11digiTag              = cms.InputTag("simHcalDigis","HBHEQIE11DigiCollection"),
     digiTag                   = cms.InputTag("hcalDigis"),
-    QIE10digiTag              = cms.InputTag("hcalDigis","HFQIE10DigiCollection"),
-    QIE11digiTag              = cms.InputTag("hcalDigis","HBHEQIE11DigiCollection"),
+    #QIE10digiTag              = cms.InputTag("hcalDigis","HFQIE10DigiCollection"),
+    #QIE11digiTag              = cms.InputTag("hcalDigis","HBHEQIE11DigiCollection"),
+    QIE10digiTag              = cms.InputTag("hcalDigis"),
+    QIE11digiTag              = cms.InputTag("hcalDigis"),
     HFRecHitCollectionLabel   = cms.untracked.InputTag("hfUpgradeReco")
 )
 

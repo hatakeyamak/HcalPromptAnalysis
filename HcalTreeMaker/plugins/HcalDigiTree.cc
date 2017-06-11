@@ -207,6 +207,8 @@ class HcalDigiTree : public edm::EDAnalyzer {
   int lumi;
   int event;
 
+  int bx;
+
   std::vector<int> DigiHBHE_ieta;
   std::vector<int> DigiHBHE_iphi;
   std::vector<int> DigiHBHE_depth; 
@@ -221,6 +223,16 @@ class HcalDigiTree : public edm::EDAnalyzer {
   std::vector<float> DigiHBHE_charge7;
   std::vector<float> DigiHBHE_charge8;
   std::vector<float> DigiHBHE_charge9;
+  std::vector<float> DigiHBHE_adc0;
+  std::vector<float> DigiHBHE_adc1;
+  std::vector<float> DigiHBHE_adc2;
+  std::vector<float> DigiHBHE_adc3;
+  std::vector<float> DigiHBHE_adc4;
+  std::vector<float> DigiHBHE_adc5;
+  std::vector<float> DigiHBHE_adc6;
+  std::vector<float> DigiHBHE_adc7;
+  std::vector<float> DigiHBHE_adc8;
+  std::vector<float> DigiHBHE_adc9;
 
   std::vector<int> DigiHBHE_QIE11_ieta;
   std::vector<int> DigiHBHE_QIE11_iphi;
@@ -236,6 +248,16 @@ class HcalDigiTree : public edm::EDAnalyzer {
   std::vector<float> DigiHBHE_QIE11_charge7;
   std::vector<float> DigiHBHE_QIE11_charge8;
   std::vector<float> DigiHBHE_QIE11_charge9;
+  std::vector<float> DigiHBHE_QIE11_adc0;
+  std::vector<float> DigiHBHE_QIE11_adc1;
+  std::vector<float> DigiHBHE_QIE11_adc2;
+  std::vector<float> DigiHBHE_QIE11_adc3;
+  std::vector<float> DigiHBHE_QIE11_adc4;
+  std::vector<float> DigiHBHE_QIE11_adc5;
+  std::vector<float> DigiHBHE_QIE11_adc6;
+  std::vector<float> DigiHBHE_QIE11_adc7;
+  std::vector<float> DigiHBHE_QIE11_adc8;
+  std::vector<float> DigiHBHE_QIE11_adc9;
 
   std::vector<int> DigiHO_ieta;
   std::vector<int> DigiHO_iphi;
@@ -251,6 +273,16 @@ class HcalDigiTree : public edm::EDAnalyzer {
   std::vector<float> DigiHO_charge7;
   std::vector<float> DigiHO_charge8;
   std::vector<float> DigiHO_charge9;
+  std::vector<float> DigiHO_adc0;
+  std::vector<float> DigiHO_adc1;
+  std::vector<float> DigiHO_adc2;
+  std::vector<float> DigiHO_adc3;
+  std::vector<float> DigiHO_adc4;
+  std::vector<float> DigiHO_adc5;
+  std::vector<float> DigiHO_adc6;
+  std::vector<float> DigiHO_adc7;
+  std::vector<float> DigiHO_adc8;
+  std::vector<float> DigiHO_adc9;
 
   std::vector<int> DigiHF_ieta;
   std::vector<int> DigiHF_iphi;
@@ -266,6 +298,16 @@ class HcalDigiTree : public edm::EDAnalyzer {
   std::vector<float> DigiHF_charge7;
   std::vector<float> DigiHF_charge8;
   std::vector<float> DigiHF_charge9;
+  std::vector<float> DigiHF_adc0;
+  std::vector<float> DigiHF_adc1;
+  std::vector<float> DigiHF_adc2;
+  std::vector<float> DigiHF_adc3;
+  std::vector<float> DigiHF_adc4;
+  std::vector<float> DigiHF_adc5;
+  std::vector<float> DigiHF_adc6;
+  std::vector<float> DigiHF_adc7;
+  std::vector<float> DigiHF_adc8;
+  std::vector<float> DigiHF_adc9;
   
   std::vector<int> DigiHF_QIE10_ieta;
   std::vector<int> DigiHF_QIE10_iphi;
@@ -281,6 +323,16 @@ class HcalDigiTree : public edm::EDAnalyzer {
   std::vector<float> DigiHF_QIE10_charge7;
   std::vector<float> DigiHF_QIE10_charge8;
   std::vector<float> DigiHF_QIE10_charge9;
+  std::vector<float> DigiHF_QIE10_adc0;
+  std::vector<float> DigiHF_QIE10_adc1;
+  std::vector<float> DigiHF_QIE10_adc2;
+  std::vector<float> DigiHF_QIE10_adc3;
+  std::vector<float> DigiHF_QIE10_adc4;
+  std::vector<float> DigiHF_QIE10_adc5;
+  std::vector<float> DigiHF_QIE10_adc6;
+  std::vector<float> DigiHF_QIE10_adc7;
+  std::vector<float> DigiHF_QIE10_adc8;
+  std::vector<float> DigiHF_QIE10_adc9;
 
   bool testNumbering_;
  
@@ -352,6 +404,8 @@ HcalDigiTree::HcalDigiTree(const edm::ParameterSet& iConfig)
   tt1->Branch("lumi", &lumi, "lumi/I");
   tt1->Branch("event", &event, "event/I");
 
+  tt1->Branch("bx", &bx, "bx/I");
+
   tt1->Branch("DigiHBHE_ieta","std::vector<int>", &DigiHBHE_ieta, 32000, 0);
   tt1->Branch("DigiHBHE_iphi","std::vector<int>", &DigiHBHE_iphi, 32000, 0);
   tt1->Branch("DigiHBHE_depth","std::vector<int>", &DigiHBHE_depth, 32000, 0);
@@ -366,6 +420,16 @@ HcalDigiTree::HcalDigiTree(const edm::ParameterSet& iConfig)
   tt1->Branch("DigiHBHE_charge7","std::vector<float>", &DigiHBHE_charge7, 32000, 0);
   tt1->Branch("DigiHBHE_charge8","std::vector<float>", &DigiHBHE_charge8, 32000, 0);
   tt1->Branch("DigiHBHE_charge9","std::vector<float>", &DigiHBHE_charge9, 32000, 0);
+  tt1->Branch("DigiHBHE_adc0","std::vector<float>", &DigiHBHE_adc0, 32000, 0);
+  tt1->Branch("DigiHBHE_adc1","std::vector<float>", &DigiHBHE_adc1, 32000, 0);
+  tt1->Branch("DigiHBHE_adc2","std::vector<float>", &DigiHBHE_adc2, 32000, 0);
+  tt1->Branch("DigiHBHE_adc3","std::vector<float>", &DigiHBHE_adc3, 32000, 0);
+  tt1->Branch("DigiHBHE_adc4","std::vector<float>", &DigiHBHE_adc4, 32000, 0);
+  tt1->Branch("DigiHBHE_adc5","std::vector<float>", &DigiHBHE_adc5, 32000, 0);
+  tt1->Branch("DigiHBHE_adc6","std::vector<float>", &DigiHBHE_adc6, 32000, 0);
+  tt1->Branch("DigiHBHE_adc7","std::vector<float>", &DigiHBHE_adc7, 32000, 0);
+  tt1->Branch("DigiHBHE_adc8","std::vector<float>", &DigiHBHE_adc8, 32000, 0);
+  tt1->Branch("DigiHBHE_adc9","std::vector<float>", &DigiHBHE_adc9, 32000, 0);
  
   tt1->Branch("DigiHBHE_QIE11_ieta","std::vector<int>", &DigiHBHE_QIE11_ieta, 32000, 0);
   tt1->Branch("DigiHBHE_QIE11_iphi","std::vector<int>", &DigiHBHE_QIE11_iphi, 32000, 0);
@@ -381,6 +445,16 @@ HcalDigiTree::HcalDigiTree(const edm::ParameterSet& iConfig)
   tt1->Branch("DigiHBHE_QIE11_charge7","std::vector<float>", &DigiHBHE_QIE11_charge7, 32000, 0);
   tt1->Branch("DigiHBHE_QIE11_charge8","std::vector<float>", &DigiHBHE_QIE11_charge8, 32000, 0);
   tt1->Branch("DigiHBHE_QIE11_charge9","std::vector<float>", &DigiHBHE_QIE11_charge9, 32000, 0);
+  tt1->Branch("DigiHBHE_QIE11_adc0","std::vector<float>", &DigiHBHE_QIE11_adc0, 32000, 0);
+  tt1->Branch("DigiHBHE_QIE11_adc1","std::vector<float>", &DigiHBHE_QIE11_adc1, 32000, 0);
+  tt1->Branch("DigiHBHE_QIE11_adc2","std::vector<float>", &DigiHBHE_QIE11_adc2, 32000, 0);
+  tt1->Branch("DigiHBHE_QIE11_adc3","std::vector<float>", &DigiHBHE_QIE11_adc3, 32000, 0);
+  tt1->Branch("DigiHBHE_QIE11_adc4","std::vector<float>", &DigiHBHE_QIE11_adc4, 32000, 0);
+  tt1->Branch("DigiHBHE_QIE11_adc5","std::vector<float>", &DigiHBHE_QIE11_adc5, 32000, 0);
+  tt1->Branch("DigiHBHE_QIE11_adc6","std::vector<float>", &DigiHBHE_QIE11_adc6, 32000, 0);
+  tt1->Branch("DigiHBHE_QIE11_adc7","std::vector<float>", &DigiHBHE_QIE11_adc7, 32000, 0);
+  tt1->Branch("DigiHBHE_QIE11_adc8","std::vector<float>", &DigiHBHE_QIE11_adc8, 32000, 0);
+  tt1->Branch("DigiHBHE_QIE11_adc9","std::vector<float>", &DigiHBHE_QIE11_adc9, 32000, 0);
 
   tt1->Branch("DigiHO_ieta","std::vector<int>", &DigiHO_ieta, 32000, 0);
   tt1->Branch("DigiHO_iphi","std::vector<int>", &DigiHO_iphi, 32000, 0);
@@ -396,6 +470,16 @@ HcalDigiTree::HcalDigiTree(const edm::ParameterSet& iConfig)
   tt1->Branch("DigiHO_charge7","std::vector<float>", &DigiHO_charge7, 32000, 0);
   tt1->Branch("DigiHO_charge8","std::vector<float>", &DigiHO_charge8, 32000, 0);
   tt1->Branch("DigiHO_charge9","std::vector<float>", &DigiHO_charge9, 32000, 0);
+  tt1->Branch("DigiHO_adc0","std::vector<float>", &DigiHO_adc0, 32000, 0);
+  tt1->Branch("DigiHO_adc1","std::vector<float>", &DigiHO_adc1, 32000, 0);
+  tt1->Branch("DigiHO_adc2","std::vector<float>", &DigiHO_adc2, 32000, 0);
+  tt1->Branch("DigiHO_adc3","std::vector<float>", &DigiHO_adc3, 32000, 0);
+  tt1->Branch("DigiHO_adc4","std::vector<float>", &DigiHO_adc4, 32000, 0);
+  tt1->Branch("DigiHO_adc5","std::vector<float>", &DigiHO_adc5, 32000, 0);
+  tt1->Branch("DigiHO_adc6","std::vector<float>", &DigiHO_adc6, 32000, 0);
+  tt1->Branch("DigiHO_adc7","std::vector<float>", &DigiHO_adc7, 32000, 0);
+  tt1->Branch("DigiHO_adc8","std::vector<float>", &DigiHO_adc8, 32000, 0);
+  tt1->Branch("DigiHO_adc9","std::vector<float>", &DigiHO_adc9, 32000, 0);
 
   /*
   tt1->Branch("DigiHF_ieta","std::vector<int>", &DigiHF_ieta, 32000, 0);
@@ -412,6 +496,16 @@ HcalDigiTree::HcalDigiTree(const edm::ParameterSet& iConfig)
   tt1->Branch("DigiHF_charge7","std::vector<float>", &DigiHF_charge7, 32000, 0);
   tt1->Branch("DigiHF_charge8","std::vector<float>", &DigiHF_charge8, 32000, 0);
   tt1->Branch("DigiHF_charge9","std::vector<float>", &DigiHF_charge9, 32000, 0);
+  tt1->Branch("DigiHF_adc0","std::vector<float>", &DigiHF_adc0, 32000, 0);
+  tt1->Branch("DigiHF_adc1","std::vector<float>", &DigiHF_adc1, 32000, 0);
+  tt1->Branch("DigiHF_adc2","std::vector<float>", &DigiHF_adc2, 32000, 0);
+  tt1->Branch("DigiHF_adc3","std::vector<float>", &DigiHF_adc3, 32000, 0);
+  tt1->Branch("DigiHF_adc4","std::vector<float>", &DigiHF_adc4, 32000, 0);
+  tt1->Branch("DigiHF_adc5","std::vector<float>", &DigiHF_adc5, 32000, 0);
+  tt1->Branch("DigiHF_adc6","std::vector<float>", &DigiHF_adc6, 32000, 0);
+  tt1->Branch("DigiHF_adc7","std::vector<float>", &DigiHF_adc7, 32000, 0);
+  tt1->Branch("DigiHF_adc8","std::vector<float>", &DigiHF_adc8, 32000, 0);
+  tt1->Branch("DigiHF_adc9","std::vector<float>", &DigiHF_adc9, 32000, 0);
   */
 
   tt1->Branch("DigiHF_QIE10_ieta","std::vector<int>", &DigiHF_QIE10_ieta, 32000, 0);
@@ -428,6 +522,16 @@ HcalDigiTree::HcalDigiTree(const edm::ParameterSet& iConfig)
   tt1->Branch("DigiHF_QIE10_charge7","std::vector<float>", &DigiHF_QIE10_charge7, 32000, 0);
   tt1->Branch("DigiHF_QIE10_charge8","std::vector<float>", &DigiHF_QIE10_charge8, 32000, 0);
   tt1->Branch("DigiHF_QIE10_charge9","std::vector<float>", &DigiHF_QIE10_charge9, 32000, 0);
+  tt1->Branch("DigiHF_QIE10_adc0","std::vector<float>", &DigiHF_QIE10_adc0, 32000, 0);
+  tt1->Branch("DigiHF_QIE10_adc1","std::vector<float>", &DigiHF_QIE10_adc1, 32000, 0);
+  tt1->Branch("DigiHF_QIE10_adc2","std::vector<float>", &DigiHF_QIE10_adc2, 32000, 0);
+  tt1->Branch("DigiHF_QIE10_adc3","std::vector<float>", &DigiHF_QIE10_adc3, 32000, 0);
+  tt1->Branch("DigiHF_QIE10_adc4","std::vector<float>", &DigiHF_QIE10_adc4, 32000, 0);
+  tt1->Branch("DigiHF_QIE10_adc5","std::vector<float>", &DigiHF_QIE10_adc5, 32000, 0);
+  tt1->Branch("DigiHF_QIE10_adc6","std::vector<float>", &DigiHF_QIE10_adc6, 32000, 0);
+  tt1->Branch("DigiHF_QIE10_adc7","std::vector<float>", &DigiHF_QIE10_adc7, 32000, 0);
+  tt1->Branch("DigiHF_QIE10_adc8","std::vector<float>", &DigiHF_QIE10_adc8, 32000, 0);
+  tt1->Branch("DigiHF_QIE10_adc9","std::vector<float>", &DigiHF_QIE10_adc9, 32000, 0);
 
   //std::cout << "Made it Here 1" << std::endl;
 }
@@ -476,6 +580,16 @@ HcalDigiTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    DigiHBHE_charge7.clear();
    DigiHBHE_charge8.clear();
    DigiHBHE_charge9.clear();
+   DigiHBHE_adc0.clear();
+   DigiHBHE_adc1.clear();
+   DigiHBHE_adc2.clear();
+   DigiHBHE_adc3.clear();
+   DigiHBHE_adc4.clear();
+   DigiHBHE_adc5.clear();
+   DigiHBHE_adc6.clear();
+   DigiHBHE_adc7.clear();
+   DigiHBHE_adc8.clear();
+   DigiHBHE_adc9.clear();
 
    DigiHBHE_QIE11_ieta.clear();
    DigiHBHE_QIE11_iphi.clear();
@@ -491,6 +605,16 @@ HcalDigiTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    DigiHBHE_QIE11_charge7.clear();
    DigiHBHE_QIE11_charge8.clear();
    DigiHBHE_QIE11_charge9.clear();
+   DigiHBHE_QIE11_adc0.clear();
+   DigiHBHE_QIE11_adc1.clear();
+   DigiHBHE_QIE11_adc2.clear();
+   DigiHBHE_QIE11_adc3.clear();
+   DigiHBHE_QIE11_adc4.clear();
+   DigiHBHE_QIE11_adc5.clear();
+   DigiHBHE_QIE11_adc6.clear();
+   DigiHBHE_QIE11_adc7.clear();
+   DigiHBHE_QIE11_adc8.clear();
+   DigiHBHE_QIE11_adc9.clear();
 
    DigiHO_ieta.clear();
    DigiHO_iphi.clear();
@@ -506,6 +630,16 @@ HcalDigiTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    DigiHO_charge7.clear();
    DigiHO_charge8.clear();
    DigiHO_charge9.clear();
+   DigiHO_adc0.clear();
+   DigiHO_adc1.clear();
+   DigiHO_adc2.clear();
+   DigiHO_adc3.clear();
+   DigiHO_adc4.clear();
+   DigiHO_adc5.clear();
+   DigiHO_adc6.clear();
+   DigiHO_adc7.clear();
+   DigiHO_adc8.clear();
+   DigiHO_adc9.clear();
 
    DigiHF_ieta.clear();
    DigiHF_iphi.clear();
@@ -521,6 +655,16 @@ HcalDigiTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    DigiHF_charge7.clear();
    DigiHF_charge8.clear();
    DigiHF_charge9.clear();
+   DigiHF_adc0.clear();
+   DigiHF_adc1.clear();
+   DigiHF_adc2.clear();
+   DigiHF_adc3.clear();
+   DigiHF_adc4.clear();
+   DigiHF_adc5.clear();
+   DigiHF_adc6.clear();
+   DigiHF_adc7.clear();
+   DigiHF_adc8.clear();
+   DigiHF_adc9.clear();
    
    DigiHF_QIE10_ieta.clear();
    DigiHF_QIE10_iphi.clear();
@@ -536,11 +680,26 @@ HcalDigiTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    DigiHF_QIE10_charge7.clear();
    DigiHF_QIE10_charge8.clear();
    DigiHF_QIE10_charge9.clear();
+   DigiHF_QIE10_adc0.clear();
+   DigiHF_QIE10_adc1.clear();
+   DigiHF_QIE10_adc2.clear();
+   DigiHF_QIE10_adc3.clear();
+   DigiHF_QIE10_adc4.clear();
+   DigiHF_QIE10_adc5.clear();
+   DigiHF_QIE10_adc6.clear();
+   DigiHF_QIE10_adc7.clear();
+   DigiHF_QIE10_adc8.clear();
+   DigiHF_QIE10_adc9.clear();
 
    //run:lumi:event
    run = iEvent.id().run();
    lumi = iEvent.id().luminosityBlock();
    event = iEvent.id().event();
+
+   //Bunch Crossing??
+   edm::EventBase const & eventbase = iEvent;
+   //unsigned int bx = (unsigned int)eventbase.bunchCrossing();
+   bx = eventbase.bunchCrossing();
 
    //std::cout << "Made it Here 2" << std::endl;
 
@@ -589,16 +748,50 @@ HcalDigiTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
        double val = (tool[ii] - calibrations.pedestal(capid));
        //std::cout << "val: " << ii << ": " << val << std::endl;
 
-       if(ii==0) DigiHBHE_charge0.push_back(val);      
-       if(ii==1) DigiHBHE_charge1.push_back(val);
-       if(ii==2) DigiHBHE_charge2.push_back(val);
-       if(ii==3) DigiHBHE_charge3.push_back(val);
-       if(ii==4) DigiHBHE_charge4.push_back(val);
-       if(ii==5) DigiHBHE_charge5.push_back(val);
-       if(ii==6) DigiHBHE_charge6.push_back(val);
-       if(ii==7) DigiHBHE_charge7.push_back(val);
-       if(ii==8) DigiHBHE_charge8.push_back(val);
-       if(ii==9) DigiHBHE_charge9.push_back(val);
+       if(ii==0){ 
+	 DigiHBHE_charge0.push_back(val);      
+	 DigiHBHE_adc0.push_back((*j)[ii].adc());
+       }
+       if(ii==1){
+	 DigiHBHE_charge1.push_back(val);
+	 DigiHBHE_adc1.push_back((*j)[ii].adc());
+       }
+       if(ii==2){ 
+	 DigiHBHE_charge2.push_back(val);
+	 DigiHBHE_adc2.push_back((*j)[ii].adc());
+       }
+       if(ii==3){ 
+	 DigiHBHE_charge3.push_back(val);
+	 DigiHBHE_adc3.push_back((*j)[ii].adc());
+       }
+       if(ii==4){ 
+	 DigiHBHE_charge4.push_back(val);
+	 DigiHBHE_adc4.push_back((*j)[ii].adc());
+       }
+       if(ii==5){ 
+	 DigiHBHE_charge5.push_back(val);
+	 DigiHBHE_adc5.push_back((*j)[ii].adc());
+	 if(val > 50){ 
+	   //std::cout << "ieta,iphi,depth,pedestal  : " << ieta<<"   " << iphi <<"   " << depth <<"   " <<calibrations.pedestal(capid) << std::endl;
+	   //std::cout << "tool-pedestal=val_TS5 : "<< tool[ii] << " - " << calibrations.pedestal(capid) <<" = "<< val << std::endl;  
+	 }
+       }
+       if(ii==6){ 
+	 DigiHBHE_charge6.push_back(val);
+	 DigiHBHE_adc6.push_back((*j)[ii].adc());
+       }
+       if(ii==7){ 
+	 DigiHBHE_charge7.push_back(val);
+	 DigiHBHE_adc7.push_back((*j)[ii].adc());
+       }
+       if(ii==8){ 
+	 DigiHBHE_charge8.push_back(val);
+	 DigiHBHE_adc8.push_back((*j)[ii].adc());
+       }
+       if(ii==9){ 
+	 DigiHBHE_charge9.push_back(val);
+	 DigiHBHE_adc9.push_back((*j)[ii].adc());
+       }
        
      }//Loop to get Charge
 
@@ -642,17 +835,47 @@ HcalDigiTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 
        //std::cout << tool[ii] <<"-" << calibrations.pedestal(capid) << "=" << val << std::endl;
 
-       if(ii==0) DigiHBHE_QIE11_charge0.push_back(val);      
-       if(ii==1) DigiHBHE_QIE11_charge1.push_back(val);
-       if(ii==2) DigiHBHE_QIE11_charge2.push_back(val);
-       if(ii==3) DigiHBHE_QIE11_charge3.push_back(val);
-       if(ii==4) DigiHBHE_QIE11_charge4.push_back(val);
-       if(ii==5) DigiHBHE_QIE11_charge5.push_back(val);
-       if(ii==6) DigiHBHE_QIE11_charge6.push_back(val);
-       if(ii==7) DigiHBHE_QIE11_charge7.push_back(val);
-       if(ii==8) DigiHBHE_QIE11_charge8.push_back(val);
-       if(ii==9) DigiHBHE_QIE11_charge9.push_back(val);
-
+       if(ii==0){ 
+	 DigiHBHE_QIE11_charge0.push_back(val);      
+	 DigiHBHE_QIE11_adc0.push_back((dataFrame)[ii].adc());
+       }
+       if(ii==1){
+	 DigiHBHE_QIE11_charge1.push_back(val);
+	 DigiHBHE_QIE11_adc1.push_back((dataFrame)[ii].adc());
+       }
+       if(ii==2){ 
+	 DigiHBHE_QIE11_charge2.push_back(val);
+	 DigiHBHE_QIE11_adc2.push_back((dataFrame)[ii].adc());
+       }
+       if(ii==3){ 
+	 DigiHBHE_QIE11_charge3.push_back(val);
+	 DigiHBHE_QIE11_adc3.push_back((dataFrame)[ii].adc());
+       }
+       if(ii==4){ 
+	 DigiHBHE_QIE11_charge4.push_back(val);
+	 DigiHBHE_QIE11_adc4.push_back((dataFrame)[ii].adc());
+       }
+       if(ii==5){ 
+	 DigiHBHE_QIE11_charge5.push_back(val);
+	 DigiHBHE_QIE11_adc5.push_back((dataFrame)[ii].adc());
+       }
+       if(ii==6){ 
+	 DigiHBHE_QIE11_charge6.push_back(val);
+	 DigiHBHE_QIE11_adc6.push_back((dataFrame)[ii].adc());
+       }
+       if(ii==7){ 
+	 DigiHBHE_QIE11_charge7.push_back(val);
+	 DigiHBHE_QIE11_adc7.push_back((dataFrame)[ii].adc());
+       }
+       if(ii==8){ 
+	 DigiHBHE_QIE11_charge8.push_back(val);
+	 DigiHBHE_QIE11_adc8.push_back((dataFrame)[ii].adc());
+       }
+       if(ii==9){ 
+	 DigiHBHE_QIE11_charge9.push_back(val);
+	 DigiHBHE_QIE11_adc9.push_back((dataFrame)[ii].adc());
+       }
+       
      }//Loop to get Charge
 
    }//Loop over HBHE_QIE11 Digis
@@ -692,17 +915,47 @@ HcalDigiTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
        double val = (tool[ii] - calibrations.pedestal(capid));
        //std::cout << "val: " << ii << ": " << val << std::endl;
       
-       if(ii==0) DigiHO_charge0.push_back(val);      
-       if(ii==1) DigiHO_charge1.push_back(val);
-       if(ii==2) DigiHO_charge2.push_back(val);
-       if(ii==3) DigiHO_charge3.push_back(val);
-       if(ii==4) DigiHO_charge4.push_back(val);
-       if(ii==5) DigiHO_charge5.push_back(val);
-       if(ii==6) DigiHO_charge6.push_back(val);
-       if(ii==7) DigiHO_charge7.push_back(val);
-       if(ii==8) DigiHO_charge8.push_back(val);
-       if(ii==9) DigiHO_charge9.push_back(val);
-	 
+       if(ii==0){ 
+	 DigiHO_charge0.push_back(val);      
+	 DigiHO_adc0.push_back((*j)[ii].adc());
+       }
+       if(ii==1){
+	 DigiHO_charge1.push_back(val);
+	 DigiHO_adc1.push_back((*j)[ii].adc());
+       }
+       if(ii==2){ 
+	 DigiHO_charge2.push_back(val);
+	 DigiHO_adc2.push_back((*j)[ii].adc());
+       }
+       if(ii==3){ 
+	 DigiHO_charge3.push_back(val);
+	 DigiHO_adc3.push_back((*j)[ii].adc());
+       }
+       if(ii==4){ 
+	 DigiHO_charge4.push_back(val);
+	 DigiHO_adc4.push_back((*j)[ii].adc());
+       }
+       if(ii==5){ 
+	 DigiHO_charge5.push_back(val);
+	 DigiHO_adc5.push_back((*j)[ii].adc());
+       }
+       if(ii==6){ 
+	 DigiHO_charge6.push_back(val);
+	 DigiHO_adc6.push_back((*j)[ii].adc());
+       }
+       if(ii==7){ 
+	 DigiHO_charge7.push_back(val);
+	 DigiHO_adc7.push_back((*j)[ii].adc());
+       }
+       if(ii==8){ 
+	 DigiHO_charge8.push_back(val);
+	 DigiHO_adc8.push_back((*j)[ii].adc());
+       }
+       if(ii==9){ 
+	 DigiHO_charge9.push_back(val);
+	 DigiHO_adc9.push_back((*j)[ii].adc());
+       }
+
      }//Loop to get Charge
 
    }//Loop over HO Digis
@@ -742,16 +995,46 @@ HcalDigiTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
        double val = (tool[ii] - calibrations.pedestal(capid));
        //std::cout << "val: " << ii << ": " << val << std::endl;
       
-       if(ii==0) DigiHF_charge0.push_back(val);      
-       if(ii==1) DigiHF_charge1.push_back(val);
-       if(ii==2) DigiHF_charge2.push_back(val);
-       if(ii==3) DigiHF_charge3.push_back(val);
-       if(ii==4) DigiHF_charge4.push_back(val);
-       if(ii==5) DigiHF_charge5.push_back(val);
-       if(ii==6) DigiHF_charge6.push_back(val);
-       if(ii==7) DigiHF_charge7.push_back(val);
-       if(ii==8) DigiHF_charge8.push_back(val);
-       if(ii==9) DigiHF_charge9.push_back(val);
+       if(ii==0){ 
+	 DigiHF_charge0.push_back(val);      
+	 DigiHF_adc0.push_back((*j)[ii].adc());
+       }
+       if(ii==1){
+	 DigiHF_charge1.push_back(val);
+	 DigiHF_adc1.push_back((*j)[ii].adc());
+       }
+       if(ii==2){ 
+	 DigiHF_charge2.push_back(val);
+	 DigiHF_adc2.push_back((*j)[ii].adc());
+       }
+       if(ii==3){ 
+	 DigiHF_charge3.push_back(val);
+	 DigiHF_adc3.push_back((*j)[ii].adc());
+       }
+       if(ii==4){ 
+	 DigiHF_charge4.push_back(val);
+	 DigiHF_adc4.push_back((*j)[ii].adc());
+       }
+       if(ii==5){ 
+	 DigiHF_charge5.push_back(val);
+	 DigiHF_adc5.push_back((*j)[ii].adc());
+       }
+       if(ii==6){ 
+	 DigiHF_charge6.push_back(val);
+	 DigiHF_adc6.push_back((*j)[ii].adc());
+       }
+       if(ii==7){ 
+	 DigiHF_charge7.push_back(val);
+	 DigiHF_adc7.push_back((*j)[ii].adc());
+       }
+       if(ii==8){ 
+	 DigiHF_charge8.push_back(val);
+	 DigiHF_adc8.push_back((*j)[ii].adc());
+       }
+       if(ii==9){ 
+	 DigiHF_charge9.push_back(val);
+	 DigiHF_adc9.push_back((*j)[ii].adc());
+       }
 
      }//Loop to get Charge
 
@@ -796,16 +1079,46 @@ HcalDigiTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 
        //std::cout << "val: " << ii << ": " << val << std::endl;
 
-       if(ii==0) DigiHF_QIE10_charge0.push_back(val);      
-       if(ii==1) DigiHF_QIE10_charge1.push_back(val);
-       if(ii==2) DigiHF_QIE10_charge2.push_back(val);
-       if(ii==3) DigiHF_QIE10_charge3.push_back(val);
-       if(ii==4) DigiHF_QIE10_charge4.push_back(val);
-       if(ii==5) DigiHF_QIE10_charge5.push_back(val);
-       if(ii==6) DigiHF_QIE10_charge6.push_back(val);
-       if(ii==7) DigiHF_QIE10_charge7.push_back(val);
-       if(ii==8) DigiHF_QIE10_charge8.push_back(val);
-       if(ii==9) DigiHF_QIE10_charge9.push_back(val);
+       if(ii==0){ 
+	 DigiHF_QIE10_charge0.push_back(val);      
+	 DigiHF_QIE10_adc0.push_back((dataFrame)[ii].adc());
+       }
+       if(ii==1){
+	 DigiHF_QIE10_charge1.push_back(val);
+	 DigiHF_QIE10_adc1.push_back((dataFrame)[ii].adc());
+       }
+       if(ii==2){ 
+	 DigiHF_QIE10_charge2.push_back(val);
+	 DigiHF_QIE10_adc2.push_back((dataFrame)[ii].adc());
+       }
+       if(ii==3){ 
+	 DigiHF_QIE10_charge3.push_back(val);
+	 DigiHF_QIE10_adc3.push_back((dataFrame)[ii].adc());
+       }
+       if(ii==4){ 
+	 DigiHF_QIE10_charge4.push_back(val);
+	 DigiHF_QIE10_adc4.push_back((dataFrame)[ii].adc());
+       }
+       if(ii==5){ 
+	 DigiHF_QIE10_charge5.push_back(val);
+	 DigiHF_QIE10_adc5.push_back((dataFrame)[ii].adc());
+       }
+       if(ii==6){ 
+	 DigiHF_QIE10_charge6.push_back(val);
+	 DigiHF_QIE10_adc6.push_back((dataFrame)[ii].adc());
+       }
+       if(ii==7){ 
+	 DigiHF_QIE10_charge7.push_back(val);
+	 DigiHF_QIE10_adc7.push_back((dataFrame)[ii].adc());
+       }
+       if(ii==8){ 
+	 DigiHF_QIE10_charge8.push_back(val);
+	 DigiHF_QIE10_adc8.push_back((dataFrame)[ii].adc());
+       }
+       if(ii==9){ 
+	 DigiHF_QIE10_charge9.push_back(val);
+	 DigiHF_QIE10_adc9.push_back((dataFrame)[ii].adc());
+       }
 
      }//Loop to get Charge
 
