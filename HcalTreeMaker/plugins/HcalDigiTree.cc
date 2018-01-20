@@ -16,11 +16,27 @@
 //
 //
 
-//Include files to use TFileService
-#include "FWCore/ServiceRegistry/interface/Service.h"
-#include "CommonTools/UtilAlgos/interface/TFileService.h"
+#include <vector>
+#include <utility>
+#include <ostream>
+#include <string>
+#include <algorithm>
+#include <cmath>
+#include <math.h>
+#include <TFile.h>
+#include <TTree.h>
+#include <TROOT.h>
+#include <memory> 
 
-//All include files from HcalRecHitsValidation
+#include "CalibFormats/HcalObjects/interface/HcalDbRecord.h"
+#include "CalibFormats/HcalObjects/interface/HcalCoderDb.h"
+#include "CalibFormats/HcalObjects/interface/HcalCalibrations.h"
+#include "CalibFormats/HcalObjects/interface/HcalDbService.h"
+#include "CommonTools/UtilAlgos/interface/TFileService.h"
+#include "CondFormats/HcalObjects/interface/HcalQIEShape.h"
+#include "DataFormats/HcalDigi/interface/HcalDigiCollections.h"
+#include "FWCore/ServiceRegistry/interface/Service.h"
+#include "FWCore/Framework/interface/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/EventSetup.h"
@@ -30,153 +46,6 @@
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/PluginManager/interface/ModuleDef.h"
 #include "FWCore/ServiceRegistry/interface/Service.h"
-
-#include "DataFormats/HcalRecHit/interface/HcalRecHitCollections.h"
-#include "DataFormats/HcalRecHit/interface/HcalSourcePositionData.h"
-
-#include <DataFormats/EcalDetId/interface/EBDetId.h>
-#include <DataFormats/EcalDetId/interface/EEDetId.h>
-#include "DataFormats/EcalRecHit/interface/EcalRecHitCollections.h"
- 
-#include "DataFormats/HcalDetId/interface/HcalElectronicsId.h"
-#include "DataFormats/HcalDetId/interface/HcalDetId.h"
-#include "DataFormats/HcalDigi/interface/HcalDigiCollections.h"
-#include "DataFormats/HcalDigi/interface/HBHEDataFrame.h"
-#include "Geometry/CaloGeometry/interface/CaloGeometry.h"
-#include "Geometry/CaloGeometry/interface/CaloSubdetectorGeometry.h"
-#include "Geometry/CaloGeometry/interface/CaloCellGeometry.h"
-
-#include "SimDataFormats/CaloHit/interface/PCaloHitContainer.h"
-#include "SimDataFormats/GeneratorProducts/interface/HepMCProduct.h"
-
-#include "Geometry/HcalCommonData/interface/HcalHitRelabeller.h"
-#include "DataFormats/HcalDetId/interface/HcalTestNumbering.h"
- 
-#include <vector>
-#include <utility>
-#include <ostream>
-#include <string>
-#include <algorithm>
-#include <cmath>
- 
-#include "DataFormats/DetId/interface/DetId.h"
-// channel status
-#include "CondFormats/EcalObjects/interface/EcalChannelStatus.h"
-#include "CondFormats/DataRecord/interface/EcalChannelStatusRcd.h"
- 
-#include "CondFormats/HcalObjects/interface/HcalChannelQuality.h"
-#include "CondFormats/DataRecord/interface/HcalChannelQualityRcd.h"
- 
-// severity level assignment for HCAL
-#include "RecoLocalCalo/HcalRecAlgos/interface/HcalSeverityLevelComputer.h"
-#include "RecoLocalCalo/HcalRecAlgos/interface/HcalSeverityLevelComputerRcd.h"
- 
-// severity level assignment for ECAL
-#include "RecoLocalCalo/EcalRecAlgos/interface/EcalSeverityLevelAlgo.h"
-//All include files from HcalRecHitsValidation
-
-// system include files
-#include <memory>
-
-// user include files
-#include "Geometry/Records/interface/CaloGeometryRecord.h"
-#include "DataFormats/HcalDetId/interface/HcalSubdetector.h"
-
-#include "FWCore/Framework/interface/Frameworkfwd.h"
-#include "FWCore/Framework/interface/EDAnalyzer.h"
-#include "FWCore/ServiceRegistry/interface/Service.h"
-#include "CommonTools/UtilAlgos/interface/TFileService.h"
-#include "FWCore/Framework/interface/ESHandle.h"
-
-#include "FWCore/Framework/interface/Event.h"
-#include "FWCore/Framework/interface/EventSetup.h"
-#include "FWCore/Framework/interface/MakerMacros.h"
-#include "FWCore/PluginManager/interface/ModuleDef.h"
-
-#include "FWCore/ParameterSet/interface/ParameterSet.h"
-
-#include "DataFormats/VertexReco/interface/Vertex.h"
-#include "DataFormats/VertexReco/interface/VertexFwd.h"
-
-#include "DataFormats/HcalDetId/interface/HcalDetId.h"
-#include "Geometry/CaloGeometry/interface/CaloGeometry.h"
-#include "Geometry/CaloGeometry/interface/CaloSubdetectorGeometry.h"
-#include "Geometry/CaloGeometry/interface/CaloCellGeometry.h"
-
-#include "DataFormats/DetId/interface/DetId.h"
-
-#include "DataFormats/HcalRecHit/interface/HcalRecHitCollections.h"
-#include "DataFormats/HcalRecHit/interface/HcalSourcePositionData.h"
-
-#include "Geometry/Records/interface/CaloGeometryRecord.h"
-#include "DataFormats/HcalDetId/interface/HcalSubdetector.h"
-
-#include "CondFormats/HcalObjects/interface/HcalChannelQuality.h"
-#include "CondFormats/DataRecord/interface/HcalChannelQualityRcd.h"
-
-// severity level assignment for HCAL
-#include "RecoLocalCalo/HcalRecAlgos/interface/HcalSeverityLevelComputer.h"
-#include "RecoLocalCalo/HcalRecAlgos/interface/HcalSeverityLevelComputerRcd.h"
-
-#include <math.h>
-
-#include <TFile.h>
-#include <TTree.h>
-#include <TROOT.h>
-
-#include <vector>
-#include <utility>
-#include <ostream>
-#include <string>
-#include <algorithm>
-
-//CaloTowers
-#include "DataFormats/CaloTowers/interface/CaloTowerDetId.h"
-#include "DataFormats/CaloTowers/interface/CaloTowerCollection.h"
-
-//--KH
-#include "FWCore/Framework/interface/Frameworkfwd.h"
-//#include "DQMServices/Core/interface/DQMEDAnalyzer.h"
-#include "FWCore/Framework/interface/ESHandle.h"
-
-#include "FWCore/Framework/interface/Event.h"
-
-#include "FWCore/ParameterSet/interface/ParameterSet.h"
-//#include "DQMServices/Core/interface/DQMStore.h"
-//#include "DQMServices/Core/interface/MonitorElement.h"
-
-#include "FWCore/ServiceRegistry/interface/Service.h"
-#include "FWCore/Utilities/interface/EDGetToken.h"
-
-#include "Geometry/CaloGeometry/interface/CaloGeometry.h"
-
-#include "Geometry/Records/interface/CaloGeometryRecord.h"
-#include "Geometry/CaloGeometry/interface/CaloSubdetectorGeometry.h"
-#include "Geometry/CaloGeometry/interface/CaloCellGeometry.h"
-#include "SimDataFormats/CaloHit/interface/PCaloHitContainer.h"
-#include "Geometry/Records/interface/HcalGeometryRecord.h"
-#include "Geometry/HcalTowerAlgo/interface/HcalGeometry.h"
-
-#include "CalibFormats/HcalObjects/interface/HcalDbRecord.h"
-#include "CalibFormats/HcalObjects/interface/HcalCoderDb.h"
-#include "CalibFormats/HcalObjects/interface/HcalCalibrations.h"
-#include "CondFormats/HcalObjects/interface/HcalQIEShape.h"
-
-#include "DataFormats/HcalDigi/interface/HBHEDataFrame.h"
-
-#include "CalibFormats/HcalObjects/interface/HcalDbService.h"
-#include "DataFormats/HcalDigi/interface/HcalDigiCollections.h"
-
-#include "Geometry/CaloTopology/interface/HcalTopology.h"
-
-/*TP Code*/
-#include "Geometry/CaloTopology/interface/HcalTopology.h"
-#include "CalibFormats/CaloTPG/interface/CaloTPGTranscoder.h"
-#include "CalibFormats/CaloTPG/interface/CaloTPGRecord.h"
-#include "DataFormats/HcalDetId/interface/HcalSubdetector.h"
-/*~TP Code*/
-//--KH
-
 
 //
 // class declaration
@@ -206,7 +75,6 @@ class HcalDigiTree : public edm::EDAnalyzer {
   int run;
   int lumi;
   int event;
-
   int bx;
 
   std::vector<int> DigiHBHE_ieta;
@@ -348,8 +216,8 @@ class HcalDigiTree : public edm::EDAnalyzer {
 
   edm::ESHandle<HcalDbService> conditions;
   
-  template<class Digi> void reco(const edm::Event& iEvent, const edm::EventSetup& iSetup, const edm::EDGetTokenT<edm::SortedCollection<Digi> > &tok);
-  template<class dataFrameType> void reco(const edm::Event& iEvent, const edm::EventSetup& iSetup, const edm::EDGetTokenT<HcalDataFrameContainer<dataFrameType> > &tok);
+  //template<class Digi> void reco(const edm::Event& iEvent, const edm::EventSetup& iSetup, const edm::EDGetTokenT<edm::SortedCollection<Digi> > &tok);
+  //template<class dataFrameType> void reco(const edm::Event& iEvent, const edm::EventSetup& iSetup, const edm::EDGetTokenT<HcalDataFrameContainer<dataFrameType> > &tok);
    
 };
 
@@ -558,7 +426,7 @@ void
 HcalDigiTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
   using namespace edm;
-  using namespace reco;
+  //using namespace reco;
 
   //edm::ESHandle<HcalDDDRecConstants> pHRNDC;
   //iSetup.get<HcalRecNumberingRecord>().get( pHRNDC );
