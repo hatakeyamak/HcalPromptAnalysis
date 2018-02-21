@@ -165,8 +165,6 @@ SimHitTree::SimHitTree(const edm::ParameterSet& iConfig)
 	}
 	*/
 
-	std::cout << "constructor1" << std::endl;
-
 	edm::Service<TFileService> fs;
 	tt1 = fs->make<TTree>("SimHitTree","SimHitTree");
 
@@ -181,7 +179,6 @@ SimHitTree::SimHitTree(const edm::ParameterSet& iConfig)
 	tt1->Branch("SimHitsSub","std::vector<int>",&SimHitsSub);
 	//tt1->Branch("SimHitsLayer","std::vector<int>",&SimHitsLayer);
 
-	std::cout << "constructor2" << std::endl;
 }
 
 SimHitTree::~SimHitTree()
