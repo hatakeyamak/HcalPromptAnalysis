@@ -4,7 +4,7 @@ hcalRecHitTree = cms.EDAnalyzer("RecHitTree",
     rootOutputFile            = cms.string('HcalRecHit.root'),
     treeName                  = cms.string('HcalRecHit'),
     TestNumbering             = cms.bool(False),
-    HBHERecHitCollectionLabel = cms.untracked.InputTag("hbheUpgradeReco"),
-    HFRecHitCollectionLabel   = cms.untracked.InputTag("hfUpgradeReco"),
+    HBHERecHitCollectionLabel = cms.untracked.InputTag("hbhereco"),
+    HFRecHitCollectionLabel   = cms.untracked.InputTag("hfreco"),
     HORecHitCollectionLabel   = cms.untracked.InputTag("horeco")                             
 )
