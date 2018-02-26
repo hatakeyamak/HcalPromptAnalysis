@@ -52,20 +52,11 @@ class HcalTupleMaker_HGCRecHits : public edm::EDProducer {
     //-----------------------------------------------------
     
     loadAlgo();
-    /*
-    std::unique_ptr<std::vector<double> >            eta     ( new std::vector<double>           ());
-    std::unique_ptr<std::vector<double> >            phi     ( new std::vector<double>           ());
-    std::unique_ptr<std::vector<int   > >            layer   ( new std::vector<int>              ());
-    std::unique_ptr<std::vector<double> >            energy  ( new std::vector<double>           ());
-    */
 
     //-----------------------------------------------------
     // edm::Handles
     //-----------------------------------------------------
     
-    //bool run_algo = true;
-
-    //std::vector<edm::Handle<HGCRecHitCollection> > HGCRecHitCollections;
     edm::Handle<HGCRecHitCollection> HGCRecHits;
 
     //
@@ -82,11 +73,9 @@ class HcalTupleMaker_HGCRecHits : public edm::EDProducer {
       iEvent.getByToken(*token, HGCRecHits);
       if( HGCRecHits.isValid() && !HGCRecHits->empty() ) {
 	edm::LogInfo("Input found") << m_HGCRecHitsTags.at(index);
-	//run_algo = true;
       } else {
 	edm::LogInfo("Input not found") << m_HGCRecHitsTags.at(index);
 	return;
-	//run_algo = false;
       }
 
       //
@@ -132,7 +121,6 @@ class HcalTupleMaker_HGCRecHits : public edm::EDProducer {
 	  int ilayer   = HGCalDetId(detId).layer();
 
 	  run(detId, ilayer, geom0, &it);
-	  std::cout << ilayer << std::endl;
 
 	}
 
@@ -140,76 +128,11 @@ class HcalTupleMaker_HGCRecHits : public edm::EDProducer {
 
     } // Looping over different rechit collections
 
-      /*
-      edm::ESHandle<HGCalGeometry> geom;
-      iSetup.get<IdealGeometryRecord>().get(nameDetector, geom);
-      if (!geom.isValid()) 
-	edm::LogWarning("HGCalValidation") << "Cannot get valid HGCalGeometry Object for " << nameDetector;
-      const HGCalGeometry* geometry = geom.product();
-      */
-
-      //
-      // Loop over rechits
-      //
-      //if ( run_algo ) algo.run ( *HGCRecHits, *geom0 );
-
-	
-      //layer = HGCalDetId(detId).layer();
-	
-      //}
-
-
-      //}
-
-    // Loop starts ----------
-
-    //std::string label = findInput(m_HGCRecHitsTags, m_HGCRecHitsTokens, iEvent);
-
-    /*
-    bool gotHGCRecHits = iEvent.getByToken(m_HGCRecHitsToken, HGCRecHits);
-    if (!gotHGCRecHits ) {
-      std::cout << "Could not find HGCRecHits with tag " << m_HGCRecHitsTag << std::endl;
-      run_algo = false;
-    }
-    */
-
-    //-----------------------------------------------------
-    // edm::ESHandles
-    //-----------------------------------------------------
-
-    /*
-
-    std::string nameDetector = "HGCalHESiliconSensitive";
-
-    edm::ESHandle<HGCalGeometry> geom;
-    iSetup.get<IdealGeometryRecord>().get(nameDetector, geom);
-    if (!geom.isValid()) 
-      edm::LogWarning("HGCalValidation") << "Cannot get valid HGCalGeometry Object for " << nameDetector;
-    const HGCalGeometry* geometry = geom.product();
-
-    */
-    
-    //-----------------------------------------------------
-    // Run the algorithm
-    //-----------------------------------------------------
-
-    /*
-    if ( run_algo ) algo.run ( *HGCRecHits, *geometry );
-    */
-
-    // Loop may end ----------
-
     //-----------------------------------------------------
     // Put things into the event
     //-----------------------------------------------------
     
     dumpAlgo(iEvent);
-    /*
-    iEvent.put(move(eta)    , m_prefix + "Eta"           + m_suffix );
-    iEvent.put(move(phi)    , m_prefix + "Phi"           + m_suffix );
-    iEvent.put(move(layer)  , m_prefix + "Layer"         + m_suffix );
-    iEvent.put(move(energy) , m_prefix + "Energy"        + m_suffix );
-    */
 
     }
   
@@ -278,6 +201,8 @@ class HcalTupleMaker_HGCRecHits : public edm::EDProducer {
     float globaly = global.y();
     float globalz = global.z();
     */
+
+    std::cout << ilayer << " " << global.z() << std::endl;
 
     eta    -> push_back ( global.eta() );
     phi    -> push_back ( global.phi() );
