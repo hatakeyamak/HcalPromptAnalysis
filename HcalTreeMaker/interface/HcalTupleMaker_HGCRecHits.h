@@ -20,8 +20,6 @@
 //
 #include "DataFormats/HcalDetId/interface/HcalDetId.h"
 
-//#include "HcalPromptAnalysis/HcalTreeMaker/interface/HcalTupleMaker_HGCRecHitAlgorithm.h"
-
 // Used:
 // http://cmslxr.fnal.gov/source/AnalysisAlgos/SiStripClusterInfoProducer/plugins/SiStripProcessedRawDigiProducer.cc
 // as an example
@@ -44,6 +42,8 @@ class HcalTupleMaker_HGCRecHits : public edm::EDProducer {
   const std::string     m_suffix;
 
   //HcalTupleMaker_HGCRecHitAlgorithm algo;
+
+  bool debug=false;
   
   void produce( edm::Event & iEvent, const edm::EventSetup & iSetup) { 
     
@@ -82,7 +82,7 @@ class HcalTupleMaker_HGCRecHits : public edm::EDProducer {
       // Geometry & looping over rechits
       //
       std::string nameDetector_ = m_geometrySource[index];
-      std::cout << nameDetector_ << std::endl;
+      if (debug) std::cout << nameDetector_ << std::endl;
 
       if (nameDetector_ == "HCal") {
 
@@ -202,7 +202,7 @@ class HcalTupleMaker_HGCRecHits : public edm::EDProducer {
     float globalz = global.z();
     */
 
-    std::cout << ilayer << " " << global.z() << std::endl;
+    if (debug) std::cout << ilayer << " " << global.z() << std::endl;
 
     eta    -> push_back ( global.eta() );
     phi    -> push_back ( global.phi() );
