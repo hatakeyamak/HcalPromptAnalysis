@@ -6,14 +6,6 @@ from Configuration.StandardSequences.Eras import eras
 import FWCore.ParameterSet.VarParsing as VarParsing
 
 #------------------------------------------------------------------------------------
-# Imports
-#------------------------------------------------------------------------------------
-import FWCore.ParameterSet.Config as cms
-from Configuration.StandardSequences.Eras import eras
-import FWCore.ParameterSet.VarParsing as VarParsing
-
-
-#------------------------------------------------------------------------------------
 # Declare the process and input variables
 #------------------------------------------------------------------------------------
 #process = cms.Process('NOISE',eras.Run2_50ns)#for 50ns 13 TeV data
@@ -22,9 +14,9 @@ options = VarParsing.VarParsing ('analysis')
 process = cms.Process("Trees",eras.Phase2)
 
 options.register ('skipEvents', 0, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.int, "no of skipped events")
-#options.inputFiles = '/store/relval/CMSSW_9_3_2/RelValSinglePiPt25Eta1p7_2p7/GEN-SIM-RECO/93X_upgrade2023_realistic_v2_2023D17noPU-v1/10000/2637F672-C7A6-E711-B4EF-0025905A612A.root'
-#options.outputFile = 'results.root'
-#options.maxEvents = 100 # -1 means all events
+options.inputFiles = '/store/relval/CMSSW_9_3_2/RelValSinglePiPt25Eta1p7_2p7/GEN-SIM-RECO/93X_upgrade2023_realistic_v2_2023D17noPU-v1/10000/2637F672-C7A6-E711-B4EF-0025905A612A.root'
+options.outputFile = 'results.root'
+options.maxEvents = 10 # -1 means all events
 #options.skipEvents = 0 # default is 0.
 
 #------------------------------------------------------------------------------------
@@ -33,16 +25,19 @@ options.register ('skipEvents', 0, VarParsing.VarParsing.multiplicity.singleton,
 options.parseArguments()
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(options.maxEvents) )
 process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring(
-        '/store/relval/CMSSW_9_3_2/RelValSinglePiPt25Eta1p7_2p7/GEN-SIM-RECO/93X_upgrade2023_realistic_v2_2023D17noPU-v1/10000/2637F672-C7A6-E711-B4EF-0025905A612A.root'
-    ),
+    fileNames = cms.untracked.vstring(options.inputFiles),
     skipEvents = cms.untracked.uint32(options.skipEvents) # default is 0.
 )
 
 process.TFileService = cms.Service("TFileService", 
-                                   fileName = cms.string("TFileServiceTest1.root")
+                                   fileName = cms.string(options.outputFile)
 )
 
+process.options = cms.untracked.PSet(
+    wantSummary = cms.untracked.bool(True),
+    Rethrow = cms.untracked.vstring("ProductNotFound"), # make this exception fatal
+    fileMode  =  cms.untracked.string('NOMERGE') # no ordering needed, but calls endRun/beginRun etc. at file boundaries
+)
 
 #------------------------------------------------------------------------------------
 # import of standard configurations
@@ -64,6 +59,8 @@ process.load('Configuration.StandardSequences.Validation_cff')
 process.load('DQMOffline.Configuration.DQMOfflineMC_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
+#KH
+process.MessageLogger.cerr.FwkReport.reportEvery = 100
 
 #------------------------------------------------------------------------------------
 # Set up our analyzer
@@ -73,6 +70,7 @@ process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_Tree_cfi")
 process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_Event_cfi")
 #process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HBHEDigis_cfi")
 process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HBHERecHits_cfi")
+process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HGCRecHits_cfi")
 #process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_Trigger_cfi")
 
 #------------------------------------------------------------------------------------
@@ -89,12 +87,13 @@ process.tuple_step = cms.Sequence(
     # Make HCAL tuples: Event, run, ls number
     process.hcalTupleEvent*
     #    # Make HCAL tuples: digi info
-    #raw# process.hcalTupleHBHEDigis*
+    #    process.hcalTupleHBHEDigis*
     #    process.hcalTupleHODigis*
     #    process.hcalTupleHFDigis*
     #    process.hcalTupleTriggerPrimitives*
     #    # Make HCAL tuples: reco info
     process.hcalTupleHBHERecHits*
+    process.hcalTupleHGCRecHits*
     #
     process.hcalTupleTree
 )

@@ -13,6 +13,7 @@ from HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_QIE11Digis_cfi            i
 from HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HBHERecHits_cfi           import * 
 from HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HORecHits_cfi             import * 
 from HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HFRecHits_cfi             import * 
+from HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HGCEERecHits_cfi.py       import *
 from HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_Trigger_cfi               import * 
 from HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_TriggerObjects_cfi        import * 
 from HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_RecoTracks_cfi            import * 
