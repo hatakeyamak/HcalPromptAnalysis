@@ -8,10 +8,12 @@
 #include "HcalPromptAnalysis/HcalTreeMaker/interface/HcalTupleMaker_QIE11Digis.h"
 #include "HcalPromptAnalysis/HcalTreeMaker/interface/HcalTupleMaker_HcalRecHits.h"
 #include "HcalPromptAnalysis/HcalTreeMaker/interface/HcalTupleMaker_HGCRecHits.h"
+#include "HcalPromptAnalysis/HcalTreeMaker/interface/HcalTupleMaker_GenParticles.h"
 #include "HcalPromptAnalysis/HcalTreeMaker/interface/HcalTupleMaker_HcalTriggerPrimitives.h"
 
 DEFINE_FWK_MODULE(HcalTupleMaker_Tree);
 DEFINE_FWK_MODULE(HcalTupleMaker_Event);
+DEFINE_FWK_MODULE(HcalTupleMaker_GenParticles);
 DEFINE_FWK_MODULE(HcalTupleMaker_HBHERecHits);
 DEFINE_FWK_MODULE(HcalTupleMaker_HORecHits);
 DEFINE_FWK_MODULE(HcalTupleMaker_HFRecHits);

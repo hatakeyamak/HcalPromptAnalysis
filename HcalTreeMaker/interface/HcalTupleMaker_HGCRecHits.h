@@ -27,12 +27,6 @@
 class HcalTupleMaker_HGCRecHits : public edm::EDProducer {
  protected:
 
-  /*
-  const edm::InputTag   m_HGCRecHitsTag;
-  //edm::EDGetTokenT<RecHitCollection> m_HGCRecHitsToken;
-  edm::EDGetTokenT<HGCRecHitCollection> m_HGCRecHitsToken;
-  */
-
   std::vector<edm::InputTag> m_HGCRecHitsTags;
   std::vector<edm::EDGetTokenT<HGCRecHitCollection>> m_HGCRecHitsTokens;
 
@@ -40,8 +34,6 @@ class HcalTupleMaker_HGCRecHits : public edm::EDProducer {
 
   const std::string     m_prefix;
   const std::string     m_suffix;
-
-  //HcalTupleMaker_HGCRecHitAlgorithm algo;
 
   bool debug=false;
   
@@ -100,7 +92,7 @@ class HcalTupleMaker_HGCRecHits : public edm::EDProducer {
 	  DetId detId = it.id();
 	  int ilayer = HcalDetId(detId).depth();
 	  
-	  run(detId, ilayer, geom0, &it);
+	  run(detId, ilayer, index, geom0, &it);
 
 	}
 
@@ -120,7 +112,7 @@ class HcalTupleMaker_HGCRecHits : public edm::EDProducer {
 	  DetId detId = it.id();
 	  int ilayer   = HGCalDetId(detId).layer();
 
-	  run(detId, ilayer, geom0, &it);
+	  run(detId, ilayer, index, geom0, &it);
 
 	}
 
@@ -153,7 +145,7 @@ class HcalTupleMaker_HGCRecHits : public edm::EDProducer {
     produces<std::vector<float> > ( m_prefix + "Posx"   + m_suffix );
     produces<std::vector<float> > ( m_prefix + "Posy"   + m_suffix );
     produces<std::vector<float> > ( m_prefix + "Posz"   + m_suffix );
-    //produces<std::vector<int>   > ( m_prefix + "Subdet" + m_suffix );
+    produces<std::vector<int>   > ( m_prefix + "Subdet" + m_suffix );
     //produces<std::vector<int>   > ( m_prefix + "Flags"  + m_suffix );
     //produces<std::vector<int>   > ( m_prefix + "Aux"    + m_suffix );
     //produces<std::vector<float> > ( m_prefix + "Time"   + m_suffix );
@@ -166,6 +158,7 @@ class HcalTupleMaker_HGCRecHits : public edm::EDProducer {
   std::unique_ptr<std::vector<float> > posx;
   std::unique_ptr<std::vector<float> > posy;
   std::unique_ptr<std::vector<float> > posz;
+  std::unique_ptr<std::vector<int>   > subdet;
 
  protected:
 
@@ -177,6 +170,7 @@ class HcalTupleMaker_HGCRecHits : public edm::EDProducer {
     posx   = std::unique_ptr<std::vector<float> > ( new std::vector<float> ());
     posy   = std::unique_ptr<std::vector<float> > ( new std::vector<float> ());
     posz   = std::unique_ptr<std::vector<float> > ( new std::vector<float> ());
+    subdet = std::unique_ptr<std::vector<int>   > ( new std::vector<int  > ());
   }
   
   void dumpAlgo( edm::Event & iEvent ){
@@ -187,10 +181,11 @@ class HcalTupleMaker_HGCRecHits : public edm::EDProducer {
     iEvent.put( move(posx   ), m_prefix + "Posx"   + m_suffix );
     iEvent.put( move(posy   ), m_prefix + "Posy"   + m_suffix );
     iEvent.put( move(posz   ), m_prefix + "Posz"   + m_suffix );
+    iEvent.put( move(subdet ), m_prefix + "Subdet" + m_suffix );
   }  
 
   template<class T1, class T2>
-  void run(DetId & detId, int ilayer, 
+  void run(DetId & detId, int ilayer, int index,
 				      const T1* geom, T2 it) {
 
     GlobalPoint global = geom->getPosition(detId);
@@ -211,6 +206,7 @@ class HcalTupleMaker_HGCRecHits : public edm::EDProducer {
     posx   -> push_back ( global.x()   );
     posy   -> push_back ( global.y()   );
     posz   -> push_back ( global.z()   );
+    subdet -> push_back ( index        );
 
   }
     

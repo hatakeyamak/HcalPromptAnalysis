@@ -65,13 +65,11 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 100
 #------------------------------------------------------------------------------------
 # Set up our analyzer
 #------------------------------------------------------------------------------------
-#process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_cfi") # Dont want to use this, load modules individually
 process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_Tree_cfi")
 process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_Event_cfi")
-#process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HBHEDigis_cfi")
+process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_GenParticles_cfi")
 process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HBHERecHits_cfi")
 process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HGCRecHits_cfi")
-#process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_Trigger_cfi")
 
 #------------------------------------------------------------------------------------
 # Specify Global Tag
@@ -94,6 +92,7 @@ process.tuple_step = cms.Sequence(
     #    # Make HCAL tuples: reco info
     process.hcalTupleHBHERecHits*
     process.hcalTupleHGCRecHits*
+    process.hcalTupleGenParticles*
     #
     process.hcalTupleTree
 )
