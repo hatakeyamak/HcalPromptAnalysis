@@ -16,7 +16,7 @@
 //
 //   $ root -b  
 //   root> .L ana_PionResponse.C++ 
-//   root> ana_PionResponse("../../HcalTreeMaker/test/results.root")
+//   root> ana_PionResponse("../HcalTreeMaker/test/results_pt50.root","hgcal_histograms_pt50.root",-1)
 //    
 // -----------------------------------------------------------------------------------
 // 
@@ -91,7 +91,7 @@ const char* GetDetName(int Subdet)
 }
 
 //
-void HCALResponseCheckRun(TString rootfile="../HcalNtuples_239995_Viktor.root", int option=2) 
+void HCALResponseCheckRun(TString rootfile="../HcalNtuples_239995_Viktor.root", TString outfile="hgcal_histograms.root", int maxevents=-1, int option=2) 
 { 
 
     cout << "[Pion response analyzer] Running option " << option << " for " << endl; 
@@ -146,7 +146,7 @@ void HCALResponseCheckRun(TString rootfile="../HcalNtuples_239995_Viktor.root", 
     TTreeReaderValue<UInt_t> run = {fReader, "run"};
     
     // 
-    TH1F *h_RecHitEtGenPt = new TH1F("h_RecHitEtGenPt","h_RecHitEtGenPt",50,0.,2.);
+    TH1F *h_RecHitEtGenPt = new TH1F("h_RecHitEtGenPt","h_RecHitEtGenPt",100,0.,2.);
 
     //
     // Loop over entries
@@ -165,7 +165,7 @@ void HCALResponseCheckRun(TString rootfile="../HcalNtuples_239995_Viktor.root", 
       // Progress indicator 
       ievent++;
       if(ievent%100==0) cout << "[HCAL Response analyzer] Processed " << ievent << " out of " << nentries << " events" << endl; 
-      if (ievent>2000.) break;
+      if (maxevents>0 && ievent>maxevents) break;
 
       //std::cout << *event << std::endl;
 	
@@ -193,7 +193,7 @@ void HCALResponseCheckRun(TString rootfile="../HcalNtuples_239995_Viktor.root", 
 
 
     // output file for histograms
-    TFile file_out("hgcal_histograms.root","RECREATE");
+    TFile file_out(outfile,"RECREATE");
 
     h_RecHitEtGenPt->Fit("gaus");
     h_RecHitEtGenPt->Write();
@@ -206,7 +206,7 @@ void HCALResponseCheckRun(TString rootfile="../HcalNtuples_239995_Viktor.root", 
 //
 // Main function
 //
-void ana_PionResponse(TString rootfile="PFGtuples_local/*root")
+void ana_PionResponse(TString rootfile="PFGtuples_local/*root",TString outfile="hgcal_histograms.root",int maxevents=-1)
 {
-    HCALResponseCheckRun(rootfile, 0);
+  HCALResponseCheckRun(rootfile, outfile, maxevents, 0);
 }
