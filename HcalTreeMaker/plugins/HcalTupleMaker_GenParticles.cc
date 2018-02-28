@@ -40,8 +40,6 @@ void HcalTupleMaker_GenParticles::produce(edm::Event& iEvent, const edm::EventSe
   for(edm::View<reco::GenParticle>::const_iterator iPart = genPartCands->begin(); iPart != genPartCands->end(); ++iPart)
     {
 
-      std::cout << iPart->pdgId() << std::endl;
-
       pt->push_back(iPart->pt());
       eta->push_back(iPart->eta());
       phi->push_back(iPart->phi());

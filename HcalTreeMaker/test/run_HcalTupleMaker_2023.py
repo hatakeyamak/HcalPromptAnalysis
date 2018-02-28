@@ -14,9 +14,14 @@ options = VarParsing.VarParsing ('analysis')
 process = cms.Process("Trees",eras.Phase2)
 
 options.register ('skipEvents', 0, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.int, "no of skipped events")
-options.inputFiles = '/store/relval/CMSSW_9_3_2/RelValSinglePiPt25Eta1p7_2p7/GEN-SIM-RECO/93X_upgrade2023_realistic_v2_2023D17noPU-v1/10000/2637F672-C7A6-E711-B4EF-0025905A612A.root'
+#
+# /RelValSinglePiPt25Eta1p7_2p7/CMSSW_9_3_2-93X_upgrade2023_realistic_v2_2023D17noPU-v1/GEN-SIM-RECO
+# /SinglePiPt*Eta1p6_2p8/PhaseIITDRFall17*93X_upgrade2023_realistic_v2*/GEN-SIM-RECO
+#
+options.inputFiles = '/store/mc/PhaseIITDRFall17DR/SinglePiPt50Eta1p6_2p8/GEN-SIM-RECO/noPUFEVT_93X_upgrade2023_realistic_v2-v1/00000/B2807A02-50AD-E711-AF78-F01FAFDB45B7.root','/store/mc/PhaseIITDRFall17DR/SinglePiPt50Eta1p6_2p8/GEN-SIM-RECO/noPUFEVT_93X_upgrade2023_realistic_v2-v1/150000/1AB4309F-BAAE-E711-87BC-A0369FC5D904.root','/store/mc/PhaseIITDRFall17DR/SinglePiPt50Eta1p6_2p8/GEN-SIM-RECO/noPUFEVT_93X_upgrade2023_realistic_v2-v1/150000/1AE8206E-E1AD-E711-98C0-FA163E191258.root','/store/mc/PhaseIITDRFall17DR/SinglePiPt50Eta1p6_2p8/GEN-SIM-RECO/noPUFEVT_93X_upgrade2023_realistic_v2-v1/150000/20F00603-FEAD-E711-83F8-0090FAA59EE4.root'
+#'/store/relval/CMSSW_9_3_2/RelValSinglePiPt25Eta1p7_2p7/GEN-SIM-RECO/93X_upgrade2023_realistic_v2_2023D17noPU-v1/10000/2637F672-C7A6-E711-B4EF-0025905A612A.root'
 options.outputFile = 'results.root'
-options.maxEvents = 10 # -1 means all events
+options.maxEvents = -1 # -1 means all events
 #options.skipEvents = 0 # default is 0.
 
 #------------------------------------------------------------------------------------
