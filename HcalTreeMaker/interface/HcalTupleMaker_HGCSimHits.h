@@ -27,48 +27,6 @@
 
 #include "Geometry/HcalCommonData/interface/HcalHitRelabeller.h"
 
-// test
-/*
-#include <cmath>
-#include "FWCore/Framework/interface/ESHandle.h"
-#include "FWCore/MessageLogger/interface/MessageLogger.h"
-#include "DataFormats/ForwardDetId/interface/ForwardSubdetector.h"
-#include "DataFormats/HcalDetId/interface/HcalDetId.h"
-#include "DetectorDescription/Core/interface/DDExpandedView.h"
-#include "DetectorDescription/Core/interface/DDSpecifics.h"
-#include "DetectorDescription/Core/interface/DDSolid.h"
-#include "DetectorDescription/Core/interface/DDFilter.h"
-#include "DetectorDescription/Core/interface/DDFilteredView.h"
-#include "SimDataFormats/CaloHit/interface/PCaloHitContainer.h"
-#include "SimDataFormats/CaloTest/interface/HGCalTestNumbering.h"
-#include "Geometry/HGCalCommonData/interface/HGCalGeometryMode.h"
-#include "Geometry/Records/interface/IdealGeometryRecord.h"
-#include "CLHEP/Geometry/Point3D.h"
-#include "CLHEP/Geometry/Vector3D.h"
-#include "CLHEP/Units/GlobalSystemOfUnits.h"
-#include "CLHEP/Units/GlobalPhysicalConstants.h"
-
-#include "FWCore/Framework/interface/Frameworkfwd.h"
-#include "FWCore/Framework/interface/Event.h"
-#include "FWCore/Framework/interface/EventSetup.h"
-#include "FWCore/Utilities/interface/InputTag.h"
-#include "FWCore/ParameterSet/interface/ParameterSet.h"
-#include "FWCore/ParameterSet/interface/ConfigurationDescriptions.h"
-
-#include "DataFormats/ForwardDetId/interface/HGCalDetId.h"
-#include "DetectorDescription/Core/interface/DDCompactView.h"
-#include "FWCore/Framework/interface/ESTransientHandle.h"
-
-#include "FWCore/ServiceRegistry/interface/Service.h"
-
-#include "SimDataFormats/CaloHit/interface/PCaloHit.h"
-#include "SimDataFormats/GeneratorProducts/interface/HepMCProduct.h"
-#include "Geometry/HGCalCommonData/interface/HGCalDDDConstants.h"
-#include "Geometry/HcalCommonData/interface/HcalDDDRecConstants.h"
-#include "Geometry/Records/interface/HcalRecNumberingRecord.h"
-#include <CLHEP/Geometry/Transform3D.h>
-*/
-
 //
 // Class definition
 // 

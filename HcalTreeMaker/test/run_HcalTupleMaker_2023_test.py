@@ -134,6 +134,6 @@ process.tuple_step = cms.Sequence(
 # Path and EndPath definitions
 #-----------------------------------------------------------------------------------
 process.preparation = cms.Path(
-    process.hgcalHitValidation*
+    #process.hgcalHitValidation*
     process.tuple_step
 )
