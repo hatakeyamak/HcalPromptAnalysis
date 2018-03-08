@@ -21,3 +21,4 @@ from HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HcalTriggerPrimitives_cfi i
 from HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_L1Jets_cfi                import *
 from HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_L1GCTJets_cfi             import *
 from HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HcalUnpackerReport_cfi    import *
+from HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_PCaloHits_cfi             import *

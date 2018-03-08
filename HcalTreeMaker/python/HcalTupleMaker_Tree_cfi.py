@@ -38,7 +38,8 @@ hcalTupleTree = cms.EDAnalyzer("HcalTupleMaker_Tree",
         'keep *_hcalTupleL1Jets_*_*',
         'keep *_hcalTupleCosmicMuons_*_*',
         'keep *_hcalTupleUnpackReport_*_*',
-        'keep *_hcalTupleGenParticles_*_*'
+        'keep *_hcalTupleGenParticles_*_*',
+        'keep *_hcalTuplePCaloHits_*_*'
     )
 
 

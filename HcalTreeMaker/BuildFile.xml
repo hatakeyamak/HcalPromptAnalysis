@@ -12,6 +12,7 @@
 <use   name="RecoLocalCalo/EcalRecAlgos"/>
 <use   name="CondFormats/DataRecord"/>
 <use   name="CalibCalorimetry/HcalTPGAlgos"/>
+<use   name="SimDataFormats/CaloTest"/>
 <use   name="rootcore"/>
 <use   name="boost"/>
 <use   name="CLHEP"/>
