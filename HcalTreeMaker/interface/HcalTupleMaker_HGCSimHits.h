@@ -25,7 +25,10 @@
 
 #include "DataFormats/HcalDetId/interface/HcalTestNumbering.h"
 
+#include "Geometry/HcalCommonData/interface/HcalHitRelabeller.h"
+
 // test
+/*
 #include <cmath>
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
@@ -37,7 +40,6 @@
 #include "DetectorDescription/Core/interface/DDFilter.h"
 #include "DetectorDescription/Core/interface/DDFilteredView.h"
 #include "SimDataFormats/CaloHit/interface/PCaloHitContainer.h"
-#include "Geometry/HcalCommonData/interface/HcalHitRelabeller.h"
 #include "SimDataFormats/CaloTest/interface/HGCalTestNumbering.h"
 #include "Geometry/HGCalCommonData/interface/HGCalGeometryMode.h"
 #include "Geometry/Records/interface/IdealGeometryRecord.h"
@@ -65,6 +67,7 @@
 #include "Geometry/HcalCommonData/interface/HcalDDDRecConstants.h"
 #include "Geometry/Records/interface/HcalRecNumberingRecord.h"
 #include <CLHEP/Geometry/Transform3D.h>
+*/
 
 //
 // Class definition
