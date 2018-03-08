@@ -202,14 +202,16 @@ class HcalTupleMaker_HGCSimHits : public edm::EDProducer {
 					   rz*sin(etaphi.second)/cosh(etaphi.first),
 					   rz*tanh(etaphi.first));
 
-	  std::cout << "HCAL geom comparison: "
+	  if (debug) std::cout << "HCAL geom comparison: "
 		  << "(" << xp         << ", " << yp         << ", " << zp         << ") "  
 		  << "(" << gcoord.x() << ", " << gcoord.y() << ", " << gcoord.z() << ") "  
 		  << std::endl;
-
+	  //
+	  // Use HcalTestNumbering::unpackHcalIndex based method at the end
+	  // 
 	  gcoord = HepGeom::Point3D<float>(xp,yp,zp);
 
-	  std::cout << "HCAL geom comparison: "
+	  if (debug) std::cout << "HCAL geom comparison: "
 		  << "(" << xp         << ", " << yp         << ", " << zp         << ") "  
 		  << "(" << gcoord.x() << ", " << gcoord.y() << ", " << gcoord.z() << ") "  
 		  << std::endl;
@@ -245,25 +247,26 @@ class HcalTupleMaker_HGCSimHits : public edm::EDProducer {
 
 	  if (hgccons_->geomMode() == HGCalGeometryMode::Square) {
 
-	    std::cout << "HcalTupleMaker_HGCSimHits: in the square mode." << std::endl;
+	    if (debug) std::cout << "HcalTupleMaker_HGCSimHits: in the square mode." << std::endl;
 
 	    HGCalTestNumbering::unpackSquareIndex(id_, zside, layer, sector, subsector, cell);
 	    std::pair<float,float> xy = hgccons_->locateCell(cell,layer,subsector,false);
 	    const HepGeom::Point3D<float> lcoord(xy.first,xy.second,0);
 	    int subs = (symmDet_ ? 0 : subsector);
 	    id_      = HGCalTestNumbering::packSquareIndex(zside,layer,sector,subs,0);
-	    gcoord   = (transMap_[id_]*lcoord);
+	    gcoord   = (transMap_[id_]*lcoord); // 
 
 	  } else {
 
-	    std::cout << "HcalTupleMaker_HGCSimHits: in the non-square mode." << std::endl;
+	    if (debug) std::cout << "HcalTupleMaker_HGCSimHits: in the non-square mode." << std::endl;
 
 	    HGCalTestNumbering::unpackHexagonIndex(id_, subdet, zside, layer, sector, subsector, cell);
 	    std::pair<float,float> xy = hgccons_->locateCell(cell,layer,sector,false);
 	    double zp = hgccons_->waferZ(layer,false);
 	    if (zside < 0) zp = -zp;
-	    float  xp = (zp < 0) ? -xy.first : xy.first;
-	    gcoord = HepGeom::Point3D<float>(xp,xy.second,zp);
+	    float  xp = (zp < 0) ? -xy.first/10 : xy.first/10; // mm->cm
+	    float  yp = xy.second/10; //mm->cm
+	    gcoord = HepGeom::Point3D<float>(xp,yp,zp); // 
 
 	  }
 
@@ -282,12 +285,9 @@ class HcalTupleMaker_HGCSimHits : public edm::EDProducer {
           xp = (zp<0) ? -xy.first/10 : xy.first/10; //mm
           yp = xy.second/10; //mm	  
 
-	  GlobalPoint xyz = hgcGeometry_[index]->getPosition(id_);
-
 	  std::cout << "HGC geom comparison: "
 		  << "(" << xp         << ", " << yp         << ", " << zp         << ") "  
 		  << "(" << gcoord.x() << ", " << gcoord.y() << ", " << gcoord.z() << ") "  
-		  << "(" << xyz.x()    << ", " << xyz.y()    << ", " << xyz.z()    << ") "  
 		  << std::endl;
 
 	}  // if nameDetector_ 
