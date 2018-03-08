@@ -82,8 +82,8 @@ class HcalTupleMaker_HGCSimHits : public edm::EDProducer {
 
   bool debug=false;
 
-  const HGCalDDDConstants   *hgccons_;
-  const HcalDDDRecConstants *hcalcons_;
+  //const HGCalDDDConstants   *hgccons_;
+  //const HcalDDDRecConstants *hcalcons_;
 
   //HGC Geometry                                                                                                     
   std::vector<const HGCalDDDConstants*> hgcCons_;
@@ -150,7 +150,6 @@ class HcalTupleMaker_HGCSimHits : public edm::EDProducer {
 	unsigned int id_ = it.id();
 
 	// 
-	bool symmDet_=true;
 	if (nameDetector_ == "HCal") {
 
 	  //
@@ -158,12 +157,10 @@ class HcalTupleMaker_HGCSimHits : public edm::EDProducer {
 	  // - Validation/HGCalValidation/plugins/HGCalHitValidation.cc
           // - Validation/HGCalValidation/plugins/HGCGeometryValidation.cc
 	  //
-	  std::cout << "Hcal geom check starts" << std::endl;
 	  int z, depth, eta, phi, lay;
 	  HcalTestNumbering::unpackHcalIndex(it.id(), subdet, z, depth, eta, phi, lay);
 	  if (subdet != static_cast<int>(HcalEndcap)) continue;
 
-	  std::cout << "Hcal geom check starts in endcap" << std::endl;
 	  HcalCellType::HcalCell hccell = hcCons_->cell(subdet, z, lay, eta, phi);
 	  double zp  = hccell.rz/10;  // mm -> cm
 	  int sign = (z==0)?(-1):(1);
@@ -172,15 +169,11 @@ class HcalTupleMaker_HGCSimHits : public edm::EDProducer {
 	  double xp  = rho * cos(hccell.phi); //cm
 	  double yp  = rho * sin(hccell.phi); //cm
 
-	  //KH HcalDDDRecConstants::HcalID idx = hcConr_->getHCID(subdet,eta,phi,lay,depth);
-	  //KH HcalDetId id = HcalDetId(HcalEndcap,sign*idx.eta,idx.phi,idx.depth);
-
 	  //
 	  // Older 
 	  // - Validation/HGCalValidation/plugins/HGCalSimHitValidation.cc
 	  //
-	  std::cout << "Hcal geom check starts - older method" << std::endl;
-	  HcalDetId detId = HcalHitRelabeller::relabel(id_,hcalcons_);
+	  HcalDetId detId = HcalHitRelabeller::relabel(id_,hcConr_);
 	  subdet           = detId.subdet();
 	  if (subdet != static_cast<int>(HcalEndcap)) continue;
 	  cell             = detId.ietaAbs();
@@ -191,12 +184,13 @@ class HcalTupleMaker_HGCSimHits : public edm::EDProducer {
 
 	  if (debug) std::cout << it.energy() << " " << subdet << std::endl;
 
-	  if (it.energy()>0.5) std::cout << it.energy() << " " 
+	  if (it.energy()>0.5) std::cout << "HcalTupleMaker_HGCSimHits: " 
+					 << it.energy() << " " 
 					 << nameDetector_ << " " 
 					 << subdet << " " << cell << " " << sector << std::endl;
 
-	  std::pair<double,double> etaphi = hcalcons_->getEtaPhi(subdet,zside*cell,sector);
-	  double rz = hcalcons_->getRZ(subdet,zside*cell,layer);	  
+	  std::pair<double,double> etaphi = hcConr_->getEtaPhi(subdet,zside*cell,sector);
+	  double rz = hcConr_->getRZ(subdet,zside*cell,layer);	  
 	  
 	  gcoord = HepGeom::Point3D<float>(rz*cos(etaphi.second)/cosh(etaphi.first),
 					   rz*sin(etaphi.second)/cosh(etaphi.first),
@@ -218,40 +212,21 @@ class HcalTupleMaker_HGCSimHits : public edm::EDProducer {
 
 	} else {
 
-	  if (it.energy()>0.5) std::cout << it.energy() << " " 
+	  if (it.energy()>0.5) std::cout << "HcalTupleMaker_HGCSimHits: " 
+					 << it.energy() << " " 
 					 << nameDetector_ << " " 
 					 << subdet << " " << cell << " " << sector << std::endl;
-
-	  edm::ESHandle<HGCalDDDConstants>  pHGDC;
-	  iSetup.get<IdealGeometryRecord>().get(nameDetector_, pHGDC);
-	  hgccons_ = &(*pHGDC);
-
-	  //get geometry
-	  /*
-	  edm::ESHandle<CaloGeometry> geom;
-	  iSetup.get<CaloGeometryRecord>().get(geom);
-
-	  const HGCalGeometry* gHGCal_;
-
-	  if(nameDetector_=="HGCalEESensitive") 
-	    gHGCal_ = dynamic_cast<const HGCalGeometry*>(geom->getSubdetectorGeometry(DetId::Forward, HGCEE));
-	  else 
-	    gHGCal_ = dynamic_cast<const HGCalGeometry*>(geom->getSubdetectorGeometry(DetId::Forward, HGCHEF));
-
-	  const auto& topo     = gHGCal_->topology();
-	  const auto* dddConst = topo.dddConstants();
 	  
-	  std::cout << hgccons_->geomMode() << " " << dddConst.geomMode() << std::endl;
-	  */
-	  std::cout << "HcalTupleMaker_HGCSimHits: " << hgccons_->geomMode() << std::endl;
+	  if (debug) std::cout << "HcalTupleMaker_HGCSimHits: " << hgcCons_[index]->geomMode() << std::endl;
 
-	  if (hgccons_->geomMode() == HGCalGeometryMode::Square) {
+	  if (hgcCons_[index]->geomMode() == HGCalGeometryMode::Square) {
 
 	    if (debug) std::cout << "HcalTupleMaker_HGCSimHits: in the square mode." << std::endl;
 
 	    HGCalTestNumbering::unpackSquareIndex(id_, zside, layer, sector, subsector, cell);
-	    std::pair<float,float> xy = hgccons_->locateCell(cell,layer,subsector,false);
+	    std::pair<float,float> xy = hgcCons_[index]->locateCell(cell,layer,subsector,false);
 	    const HepGeom::Point3D<float> lcoord(xy.first,xy.second,0);
+	    bool symmDet_=true;
 	    int subs = (symmDet_ ? 0 : subsector);
 	    id_      = HGCalTestNumbering::packSquareIndex(zside,layer,sector,subs,0);
 	    gcoord   = (transMap_[id_]*lcoord); // 
@@ -261,8 +236,8 @@ class HcalTupleMaker_HGCSimHits : public edm::EDProducer {
 	    if (debug) std::cout << "HcalTupleMaker_HGCSimHits: in the non-square mode." << std::endl;
 
 	    HGCalTestNumbering::unpackHexagonIndex(id_, subdet, zside, layer, sector, subsector, cell);
-	    std::pair<float,float> xy = hgccons_->locateCell(cell,layer,sector,false);
-	    double zp = hgccons_->waferZ(layer,false);
+	    std::pair<float,float> xy = hgcCons_[index]->locateCell(cell,layer,sector,false);
+	    double zp = hgcCons_[index]->waferZ(layer,false);
 	    if (zside < 0) zp = -zp;
 	    float  xp = (zp < 0) ? -xy.first/10 : xy.first/10; // mm->cm
 	    float  yp = xy.second/10; //mm->cm
@@ -285,17 +260,18 @@ class HcalTupleMaker_HGCSimHits : public edm::EDProducer {
           xp = (zp<0) ? -xy.first/10 : xy.first/10; //mm
           yp = xy.second/10; //mm	  
 
-	  std::cout << "HGC geom comparison: "
+	  if (debug) std::cout << "HGC geom comparison: "
 		  << "(" << xp         << ", " << yp         << ", " << zp         << ") "  
 		  << "(" << gcoord.x() << ", " << gcoord.y() << ", " << gcoord.z() << ") "  
 		  << std::endl;
 
 	}  // if nameDetector_ 
+
 	double tof = (gcoord.mag()*CLHEP::mm)/CLHEP::c_light; 
 	
 	v_energy -> push_back ( it.energy() );
 
-	std::cout << "HcalTupleMaker_HGCSimHits: " << nameDetector_ << " "
+	if (debug) std::cout << "HcalTupleMaker_HGCSimHits: " << nameDetector_ << " "
 		  << it.time() << " "
 		  << it.time()-tof << " "
 		  << subdet << " "
@@ -304,91 +280,19 @@ class HcalTupleMaker_HGCSimHits : public edm::EDProducer {
 		  << gcoord.getEta() << " "
 		  << gcoord.getPhi() << " "
 		  << std::endl;
-	/*
-	v_time   -> push_back ( it.time()-tof );	
+
+	v_time   -> push_back ( it.time() );	
+	//v_time   -> push_back ( it.time()-tof );	
 	v_subdet -> push_back ( subdet );
 	v_layer  -> push_back ( layer );
+	v_index  -> push_back ( index );
 	v_eta    -> push_back ( gcoord.getEta() );
 	v_phi    -> push_back ( gcoord.getPhi() );
 	v_posx   -> push_back ( gcoord.x() );
 	v_posy   -> push_back ( gcoord.y() );
 	v_posz   -> push_back ( gcoord.z() );
-	*/
-
-	/* uint32_t id       = hits[i].id(); */
-	/* 0195     int    cell, sector, subsector, layer, zside; */
-	/* 0196     int    subdet(0); */
-	/* 0197     if (heRebuild_) { */
-	/*   0198       HcalDetId detId  = HcalDetId(id_); */
-	/*   0199       subdet           = detId.subdet(); */
-	/*   0200       if (subdet != static_cast<int>(HcalEndcap)) continue; */
-	/*   0201       cell             = detId.ietaAbs(); */
-	/*   0202       sector           = detId.iphi(); */
-	/*   0203       subsector        = 1; */
-	/*   0204       layer            = detId.depth(); */
-	/*   0205       zside            = detId.zside(); */
-	/*   0206     } else { */
-	/*   0207       if (hgcons_->geomMode() == HGCalGeometryMode::Square) { */
-	/*     0208     HGCalTestNumbering::unpackSquareIndex(id_, zside, layer, sector, subsector, cell); */
-	/*     0209       } else { */
-	/*     0210     HGCalTestNumbering::unpackHexagonIndex(id_, subdet, zside, layer, sector, subsector, cell); */
-	/*     0211       } */
-	/*   0212     } */
-
-
-
-	/* DetId detId = it.id(); */
-	/* int ilayer = HcalDetId(detId).depth();	  */
-	//run(detId, ilayer, index, geom0, &it); 
-      } // for-loop
-
-      /* // */
-      /* // Geometry & looping over rechits */
-      /* // */
-      /* std::string nameDetector_ = m_geometrySource[index]; */
-      /* if (debug) std::cout << nameDetector_ << std::endl; */
-
-      /* if (nameDetector_ == "HCal") { */
-
-      /* 	edm::ESHandle<CaloGeometry> geom; */
-      /* 	iSetup.get<CaloGeometryRecord>().get(geom); */
-      /* 	if (!geom.isValid()) { */
-      /* 	  edm::LogWarning("HcalTupleMaker_HGCSimHits")  */
-      /* 	    << "Cannot get valid HGCalGeometry Object for " << nameDetector_; */
-      /* 	  return; */
-      /* 	} */
-      /* 	const CaloGeometry* geom0 = geom.product(); */
-
-      /* 	for (const auto & it : *(HGCSimHits.product())) { */
-	  
-      /* 	  DetId detId = it.id(); */
-      /* 	  int ilayer = HcalDetId(detId).depth(); */
-	  
-      /* 	  run(detId, ilayer, index, geom0, &it); */
-
-      /* 	} */
-
-      /* } else { */
-
-      /* 	edm::ESHandle<HGCalGeometry> geom; */
-      /* 	iSetup.get<IdealGeometryRecord>().get(nameDetector_, geom); */
-      /* 	if (!geom.isValid()) { */
-      /* 	  edm::LogWarning("HcalTupleMaker_HGCSimHits")  */
-      /* 	    << "Cannot get valid HGCalGeometry Object for " << nameDetector_; */
-      /* 	  return;	 */
-      /* 	} */
-      /* 	const HGCalGeometry* geom0 = geom.product(); */
-
-      /* 	for (const auto & it : *(HGCSimHits.product())) { */
-	  
-      /* 	  DetId detId = it.id(); */
-      /* 	  int ilayer   = HGCalDetId(detId).layer(); */
-
-      /* 	  run(detId, ilayer, index, geom0, &it); */
-
-      /* 	} */
-
-      /* } // Hcal or HGcal for geometry */
+	
+      } // for-loop of PCaloHits
 
     } // Looping over different PCaloHit collections
 
@@ -411,15 +315,15 @@ class HcalTupleMaker_HGCSimHits : public edm::EDProducer {
     m_suffix         (iConfig.getUntrackedParameter<std::string>  ("Suffix")) {
 
     produces<std::vector<float> > ( m_prefix + "Energy" + m_suffix );
-    /*
+    produces<std::vector<float> > ( m_prefix + "Time"   + m_suffix );
     produces<std::vector<int>   > ( m_prefix + "Subdet" + m_suffix );
     produces<std::vector<int>   > ( m_prefix + "Layer"  + m_suffix );
+    produces<std::vector<int>   > ( m_prefix + "Index"  + m_suffix );
     produces<std::vector<float> > ( m_prefix + "Eta"    + m_suffix );
     produces<std::vector<float> > ( m_prefix + "Phi"    + m_suffix );
     produces<std::vector<float> > ( m_prefix + "Posx"   + m_suffix );
     produces<std::vector<float> > ( m_prefix + "Posy"   + m_suffix );
     produces<std::vector<float> > ( m_prefix + "Posz"   + m_suffix );
-    */
 
   }
 
@@ -501,73 +405,37 @@ class HcalTupleMaker_HGCSimHits : public edm::EDProducer {
       }
     }
 
-    // -----
-
-    std::cout << "a1" << std::endl; 
-    edm::ESHandle<HcalDDDRecConstants> pHRNDC;
-    iSetup.get<HcalRecNumberingRecord>().get( pHRNDC );
-    hcalcons_  = &(*pHRNDC);
-    
-    std::cout << "a2" << std::endl; 
-    std::string nameDetector_ = "HGCalEESensitive";
-    //edm::ESHandle<HGCalDDDConstants>  pHGDC;
-    //iSetup.get<IdealGeometryRecord>().get(nameDetector_, pHGDC);
-    //hgccons_ = &(*pHGDC);
-    //
-    //edm::ESTransientHandle<DDCompactView> pDD;
-    //iSetup.get<IdealGeometryRecord>().get( pDD );
-    //defineGeometry(pDD);
-    
-    std::cout << "a3" << std::endl; 
-
   }
 
  protected:
 
   void loadAlgo(){
     v_energy = std::unique_ptr<std::vector<float> > ( new std::vector<float> ());
-    /*
+    v_time   = std::unique_ptr<std::vector<float> > ( new std::vector<float> ());
     v_subdet = std::unique_ptr<std::vector<int>   > ( new std::vector<int  > ());
     v_layer  = std::unique_ptr<std::vector<int  > > ( new std::vector<int  > ());
+    v_index  = std::unique_ptr<std::vector<int  > > ( new std::vector<int  > ());
     v_eta    = std::unique_ptr<std::vector<float> > ( new std::vector<float> ());
     v_phi    = std::unique_ptr<std::vector<float> > ( new std::vector<float> ());
     v_posx   = std::unique_ptr<std::vector<float> > ( new std::vector<float> ());
     v_posy   = std::unique_ptr<std::vector<float> > ( new std::vector<float> ());
     v_posz   = std::unique_ptr<std::vector<float> > ( new std::vector<float> ());
-    */
+
   }
   
   void dumpAlgo( edm::Event & iEvent ){
     iEvent.put( move(v_energy ), m_prefix + "Energy" + m_suffix );
-    /*
+    iEvent.put( move(v_time   ), m_prefix + "Time"   + m_suffix );
     iEvent.put( move(v_subdet ), m_prefix + "Subdet" + m_suffix );
     iEvent.put( move(v_layer  ), m_prefix + "Layer"  + m_suffix );
+    iEvent.put( move(v_index  ), m_prefix + "Index"  + m_suffix );
     iEvent.put( move(v_eta    ), m_prefix + "Eta"    + m_suffix );
     iEvent.put( move(v_phi    ), m_prefix + "Phi"    + m_suffix );
     iEvent.put( move(v_posx   ), m_prefix + "Posx"   + m_suffix );
     iEvent.put( move(v_posy   ), m_prefix + "Posy"   + m_suffix );
     iEvent.put( move(v_posz   ), m_prefix + "Posz"   + m_suffix );
-    */
+
   }  
-
-  /* template<class T1, class T2> */
-  /* void run(DetId & detId, int ilayer, int index, */
-  /* 				      const T1* geom, T2 it) { */
-
-  /*   GlobalPoint global = geom->getPosition(detId); */
-
-  /*   if (debug) std::cout << ilayer << " " << global.z() << std::endl; */
-
-  /*   energy -> push_back ( it->energy() ); */
-  /*   subdet -> push_back ( index        ); */
-  /*   layer  -> push_back ( ilayer       ); */
-  /*   eta    -> push_back ( global.eta() ); */
-  /*   phi    -> push_back ( global.phi() ); */
-  /*   posx   -> push_back ( global.x()   ); */
-  /*   posy   -> push_back ( global.y()   ); */
-  /*   posz   -> push_back ( global.z()   ); */
-
-  /* } */
     
 };
 
