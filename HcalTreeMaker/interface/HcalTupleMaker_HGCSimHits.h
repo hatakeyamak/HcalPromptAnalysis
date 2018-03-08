@@ -114,7 +114,7 @@ class HcalTupleMaker_HGCSimHits : public edm::EDProducer {
 	if (nameDetector_ == "HCal") {
 
 	  //
-	  // Newer
+	  // Direct HcalTestNumbering method:
 	  // - Validation/HGCalValidation/plugins/HGCalHitValidation.cc
           // - Validation/HGCalValidation/plugins/HGCGeometryValidation.cc
 	  //
@@ -123,15 +123,16 @@ class HcalTupleMaker_HGCSimHits : public edm::EDProducer {
 	  if (subdet != static_cast<int>(HcalEndcap)) continue;
 
 	  HcalCellType::HcalCell hccell = hcCons_->cell(subdet, z, lay, eta, phi);
-	  double zp  = hccell.rz/10;  // mm -> cm
+	  //double zp  = hccell.rz/10*tanh(hccell.eta);  // mm -> cm
+	  double zp  = hccell.rz/10;  // mm -> cm, rz is actually Z?
 	  int sign = (z==0)?(-1):(1);
 	  zp      *= sign;
 	  double rho = zp*tan(2.0*atan(exp(-hccell.eta)));
 	  double xp  = rho * cos(hccell.phi); //cm
 	  double yp  = rho * sin(hccell.phi); //cm
-
+	 
 	  //
-	  // Older 
+	  // HcalHitRelabeller method:
 	  // - Validation/HGCalValidation/plugins/HGCalSimHitValidation.cc
 	  //
 	  HcalDetId detId = HcalHitRelabeller::relabel(id_,hcConr_);
@@ -151,25 +152,48 @@ class HcalTupleMaker_HGCSimHits : public edm::EDProducer {
 					 << subdet << " " << cell << " " << sector << std::endl;
 
 	  std::pair<double,double> etaphi = hcConr_->getEtaPhi(subdet,zside*cell,sector);
-	  double rz = hcConr_->getRZ(subdet,zside*cell,layer);	  
+	  double rz = hcConr_->getRZ(subdet,zside*cell,layer);	  // This is actually Z?
 	  
+	  /*
 	  gcoord = HepGeom::Point3D<float>(rz*cos(etaphi.second)/cosh(etaphi.first),
 					   rz*sin(etaphi.second)/cosh(etaphi.first),
 					   rz*tanh(etaphi.first));
+	  */
+	  gcoord = HepGeom::Point3D<float>(rz*cos(etaphi.second)/cosh(etaphi.first)/tanh(etaphi.first),
+					   rz*sin(etaphi.second)/cosh(etaphi.first)/tanh(etaphi.first),
+					   rz);
 
-	  if (debug) std::cout << "HCAL geom comparison: "
-		  << "(" << xp         << ", " << yp         << ", " << zp         << ") "  
-		  << "(" << gcoord.x() << ", " << gcoord.y() << ", " << gcoord.z() << ") "  
-		  << std::endl;
 	  //
-	  // Use HcalTestNumbering::unpackHcalIndex based method at the end
+	  // Use CaloCellGeometry getPosition
 	  // 
-	  gcoord = HepGeom::Point3D<float>(xp,yp,zp);
+	  const CaloCellGeometry* cellGeometry = hcGeometry_->getGeometry(detId);
+	  //hcGeometry_ = geo->getSubdetectorGeometry(DetId::Hcal,HcalBarrel);
+	  //double etaS = cellGeometry->getPosition().eta();
+	  //double phiS = cellGeometry->getPosition().phi();
 
-	  if (debug) std::cout << "HCAL geom comparison: "
+	  //if (debug) 
+	  std::cout << "HCAL geom comparison: "
+		    << "(" << xp         << ", " << yp         << ", " << zp         << ") "  
+		    << rho << " "
+		    << "(" << gcoord.x() << ", " << gcoord.y() << ", " << gcoord.z() << ") "  
+		    << "(" << cellGeometry->getPosition().x() << ", " << cellGeometry->getPosition().y() << ", " << cellGeometry->getPosition().z() << ") "  
+		    << std::endl;
+
+
+	  //
+	  // Use CaloCellGeometry getPosition() method at the end
+	  // 
+	  gcoord = HepGeom::Point3D<float>(cellGeometry->getPosition().x(),
+					   cellGeometry->getPosition().y(),
+					   cellGeometry->getPosition().z());
+
+	  /*
+	  //if (debug)
+	  std::cout << "HCAL geom comparison: "
 		  << "(" << xp         << ", " << yp         << ", " << zp         << ") "  
 		  << "(" << gcoord.x() << ", " << gcoord.y() << ", " << gcoord.z() << ") "  
 		  << std::endl;
+	  */
 
 	} else {
 
