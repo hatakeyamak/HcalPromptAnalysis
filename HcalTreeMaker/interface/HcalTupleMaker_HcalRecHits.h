@@ -120,6 +120,5 @@ class HcalTupleMaker_HcalRecHits : public edm::EDProducer {
 typedef HcalTupleMaker_HcalRecHits<HBHERecHitCollection> HcalTupleMaker_HBHERecHits;
 typedef HcalTupleMaker_HcalRecHits<HORecHitCollection  > HcalTupleMaker_HORecHits;
 typedef HcalTupleMaker_HcalRecHits<HFRecHitCollection  > HcalTupleMaker_HFRecHits;
-//typedef HcalTupleMaker_HcalRecHits<HGCRecHitCollection > HcalTupleMaker_HGCRecHits;
 
 #endif

@@ -7,10 +7,9 @@
 #include "HcalPromptAnalysis/HcalTreeMaker/interface/HcalTupleMaker_QIE10Digis.h"
 #include "HcalPromptAnalysis/HcalTreeMaker/interface/HcalTupleMaker_QIE11Digis.h"
 #include "HcalPromptAnalysis/HcalTreeMaker/interface/HcalTupleMaker_HcalRecHits.h"
-#include "HcalPromptAnalysis/HcalTreeMaker/interface/HcalTupleMaker_HGCRecHits.h"
+#include "HcalPromptAnalysis/HcalTreeMaker/interface/HcalTupleMaker_HcalSimHits.h"
 #include "HcalPromptAnalysis/HcalTreeMaker/interface/HcalTupleMaker_GenParticles.h"
 #include "HcalPromptAnalysis/HcalTreeMaker/interface/HcalTupleMaker_HcalTriggerPrimitives.h"
-#include "HcalPromptAnalysis/HcalTreeMaker/interface/HcalTupleMaker_HGCSimHits.h"
 
 DEFINE_FWK_MODULE(HcalTupleMaker_Tree);
 DEFINE_FWK_MODULE(HcalTupleMaker_Event);
@@ -18,11 +17,12 @@ DEFINE_FWK_MODULE(HcalTupleMaker_GenParticles);
 DEFINE_FWK_MODULE(HcalTupleMaker_HBHERecHits);
 DEFINE_FWK_MODULE(HcalTupleMaker_HORecHits);
 DEFINE_FWK_MODULE(HcalTupleMaker_HFRecHits);
-DEFINE_FWK_MODULE(HcalTupleMaker_HGCRecHits);
+DEFINE_FWK_MODULE(HcalTupleMaker_HcalSimHits);
+DEFINE_FWK_MODULE(HcalTupleMaker_HORecHits);
+DEFINE_FWK_MODULE(HcalTupleMaker_HFRecHits);
 DEFINE_FWK_MODULE(HcalTupleMaker_HBHEDigis);
 DEFINE_FWK_MODULE(HcalTupleMaker_HODigis);
 DEFINE_FWK_MODULE(HcalTupleMaker_HFDigis);
 DEFINE_FWK_MODULE(HcalTupleMaker_QIE10Digis);
 DEFINE_FWK_MODULE(HcalTupleMaker_QIE11Digis);
 DEFINE_FWK_MODULE(HcalTupleMaker_HcalTriggerPrimitives);
-DEFINE_FWK_MODULE(HcalTupleMaker_HGCSimHits);
