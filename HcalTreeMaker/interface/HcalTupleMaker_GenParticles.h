@@ -6,6 +6,7 @@
 #include "FWCore/Utilities/interface/InputTag.h"
 #include "FWCore/Framework/interface/Event.h"
 #include <DataFormats/HepMCCandidate/interface/GenParticle.h>
+#include "SimDataFormats/GeneratorProducts/interface/HepMCProduct.h"
 
 class HcalTupleMaker_GenParticles : public edm::EDProducer {
  public:
@@ -15,9 +16,11 @@ class HcalTupleMaker_GenParticles : public edm::EDProducer {
   void produce( edm::Event &, const edm::EventSetup & );
   const edm::InputTag   inputTag;
   const std::string     prefix,suffix;
-
+  
   edm::EDGetTokenT<edm::View<reco::GenParticle>> genCollectionToken_;
+  edm::EDGetTokenT<edm::HepMCProduct> HepMCToken_;
   bool debug;
+  bool bool_HepMCProduct;
 
 };
 

@@ -6,7 +6,8 @@
 HcalTupleMaker_GenParticles::HcalTupleMaker_GenParticles(const edm::ParameterSet& iConfig):
   inputTag    (iConfig.getUntrackedParameter<edm::InputTag>("source")),
   prefix      (iConfig.getUntrackedParameter<std::string>  ("Prefix")),
-  suffix      (iConfig.getUntrackedParameter<std::string>  ("Suffix"))
+  suffix      (iConfig.getUntrackedParameter<std::string>  ("Suffix")),
+  bool_HepMCProduct (iConfig.getUntrackedParameter<bool>("HepMCProduct"))
 {
 
   produces< std::vector< double > >(prefix + "Pt"  + suffix );
@@ -19,6 +20,7 @@ HcalTupleMaker_GenParticles::HcalTupleMaker_GenParticles(const edm::ParameterSet
   //produces< std::vector< int > >(prefix + "ParentId" + suffix );
 
   genCollectionToken_ = consumes<edm::View<reco::GenParticle>>(inputTag);
+  HepMCToken_ = consumes<edm::HepMCProduct>(inputTag);
 
 }
 
@@ -34,22 +36,44 @@ void HcalTupleMaker_GenParticles::produce(edm::Event& iEvent, const edm::EventSe
   //std::unique_ptr<std::vector<int   > >            parent            ( new std::vector<int>              ());
   //std::unique_ptr<std::vector<int   > >            parentid          ( new std::vector<int>              ());
 
-  edm::Handle< edm::View<reco::GenParticle> > genPartCands;
-  iEvent.getByToken(genCollectionToken_, genPartCands);
+  if (!bool_HepMCProduct) {
+    
+    edm::Handle< edm::View<reco::GenParticle> > genPartCands;
+    iEvent.getByToken(genCollectionToken_, genPartCands);
 
-  for(edm::View<reco::GenParticle>::const_iterator iPart = genPartCands->begin(); iPart != genPartCands->end(); ++iPart)
-    {
+    for(edm::View<reco::GenParticle>::const_iterator iPart = genPartCands->begin(); iPart != genPartCands->end(); ++iPart)
+      {
+	
+	pt->push_back(iPart->pt());
+	eta->push_back(iPart->eta());
+	phi->push_back(iPart->phi());
+	mass->push_back(iPart->mass());
 
-      pt->push_back(iPart->pt());
-      eta->push_back(iPart->eta());
-      phi->push_back(iPart->phi());
-      mass->push_back(iPart->mass());
+	pdgid->push_back(iPart->pdgId());
+	status->push_back(iPart->status());
+	
+      }
 
-      pdgid->push_back(iPart->pdgId());
-      status->push_back(iPart->status());
+  } else {
 
+    edm::Handle<edm::HepMCProduct> evtMC;
+    iEvent.getByToken(HepMCToken_,evtMC);
+
+    const HepMC::GenEvent * myGenEvent = evtMC->GetEvent();
+    for ( HepMC::GenEvent::particle_const_iterator p = myGenEvent->particles_begin();
+	  p != myGenEvent->particles_end(); ++p ) {
+
+      pt->push_back((*p)->momentum().perp());
+      eta->push_back((*p)->momentum().eta());
+      phi->push_back((*p)->momentum().phi());
+      mass->push_back((*p)->momentum().m());
+      pdgid->push_back((*p)->pdg_id());
+      status->push_back((*p)->status());
+      
     }
 
+  }
+    
   iEvent.put(move( pt              ) , prefix + "Pt"            + suffix );
   iEvent.put(move( eta             ) , prefix + "Eta"           + suffix );
   iEvent.put(move( phi             ) , prefix + "Phi"           + suffix );

@@ -114,7 +114,7 @@ process.tuple_step = cms.Sequence(
     #process.hcalTupleTriggerPrimitives*
     # Make HCAL tuples: reco info
     process.hcalTupleHBHERecHits*
-    # Make HCAL tuples: simhit info
+    # Make HCAL tuples: gen & simhit info
     process.hcalTupleHcalSimHits*
     process.hcalTupleGenParticles*
     #

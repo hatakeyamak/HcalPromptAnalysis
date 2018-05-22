@@ -103,6 +103,7 @@ process.tuple_step = cms.Sequence(
     #process.hcalTupleTriggerPrimitives*
     # Make HCAL tuples: reco info
     process.hcalTupleHBHERecHits*
+    # Make HCAL tuples: gen info
     process.hcalTupleGenParticles*
     #
     process.hcalTupleTree
