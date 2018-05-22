@@ -1,3 +1,33 @@
+
+## HCAL tuple maker for CaloScan
+
+```
+# assuming we are using the release CMSSW_10_2_0_pre3
+export MYCMSSW=CMSSW_10_2_0_pre3
+cmsrel $MYCMSSW
+cd $MYCMSSW/src
+cmsenv
+
+git clone git@github.com:BaylorCMS/HcalPromptAnalysis.git
+scramv1 b -j 8
+cd HcalPromptAnalysis/HcalTreeMaker/test/CaloScan
+
+#check template.py
+./make_configs.csh
+
+# prepare for submission to condor
+voms-proxy-init -valid 192:0 -voms cms
+mkdir -p /cms/data/store/user/$USER/condor
+cd ../../../../../..
+tar -zcvf '/cms/data/store/user/'$USER'/condor/'$MYCMSSW'_condor.tgz' $MYCMSSW --exclude=tmp
+cd $MYCMSSW/src/HcalPromptAnalysis/HcalTreeMaker/test/CaloScan
+
+```
+
+- - - -
+
+## Scratch note
+
 (1) cmsrel CMSSW_7_6_0_pre4 (for instance)
 
 (2) cd CMSSW_7_6_0_pre4/src

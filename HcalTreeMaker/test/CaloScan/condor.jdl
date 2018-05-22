@@ -1,0 +1,11 @@
+universe = vanilla
+Executable = cmsRun.csh
+Should_Transfer_Files = YES
+WhenToTransferOutput = ON_EXIT
+Transfer_Input_Files = cmsRun.csh, pi50.py
+Output = condorjob_$(Cluster)_$(Process).stdout
+Error = condorjob_$(Cluster)_$(Process).stderr
+Log = condorjob_$(Cluster)_$(Process).log
+x509userproxy = $ENV(X509_USER_PROXY)
+Arguments = $(Process)
+Queue 1
