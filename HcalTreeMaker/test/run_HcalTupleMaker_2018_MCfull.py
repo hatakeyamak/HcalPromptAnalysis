@@ -21,8 +21,8 @@ options.register ('skipEvents', 0, VarParsing.VarParsing.multiplicity.singleton,
 #
 # pt=50 GeV sample
 options.inputFiles = '/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-RECO/101X_upgrade2018_realistic_v7-v1/10000/BCE80CB8-F13C-E811-A56A-0CC47A4C8F06.root','/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-RECO/101X_upgrade2018_realistic_v7-v1/10000/24C51D80-F23C-E811-ABC9-0025905B8582.root','/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-RECO/101X_upgrade2018_realistic_v7-v1/10000/F04155FA-F73C-E811-87D9-0CC47A7C347E.root','/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-RECO/101X_upgrade2018_realistic_v7-v1/10000/3C845010-F93C-E811-ADEB-0025905A6076.root'
-#options.secondaryInputFiles = '/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/10000/08F9E721-EC3C-E811-B87E-0CC47A4D766C.root','/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/10000/407C5724-EC3C-E811-BF1A-0CC47A7C347E.root','/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/10000/04DE4232-EB3C-E811-AAC5-0025905A606A.root','/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/10000/BA873832-EB3C-E811-B4E7-0025905A48F2.root','/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/10000/E63A1431-EB3C-E811-AB84-0025905A48D8.root','/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/10000/0CE933F9-F23C-E811-97A3-0025905A612E.root','/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/10000/9277AFC4-F13C-E811-8AB8-0025905B85B6.root'
-options.outputFile = 'relval_ttbar_2018.root'
+options.secondaryInputFiles = '/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/10000/08F9E721-EC3C-E811-B87E-0CC47A4D766C.root','/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/10000/407C5724-EC3C-E811-BF1A-0CC47A7C347E.root','/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/10000/04DE4232-EB3C-E811-AAC5-0025905A606A.root','/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/10000/BA873832-EB3C-E811-B4E7-0025905A48F2.root','/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/10000/E63A1431-EB3C-E811-AB84-0025905A48D8.root','/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/10000/0CE933F9-F23C-E811-97A3-0025905A612E.root','/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/10000/9277AFC4-F13C-E811-8AB8-0025905B85B6.root'
+options.outputFile = 'relval_ttbar_2018_MCfull.root'
 #
 options.maxEvents = 10 # -1 means all events
 #options.skipEvents = 0 # default is 0.
@@ -78,6 +78,7 @@ process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_Tree_cfi")
 process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_Event_cfi")
 process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_GenParticles_cfi")
 process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HBHERecHits_cfi")
+process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HcalSimHits_cfi")
 process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HBHEDigis_cfi")
 process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HFDigis_cfi")
 process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HODigis_cfi")
@@ -90,6 +91,16 @@ from Configuration.AlCa.GlobalTag import GlobalTag
 #process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:phase1_2018_realistic', '')
 
+#----------------------------
+# Paths/Sequences Definitions
+#----------------------------
+#process.load("RecoLocalCalo.Configuration.hcalLocalReco_cff")
+#process.load("EventFilter.HcalRawToDigi.HcalRawToDigi_cfi")
+
+process.digiPath = cms.Path(
+    process.hcalDigis
+)
+
 #------------------------------------------------------------------------------------
 # HcalTupleMaker sequence definition
 #------------------------------------------------------------------------------------
@@ -97,12 +108,14 @@ process.tuple_step = cms.Sequence(
     # Make HCAL tuples: Event, run, ls number
     process.hcalTupleEvent*
     # Make HCAL tuples: digi info
-    #process.hcalTupleHBHEDigis*
-    #process.hcalTupleHODigis*
-    #process.hcalTupleHFDigis*
+    process.hcalTupleHBHEDigis*
+    process.hcalTupleHODigis*
+    process.hcalTupleHFDigis*
     #process.hcalTupleTriggerPrimitives*
     # Make HCAL tuples: reco info
     process.hcalTupleHBHERecHits*
+    # Make HCAL tuples: simhit info
+    process.hcalTupleHcalSimHits*
     process.hcalTupleGenParticles*
     #
     process.hcalTupleTree
