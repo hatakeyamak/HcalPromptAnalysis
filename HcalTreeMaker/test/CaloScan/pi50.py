@@ -1,6 +1,7 @@
 import sys
 jobid=sys.argv[2]
 firstEvt=1+2000*int(jobid)
+print firstEvt
 
 import FWCore.ParameterSet.Config as cms
 
@@ -32,7 +33,7 @@ process.load("DQMServices.Core.DQMStore_cfi")
 process.load("DQMServices.Components.MEtoEDMConverter_cfi")
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10) 
+    input = cms.untracked.int32(2000) 
 )
 # Input source
 process.source = cms.Source("PoolSource",
@@ -95,7 +96,7 @@ process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HcalTriggerPrimiti
 #------------------------------------------------------------------------------------
 import FWCore.ParameterSet.VarParsing as VarParsing
 options = VarParsing.VarParsing ('analysis')
-options.outputFile = 'trees_MCfull.root'
+options.outputFile = 'pi50_trees_MCfull.root'
 process.TFileService = cms.Service("TFileService", 
                                    fileName = cms.string(options.outputFile)
 )

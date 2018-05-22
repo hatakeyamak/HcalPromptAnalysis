@@ -22,6 +22,8 @@ cd ../../../../../..
 tar -zcvf '/cms/data/store/user/'$USER'/condor/'$MYCMSSW'_condor.tgz' $MYCMSSW --exclude=tmp
 cd $MYCMSSW/src/HcalPromptAnalysis/HcalTreeMaker/test/CaloScan
 
+# submit
+condor_submit condor.jdl
 ```
 
 - - - -

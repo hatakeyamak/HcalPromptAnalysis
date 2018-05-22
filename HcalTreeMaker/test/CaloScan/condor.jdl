@@ -1,11 +1,17 @@
+#universe = grid
+#grid_resource = condor kodiak-ce.baylor.edu kodiak-ce.baylor.edu:9619
+#+remote_queue = "batch"
+#use_x509userproxy = true
 universe = vanilla
+#
 Executable = cmsRun.csh
 Should_Transfer_Files = YES
 WhenToTransferOutput = ON_EXIT
 Transfer_Input_Files = cmsRun.csh, pi50.py
 Output = condorjob_$(Cluster)_$(Process).stdout
-Error = condorjob_$(Cluster)_$(Process).stderr
+Error = condorjob_$(Cluster)_$(Process).stdout
 Log = condorjob_$(Cluster)_$(Process).log
 x509userproxy = $ENV(X509_USER_PROXY)
 Arguments = $(Process)
-Queue 1
+Queue 25
+
