@@ -16,7 +16,7 @@ process = cms.Process("Trees",eras.Run2_2018)
 options.register ('skipEvents', 0, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.int, "no of skipped events")
 #
 # Dataset e.g.
-# dasgoclient --query 'dataset dataset=/RelValTTbar_13/CMSSW_10_2_0_pre1-*realistic*/GEN-SIM-RECO'                 
+# dasgoclient --query 'dataset dataset=/RelValTTbar_13/CMSSW_10_2_0_pre3-*realistic*/GEN-SIM-RECO'                 
 # dasgoclient --query 'file dataset=/RelValTTbar_13/CMSSW_10_2_0_pre3-101X_upgrade2018_realistic_v7-v1/GEN-SIM-RECO'
 #
 # TTbar sample
