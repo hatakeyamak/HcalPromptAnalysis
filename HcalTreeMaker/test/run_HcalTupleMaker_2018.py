@@ -15,13 +15,13 @@ process = cms.Process("Trees",eras.Run2_2018)
 
 options.register ('skipEvents', 0, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.int, "no of skipped events")
 #
-# Dataset
-# /RelValSinglePiPt25Eta1p7_2p7/CMSSW_9_3_2-93X_upgrade2023_realistic_v2_2023D17noPU-v1/GEN-SIM-RECO
-# /SinglePiPt*Eta1p6_2p8/PhaseIITDRFall17*93X_upgrade2023_realistic_v2*/GEN-SIM-RECO
+# Dataset e.g.
+# dasgoclient --query 'dataset dataset=/RelValTTbar_13/CMSSW_10_2_0_pre1-*realistic*/GEN-SIM-RECO'                 
+# dasgoclient --query 'file dataset=/RelValTTbar_13/CMSSW_10_2_0_pre3-101X_upgrade2018_realistic_v7-v1/GEN-SIM-RECO'
 #
-# pt=50 GeV sample
-options.inputFiles = '/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-RECO/101X_upgrade2018_realistic_v7-v1/10000/BCE80CB8-F13C-E811-A56A-0CC47A4C8F06.root','/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-RECO/101X_upgrade2018_realistic_v7-v1/10000/24C51D80-F23C-E811-ABC9-0025905B8582.root','/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-RECO/101X_upgrade2018_realistic_v7-v1/10000/F04155FA-F73C-E811-87D9-0CC47A7C347E.root','/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-RECO/101X_upgrade2018_realistic_v7-v1/10000/3C845010-F93C-E811-ADEB-0025905A6076.root'
-#options.secondaryInputFiles = '/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/10000/08F9E721-EC3C-E811-B87E-0CC47A4D766C.root','/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/10000/407C5724-EC3C-E811-BF1A-0CC47A7C347E.root','/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/10000/04DE4232-EB3C-E811-AAC5-0025905A606A.root','/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/10000/BA873832-EB3C-E811-B4E7-0025905A48F2.root','/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/10000/E63A1431-EB3C-E811-AB84-0025905A48D8.root','/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/10000/0CE933F9-F23C-E811-97A3-0025905A612E.root','/store/relval/CMSSW_10_2_0_pre1/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/10000/9277AFC4-F13C-E811-8AB8-0025905B85B6.root'
+# TTbar sample
+options.inputFiles = '/store/relval/CMSSW_10_2_0_pre3/RelValTTbar_13/GEN-SIM-RECO/101X_upgrade2018_realistic_v7-v1/20000/D8D612AA-0153-E811-9080-0CC47A4D7614.root','/store/relval/CMSSW_10_2_0_pre3/RelValTTbar_13/GEN-SIM-RECO/101X_upgrade2018_realistic_v7-v1/20000/0C125E68-0153-E811-93FB-0025905A60A8.root','/store/relval/CMSSW_10_2_0_pre3/RelValTTbar_13/GEN-SIM-RECO/101X_upgrade2018_realistic_v7-v1/20000/C2B32CAF-0253-E811-9221-0025905A607E.root'
+#options.secondaryInputFiles = '/store/relval/CMSSW_10_2_0_pre3/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/20000/D8EFF5FA-F552-E811-AC44-0CC47A7C3638.root','/store/relval/CMSSW_10_2_0_pre3/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/20000/B28C2E00-F652-E811-B1E4-0CC47A78A3EC.root','/store/relval/CMSSW_10_2_0_pre3/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/20000/BA2C73FF-F552-E811-9923-0CC47A4D767A.root','/store/relval/CMSSW_10_2_0_pre3/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/20000/82A8DE13-F652-E811-87CD-0CC47A7C35A8.root','/store/relval/CMSSW_10_2_0_pre3/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/20000/EACBA822-F652-E811-AEA8-0CC47A4C8E26.root','/store/relval/CMSSW_10_2_0_pre3/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/20000/0C0BAB5E-F752-E811-958A-0025905A48D0.root'
 options.outputFile = 'relval_ttbar_2018.root'
 #
 options.maxEvents = 10 # -1 means all events
