@@ -1,7 +1,9 @@
 import sys
 jobid=sys.argv[2]
-firstEvt=1+2000*int(jobid)
-print firstEvt
+nevt=sys.argv[3]
+firstEvt=1+int(nevt)*int(jobid)
+Nevt=int(nevt)
+print jobid,nevt,firstEvt
 
 import FWCore.ParameterSet.Config as cms
 
@@ -33,7 +35,7 @@ process.load("DQMServices.Core.DQMStore_cfi")
 process.load("DQMServices.Components.MEtoEDMConverter_cfi")
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(2000) 
+    input = cms.untracked.int32(Nevt) 
 )
 # Input source
 process.source = cms.Source("PoolSource",
@@ -89,6 +91,7 @@ process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HcalSimHits_cfi")
 process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HBHEDigis_cfi")
 process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HFDigis_cfi")
 process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HODigis_cfi")
+process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_QIE11Digis_cfi")
 process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HcalTriggerPrimitives_cfi")
 
 #------------------------------------------------------------------------------------
@@ -110,6 +113,7 @@ process.tuple_step = cms.Sequence(
     process.hcalTupleHBHEDigis*
     process.hcalTupleHODigis*
     process.hcalTupleHFDigis*
+    process.hcalTupleQIE11Digis*
     #process.hcalTupleTriggerPrimitives*
     # Make HCAL tuples: reco info
     process.hcalTupleHBHERecHits*

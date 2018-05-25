@@ -112,6 +112,7 @@ public:
       produces<std::vector<int>   >               ( m_prefix + "FiberIdleOffset" + m_suffix );
       produces<std::vector<int>   >               ( m_prefix + "ElectronicsID"   + m_suffix );
       produces<std::vector<int>   >               ( m_prefix + "RawID"           + m_suffix );
+      produces<std::vector<int>   >               ( m_prefix + "SOI"           + m_suffix );
     
       produces<std::vector<std::vector<int>   > > ( m_prefix + "DV"              + m_suffix );	     	
       produces<std::vector<std::vector<int>   > > ( m_prefix + "ER"              + m_suffix );	     	
@@ -157,6 +158,7 @@ protected:
     algo.fiberIdleOffset = std::unique_ptr<std::vector<int> >                 ( new std::vector<int>   ());
     algo.electronicsId   = std::unique_ptr<std::vector<int> >                 ( new std::vector<int>   ());
     algo.rawId           = std::unique_ptr<std::vector<int> >                 ( new std::vector<int>   ());
+    algo.soi             = std::unique_ptr<std::vector<int> >                 ( new std::vector<int>   ());
     algo.rec_energy      = std::unique_ptr<std::vector<float> >               ( new std::vector<float> ());
     algo.rec_time        = std::unique_ptr<std::vector<float> >               ( new std::vector<float> ());
 
@@ -192,6 +194,7 @@ protected:
     iEvent.put( move(algo.fiberIdleOffset ), m_prefix + "FiberIdleOffset" + m_suffix );
     iEvent.put( move(algo.electronicsId   ), m_prefix + "ElectronicsID"   + m_suffix );
     iEvent.put( move(algo.rawId           ), m_prefix + "RawID"           + m_suffix );
+    iEvent.put( move(algo.soi             ), m_prefix + "SOI"             + m_suffix );
    
     iEvent.put( move(algo.dv              ), m_prefix + "DV"              + m_suffix );
     iEvent.put( move(algo.er              ), m_prefix + "ER"              + m_suffix );

@@ -19,7 +19,7 @@ cd HcalPromptAnalysis/HcalTreeMaker/test/CaloScan
 voms-proxy-init -valid 192:0 -voms cms
 mkdir -p /cms/data/store/user/$USER/condor
 cd ../../../../../..
-tar -zcvf '/cms/data/store/user/'$USER'/condor/'$MYCMSSW'_condor.tgz' $MYCMSSW --exclude=tmp
+tar -zcvf '/cms/data/store/user/'$USER'/condor/'$MYCMSSW'_condor.tgz' $MYCMSSW --exclude=tmp --exclude=test --exclude='*.root'
 cd $MYCMSSW/src/HcalPromptAnalysis/HcalTreeMaker/test/CaloScan
 
 # submit

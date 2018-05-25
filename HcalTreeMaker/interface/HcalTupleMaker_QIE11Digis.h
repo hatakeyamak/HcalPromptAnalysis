@@ -9,6 +9,18 @@
 #include "DataFormats/HcalDigi/interface/HcalUMNioDigi.h"
 #include "DataFormats/HcalDetId/interface/HcalGenericDetId.h"
 
+#include "CalibFormats/HcalObjects/interface/HcalDbRecord.h"
+#include "CalibFormats/HcalObjects/interface/HcalCoderDb.h"
+#include "CalibFormats/HcalObjects/interface/HcalCalibrations.h"
+#include "CondFormats/HcalObjects/interface/HcalQIEShape.h"
+
+#include "CalibFormats/HcalObjects/interface/HcalDbService.h"
+#include "DataFormats/HcalDigi/interface/HcalDigiCollections.h"
+
+#include "Geometry/CaloTopology/interface/HcalTopology.h"
+
+#include "Geometry/CaloGeometry/interface/CaloGeometry.h"
+
 class HcalTupleMaker_QIE11Digis : public edm::EDProducer {
 public:
   explicit HcalTupleMaker_QIE11Digis(const edm::ParameterSet&);
@@ -22,6 +34,10 @@ private:
   
   edm::EDGetTokenT<HcalDataFrameContainer<QIE11DataFrame> > qie11digisToken_;
   edm::EDGetTokenT<HcalUMNioDigi> _tokuMNio;
+
+  edm::ESHandle<HcalDbService> conditions;
+  edm::ESHandle<CaloGeometry> geometry;
+  
 };
 
 #endif

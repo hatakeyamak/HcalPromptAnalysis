@@ -8,6 +8,7 @@
 #include "FWCore/Framework/interface/Event.h"
 #include "DataFormats/HcalDigi/interface/HcalDigiCollections.h"
 
+
 // NEEDS UPDATING
 double adc2fC_QIE11[256]={
   // - - - - - - - range 0 - - - - - - - -
@@ -90,7 +91,7 @@ HcalTupleMaker_QIE11Digis::HcalTupleMaker_QIE11Digis(const edm::ParameterSet& iC
   produces<std::vector<int>   >                  ( "QIE11DigiLinkError"  );
   produces<std::vector<int>   >                  ( "QIE11DigiCapIDError" );
   produces<std::vector<int>   >                  ( "QIE11DigiFlags"      );
-  produces<std::vector<std::vector<int>   > >    ( "QIE11DigiSOI"        );
+  produces<std::vector<int>   >                  ( "QIE11DigiSOI"        );
   produces<std::vector<std::vector<int>   > >    ( "QIE11DigiADC"        );
   produces<std::vector<std::vector<double>   > > ( "QIE11DigiFC"         );
   produces<std::vector<std::vector<int>   > >    ( "QIE11DigiTDC"        );
@@ -109,7 +110,7 @@ void HcalTupleMaker_QIE11Digis::produce(edm::Event& iEvent, const edm::EventSetu
   std::unique_ptr<std::vector<int> >                    capidEr ( new std::vector<int>   ());
   std::unique_ptr<std::vector<int> >                    flags   ( new std::vector<int>   ());
   // std::unique_ptr<int>                                  lasertype (new int() );
-  std::unique_ptr<std::vector<std::vector<int  > > >    soi     ( new std::vector<std::vector<int  > >   ());
+  std::unique_ptr<std::vector<int> >                    soi     ( new std::vector<int>   ());
   std::unique_ptr<std::vector<std::vector<int  > > >    adc     ( new std::vector<std::vector<int  > >    ());
   std::unique_ptr<std::vector<std::vector<double  > > > fc      ( new std::vector<std::vector<double  > > ());
   std::unique_ptr<std::vector<std::vector<int  > > >    tdc     ( new std::vector<std::vector<int  > >    ());
@@ -119,13 +120,22 @@ void HcalTupleMaker_QIE11Digis::produce(edm::Event& iEvent, const edm::EventSetu
   
   edm::Handle<HcalDataFrameContainer<QIE11DataFrame> >  qie11Digis;
   bool gotqie11digis = iEvent.getByToken(qie11digisToken_, qie11Digis);
+  
+  HcalCalibrations calibrations;
+  CaloSamples tool;
 
+  iSetup.get<HcalDbRecord > ().get(conditions);
+  
   if (!gotqie11digis ) {
 	std::cout << "Could not find QIE11 digis " <<  m_qie11DigisTag << std::endl;
 	use_event = false;
   }
    
   if (use_event) {
+
+    //
+    // Laser related
+    // 
     if (storelaser) {
       edm::Handle<HcalUMNioDigi> cumnio;
       std::cout << "Only using laser events" << std::endl;
@@ -142,7 +152,10 @@ void HcalTupleMaker_QIE11Digis::produce(edm::Event& iEvent, const edm::EventSetu
       std::unique_ptr<int> lasertype (new int());
       iEvent.put(move( lasertype )         , "laserType"      );
     }
-    
+
+    //
+    // QIE11
+    //    
     for (uint32_t i=0; i<qie11Digis->size(); i++) {
       // From: https://github.com/awhitbeck/HFcommissioningAnalysis/blob/b3456c9fe66ef9bcc6c54773d60f768c269a5c74/src/HFanalyzer.cc#L429
       QIE11DataFrame qie11df = (*qie11Digis)[i];
@@ -151,7 +164,15 @@ void HcalTupleMaker_QIE11Digis::produce(edm::Event& iEvent, const edm::EventSetu
       // Extract info on detector location
       DetId detid = qie11df.detid();
       HcalDetId hcaldetid = HcalDetId(detid);
-      
+
+      HcalCalibrations calibrations = conditions->getHcalCalibrations(detid);
+      const HcalQIECoder* channelCoder = conditions->getHcalCoder(detid);
+      const HcalQIEShape* shape = conditions->getHcalShape(channelCoder);
+      HcalCoderDb coder(*channelCoder, *shape);
+      coder.adc2fC(qie11df, tool);
+      int soi_digi = tool.presamples();
+      //int lastbin = tool.size() - 1;
+
       ieta    -> push_back ( hcaldetid.ieta()        );
       iphi    -> push_back ( hcaldetid.iphi()        );
       subdet  -> push_back ( 8/*hcaldetid.subdet()*/ );
@@ -160,7 +181,8 @@ void HcalTupleMaker_QIE11Digis::produce(edm::Event& iEvent, const edm::EventSetu
       linkEr  -> push_back ( qie11df.linkError()     );
       capidEr -> push_back ( qie11df.capidError()    );
       flags   -> push_back ( qie11df.flags()         );
-    
+      soi     -> push_back ( soi_digi );
+      
       if (0) {
 	std::cout << "Printing raw dataframe" << std::endl;
 	std::cout << qie11df << std::endl;
@@ -168,7 +190,7 @@ void HcalTupleMaker_QIE11Digis::produce(edm::Event& iEvent, const edm::EventSetu
 	std::cout << qie11df.samples() << std::endl;
       }
       
-      soi   -> push_back ( std::vector<int  >   () ) ;
+      //KH soi   -> push_back ( std::vector<int  >   () ) ;
       adc   -> push_back ( std::vector<int  >   () ) ;
       fc    -> push_back ( std::vector<double  >() ) ;
       tdc   -> push_back ( std::vector<int  >   () ) ;
@@ -179,11 +201,12 @@ void HcalTupleMaker_QIE11Digis::produce(edm::Event& iEvent, const edm::EventSetu
       int nTS = qie11df.samples();
 
       for (int its=0; its<nTS; ++its) {
-	(*soi  )[last_entry].push_back ( qie11df[its].soi()               ); // soi is a bool, but stored as an int
+	//KH (*soi  )[last_entry].push_back ( qie11df[its].soi()               ); // soi is a bool, but stored as an int
 	(*adc  )[last_entry].push_back ( qie11df[its].adc()               );
-	(*fc   )[last_entry].push_back ( adc2fC_QIE11[qie11df[its].adc()] );
-	(*tdc  )[last_entry].push_back ( qie11df[its].tdc()               );
-	(*capid)[last_entry].push_back ( qie11df[its].capid()             );	
+	//KH (*fc   )[last_entry].push_back ( adc2fC_QIE11[qie11df[its].adc()] );
+	(*fc   )[last_entry].push_back ( tool[its]-calibrations.pedestal(qie11df[its].capid()) );
+	(*tdc  )[last_entry].push_back ( qie11df[its].tdc()                );
+	(*capid)[last_entry].push_back ( qie11df[its].capid()              );	
       }
       
     }

@@ -42,6 +42,7 @@ public:
   std::unique_ptr<std::vector<int> > fiberIdleOffset;
   std::unique_ptr<std::vector<int> > electronicsId;
   std::unique_ptr<std::vector<int> > rawId;
+  std::unique_ptr<std::vector<int> > soi;
 
   std::unique_ptr<std::vector<std::vector<int  > > > dv;
   std::unique_ptr<std::vector<std::vector<int  > > > er;
@@ -133,6 +134,7 @@ public:
 	HcalCoderDb coder (*channelCoder, *shape); 
 	coder.adc2fC ( * digi, tool );
       }
+      int soi_digi = tool.presamples();
 
       //-----------------------------------------------------
       // Skip digis with totalFC less than m_totalFCthreshold
@@ -191,6 +193,7 @@ public:
       fiberIdleOffset -> push_back ( digi      -> fiberIdleOffset () );
       electronicsId   -> push_back ( digi -> elecId().rawId() );
       rawId           -> push_back ( hcalDetIdW -> rawId() );
+      soi             -> push_back ( soi_digi );
 
       dv              -> push_back ( std::vector<int  >() ) ;	     
       er              -> push_back ( std::vector<int  >() ) ;	     
