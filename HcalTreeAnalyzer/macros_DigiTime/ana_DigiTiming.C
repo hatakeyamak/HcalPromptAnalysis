@@ -274,7 +274,7 @@ void HCALCheckRun(TString rootfile, TString outfile, int maxevents=-1, int optio
   
      // Progress indicator 
      ievent++;
-     if(ievent%100==0) cout << "[HCAL analyzer] Processed " << ievent << " out of " << nentries << " events" << endl; 
+     if(ievent%1000==0) cout << "[HCAL analyzer] Processed " << ievent << " out of " << nentries << " events" << endl; 
      if (maxevents>0 && ievent>maxevents) break;
      
      //std::cout << *event << std::endl;
@@ -399,6 +399,9 @@ void HCALCheckRun(TString rootfile, TString outfile, int maxevents=-1, int optio
 	 // goodtest=true; if (fbinSOI<0.1) goodtest=false;
 	 if (goodtest) fill1D(v_hist,"HcalDigiTask_Charge_Prompt_HE", v_ampl);  // total charge for SOI-lastTS
 	 else          fill1D(v_hist,"HcalDigiTask_Charge_Delayed_HE", v_ampl); // total charge for SOI-lastTS
+
+	 if (goodtest) fill1D(v_hist,"HcalDigiTask_SOI_frac_pass_HE", fbinSOI);
+	 else          fill1D(v_hist,"HcalDigiTask_SOI_frac_fail_HE", fbinSOI);
 	 
 	 double aveSimTime=0.;
 	 double sumSimHitE=0.;

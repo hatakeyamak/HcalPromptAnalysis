@@ -2,8 +2,8 @@
 
   gStyle->SetOptStat(0);
   
-  TFile *_file0 = TFile::Open("hcal_histograms_pt50.root");
-  TFile *_file1 = TFile::Open("hcal_histograms_pt50.root");
+  TFile *_file0 = TFile::Open("hcal_histograms_pi50.root");
+  TFile *_file1 = TFile::Open("hcal_histograms_pi50.root");
   _file0->ls();
 
   // - MC
