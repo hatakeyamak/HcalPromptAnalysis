@@ -1,11 +1,11 @@
-import sys
-jobid=sys.argv[2]
-nevt=sys.argv[3]
-firstEvt=1+int(nevt)*int(jobid)
-Nevt=int(nevt)
-print jobid,nevt,firstEvt
-
 import FWCore.ParameterSet.Config as cms
+import FWCore.ParameterSet.VarParsing as VarParsing
+
+options = VarParsing.VarParsing ('analysis')
+options.register ('skipEvents', 0, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.int, "no of skipped events")
+#options.maxEvents = -1 # -1 means all events
+#options.skipEvents = 0 # default is 0.
+options.parseArguments()
 
 from Configuration.StandardSequences.Eras import eras
 
@@ -34,13 +34,15 @@ process.g4SimHits.UseMagneticField = False
 process.load("DQMServices.Core.DQMStore_cfi")
 process.load("DQMServices.Components.MEtoEDMConverter_cfi")
 
+print options.maxEvents,options.skipEvents
+
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(Nevt) 
+    input = cms.untracked.int32(options.maxEvents) 
 )
 # Input source
 process.source = cms.Source("PoolSource",
-    firstEvent = cms.untracked.uint32(firstEvt), 
-    fileNames = cms.untracked.vstring('root://kodiak-se.baylor.edu//store/group/dpg_hcal/common/mc_pi50_eta05.root') 
+    fileNames = cms.untracked.vstring('root://kodiak-se.baylor.edu//store/group/dpg_hcal/common/mc_pi50_eta05.root'),
+    skipEvents = cms.untracked.uint32(options.skipEvents) # default is 0.
 ) 
 
 process.FEVT = cms.OutputModule("PoolOutputModule",

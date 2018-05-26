@@ -23,7 +23,7 @@ ls -R
 cd ${MYCMSSW}/src
 scramv1 b ProjectRename
 eval `scramv1 runtime -csh` # cmsenv is an alias not on the workers
-cmsRun ../../pi50.py ${1} 2000
+cmsRun ../../pi50.py maxEvents=2000 skipEvents=`echo ${1}*2000|bc`
 gfal-copy --just-copy pi50_trees_MCfull.root gsiftp://kodiak-se.baylor.edu/cms/data/store/user/hatake/condor/pi50_trees_MCfull_${MYCMSSW}_${1}_${VERSION}.root
 ### remove the output file if you don't want it automatically transferred when the job ends
 rm pi50_trees_MCfull.root
