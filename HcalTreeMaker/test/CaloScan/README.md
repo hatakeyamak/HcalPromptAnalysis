@@ -12,18 +12,24 @@ git clone git@github.com:BaylorCMS/HcalPromptAnalysis.git
 scramv1 b -j 8
 cd HcalPromptAnalysis/HcalTreeMaker/test/CaloScan
 
-#check template.py
-./make_configs.csh
-
+#
 # prepare for submission to condor
 voms-proxy-init -valid 192:0 -voms cms
-mkdir -p /cms/data/store/user/$USER/condor
-cd ../../../../../..
-tar -zcvf '/cms/data/store/user/'$USER'/condor/'$MYCMSSW'_condor.tgz' $MYCMSSW --exclude=tmp --exclude=test --exclude='*.root'
-cd $MYCMSSW/src/HcalPromptAnalysis/HcalTreeMaker/test/CaloScan
+mkdir -p /cms/data/store/user/${USER}/condor
+../make_tarball.sh
+# also check condor.jdl, cmsRun.csh, pi50.py
 
-# submit
-condor_submit condor.jdl
+#
+# submit to condor or CMSconnect
+# for local condor on n147
+condor_submit submit.jdl
+#
+# or from another sessoon where cmsenv is not run yet, set up CMSconnect tool
+# see: https://twiki.cern.ch/twiki/bin/viewauth/CMS/CMSConnectHATSatLPC2017
+# in particular source <some path>/cmsconnect_client.sh
+# then
+connect submit submit.jdl
+# 
 ```
 
 - - - -
