@@ -19,7 +19,8 @@ cmsRun pi50.py maxEvents=20 skipEvents=0
 #
 # prepare for submission to condor
 voms-proxy-init -valid 192:0 -voms cms
-mkdir -p /cms/data/store/user/${USER}/condor
+mkdir -p /cms/data/store/user/${USER}/condor/tarballs
+mkdir -p /cms/data/store/user/${USER}/condor/outputs
 ../make_tarball.sh
 # also check condor.jdl, cmsRun.csh, pi50.py
 
