@@ -16,7 +16,7 @@
 //
 //   $ root -b  
 //   root> .L ana_DigiTiming.C++ 
-//   root> ana_DigiTiming("root://kodiak-se.baylor.edu//store/user/hatake/HCAL/ntuples/10_2_x/pi50_trees_MCfull.root","hcal_histograms_pt50.root",-1)
+//   root> ana_DigiTiming("/cms/data/store/user/hatake/HCAL/ntuples/10_2_x/pi50_trees_MCfull_CMSSW_10_2_0_pre3_*.root","hcal_timestudy_pi50_histograms.root")
 //    
 // -----------------------------------------------------------------------------------
 // 
@@ -164,6 +164,7 @@ void HCALCheckRun(TString rootfile, TString outfile, int maxevents=-1, int optio
    TTreeReaderArray<vector<float>> HODigiNomFC = {fReader, "HODigiNomFC"};
    TTreeReaderArray<vector<float>> HODigiPedFC = {fReader, "HODigiPedFC"};
    TTreeReaderArray<vector<float>> HODigiRCGain = {fReader, "HODigiRCGain"};
+   TTreeReaderValue<Int_t> laserType = {fReader, "laserType"};
    TTreeReaderArray<int> GenParPdgId = {fReader, "GenParPdgId"};
    TTreeReaderArray<int> GenParStatus = {fReader, "GenParStatus"};
    TTreeReaderArray<int> HBHEDigiDepth = {fReader, "HBHEDigiDepth"};
@@ -173,6 +174,7 @@ void HCALCheckRun(TString rootfile, TString outfile, int maxevents=-1, int optio
    TTreeReaderArray<int> HBHEDigiIPhi = {fReader, "HBHEDigiIPhi"};
    TTreeReaderArray<int> HBHEDigiPresamples = {fReader, "HBHEDigiPresamples"};
    TTreeReaderArray<int> HBHEDigiRawID = {fReader, "HBHEDigiRawID"};
+   TTreeReaderArray<int> HBHEDigiSOI = {fReader, "HBHEDigiSOI"};
    TTreeReaderArray<int> HBHEDigiSize = {fReader, "HBHEDigiSize"};
    TTreeReaderArray<int> HBHEDigiSubdet = {fReader, "HBHEDigiSubdet"};
    TTreeReaderArray<int> HBHERecHitAux = {fReader, "HBHERecHitAux"};
@@ -182,7 +184,6 @@ void HCALCheckRun(TString rootfile, TString outfile, int maxevents=-1, int optio
    TTreeReaderArray<int> HBHERecHitIEta = {fReader, "HBHERecHitIEta"};
    TTreeReaderArray<int> HBHERecHitIPhi = {fReader, "HBHERecHitIPhi"};
    TTreeReaderArray<int> HBHERecHitRBXid = {fReader, "HBHERecHitRBXid"};
-   TTreeReaderArray<int> HBHEDigiSOI = {fReader, "HBHEDigiSOI"};
    TTreeReaderArray<int> HFDigiDepth = {fReader, "HFDigiDepth"};
    TTreeReaderArray<int> HFDigiElectronicsID = {fReader, "HFDigiElectronicsID"};
    TTreeReaderArray<int> HFDigiFiberIdleOffset = {fReader, "HFDigiFiberIdleOffset"};
@@ -190,6 +191,7 @@ void HCALCheckRun(TString rootfile, TString outfile, int maxevents=-1, int optio
    TTreeReaderArray<int> HFDigiIPhi = {fReader, "HFDigiIPhi"};
    TTreeReaderArray<int> HFDigiPresamples = {fReader, "HFDigiPresamples"};
    TTreeReaderArray<int> HFDigiRawID = {fReader, "HFDigiRawID"};
+   TTreeReaderArray<int> HFDigiSOI = {fReader, "HFDigiSOI"};
    TTreeReaderArray<int> HFDigiSize = {fReader, "HFDigiSize"};
    TTreeReaderArray<int> HFDigiSubdet = {fReader, "HFDigiSubdet"};
    TTreeReaderArray<int> HODigiDepth = {fReader, "HODigiDepth"};
@@ -199,6 +201,7 @@ void HCALCheckRun(TString rootfile, TString outfile, int maxevents=-1, int optio
    TTreeReaderArray<int> HODigiIPhi = {fReader, "HODigiIPhi"};
    TTreeReaderArray<int> HODigiPresamples = {fReader, "HODigiPresamples"};
    TTreeReaderArray<int> HODigiRawID = {fReader, "HODigiRawID"};
+   TTreeReaderArray<int> HODigiSOI = {fReader, "HODigiSOI"};
    TTreeReaderArray<int> HODigiSize = {fReader, "HODigiSize"};
    TTreeReaderArray<int> HODigiSubdet = {fReader, "HODigiSubdet"};
    TTreeReaderArray<int> HcalSimHitsDepth = {fReader, "HcalSimHitsDepth"};
@@ -213,8 +216,8 @@ void HCALCheckRun(TString rootfile, TString outfile, int maxevents=-1, int optio
    TTreeReaderArray<int> QIE11DigiIPhi = {fReader, "QIE11DigiIPhi"};
    TTreeReaderArray<int> QIE11DigiLinkError = {fReader, "QIE11DigiLinkError"};
    TTreeReaderArray<int> QIE11DigiRawID = {fReader, "QIE11DigiRawID"};
+   TTreeReaderArray<int> QIE11DigiSOI = {fReader, "QIE11DigiSOI"};
    TTreeReaderArray<int> QIE11DigiSubdet = {fReader, "QIE11DigiSubdet"};
-   TTreeReaderArray<int> QIE11DigiSOI = {fReader, "QIE11DigiSOI"};   
    TTreeReaderArray<vector<int>> HBHEDigiADC = {fReader, "HBHEDigiADC"};
    TTreeReaderArray<vector<int>> HBHEDigiCapID = {fReader, "HBHEDigiCapID"};
    TTreeReaderArray<vector<int>> HBHEDigiDV = {fReader, "HBHEDigiDV"};
@@ -451,7 +454,7 @@ void HCALCheckRun(TString rootfile, TString outfile, int maxevents=-1, int optio
 //
 // Main function
 //
-void ana_DigiTiming(TString rootfile="/cms/data/store/user/hatake/HCAL/ntuples/10_2_x/pi50_trees_MCfull_CMSSW_10_2_0_pre3_*.root",TString outfile="hcal_timestudy_histograms.root",int maxevents=-1)
+void ana_DigiTiming(TString rootfile="/cms/data/store/user/hatake/HCAL/ntuples/10_2_x/pi50_trees_MCfull_CMSSW_10_2_0_pre3_*.root",TString outfile="hcal_timestudy_pi50_histograms.root",int maxevents=-1)
 {
   HCALCheckRun(rootfile, outfile, maxevents, 0);
 }
