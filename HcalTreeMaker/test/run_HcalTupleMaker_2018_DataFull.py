@@ -116,16 +116,6 @@ process.recoPath = cms.Path(
     # *process.MEtoEDMConverter #KH
 )
 
-#
-# Filter isobunches
-#
-process.goodMuons = cms.EDFilter(
-    "CandSelector",
-    cut = cms.string("isGlobalMuon = 1 & pt > 5.0"),
-    src = cms.InputTag("selectedLayer1Muons"),
-    filter = cms.bool(True)
-)
-
 #------------------------------------------------------------------------------------
 # HcalTupleMaker sequence definition
 #------------------------------------------------------------------------------------

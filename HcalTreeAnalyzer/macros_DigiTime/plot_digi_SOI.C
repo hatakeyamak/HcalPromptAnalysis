@@ -101,8 +101,8 @@
   charge_ratio->SetLineStyle(1);
   charge_ratio->Draw();
 
-  c1->Print("plot_charge_prompt_vs_delayed_pi50.png");
-  c1->Print("plot_charge_prompt_vs_delayed_pi50.pdf");
+  c1->Print("plots/plot_charge_prompt_vs_delayed_pi50.png");
+  c1->Print("plots/plot_charge_prompt_vs_delayed_pi50.pdf");
 
   //----------
 
@@ -153,8 +153,8 @@
   charge_ratio_data->SetLineStyle(1);
   charge_ratio_data->Draw();
 
-  c2->Print("plot_charge_prompt_vs_delayed_HLTPhysics2017A.png");
-  c2->Print("plot_charge_prompt_vs_delayed_HLTPhysics2017A.pdf");
+  c2->Print("plots/plot_charge_prompt_vs_delayed_HLTPhysics2017A.png");
+  c2->Print("plots/plot_charge_prompt_vs_delayed_HLTPhysics2017A.pdf");
 
   //----------
   
@@ -240,8 +240,8 @@
   c3_4->Modified();
   c3->cd();
 
-  c3->Print("plot_SOIfrac_pi50.png");
-  c3->Print("plot_SOIfrac_pi50.pdf");
+  c3->Print("plots/plot_SOIfrac_pi50.png");
+  c3->Print("plots/plot_SOIfrac_pi50.pdf");
  
   //----------
   
@@ -327,8 +327,8 @@
   c4_4->Modified();
   c4->cd();
 
-  c4->Print("plot_SOIfrac_HLTPhysics2017A.png");
-  c4->Print("plot_SOIfrac_HLTPhysics2017A.pdf");
+  c4->Print("plots/plot_SOIfrac_HLTPhysics2017A.png");
+  c4->Print("plots/plot_SOIfrac_HLTPhysics2017A.pdf");
  
   //----------
   
@@ -359,8 +359,8 @@
   tl5->AddEntry(SOIfrac_6000_HE,"Q>6000 (fC)");
   tl5->Draw();
 
-  c5->Print("plot_SOIfrac_pi50_Qdep.png");
-  c5->Print("plot_SOIfrac_pi50_Qdep.pdf");
+  c5->Print("plots/plot_SOIfrac_pi50_Qdep.png");
+  c5->Print("plots/plot_SOIfrac_pi50_Qdep.pdf");
   
   //----------
   
@@ -391,8 +391,8 @@
   //tl5->AddEntry(SOIfrac_6000_HE,"Q>6000 (fC)");
   tl5->Draw();
 
-  c5b->Print("plot_SOIfrac_pi50_Qdep_normalized.png");
-  c5b->Print("plot_SOIfrac_pi50_Qdep_normalized.pdf");
+  c5b->Print("plots/plot_SOIfrac_pi50_Qdep_normalized.png");
+  c5b->Print("plots/plot_SOIfrac_pi50_Qdep_normalized.pdf");
   
   //----------
   
@@ -416,8 +416,8 @@
   tl6->AddEntry(SOIfrac_fail_HE,"Q(any non-SOI)>Q(SOI)");
   tl6->Draw();
 
-  c6->Print("plot_SOIfrac_pi50_passfail.png");
-  c6->Print("plot_SOIfrac_pi50_passfail.pdf");
+  c6->Print("plots/plot_SOIfrac_pi50_passfail.png");
+  c6->Print("plots/plot_SOIfrac_pi50_passfail.pdf");
   
   //----------
   
@@ -442,8 +442,8 @@
   tl7->AddEntry(simhit_avetime_delayed,"Q(any non-SOI)>Q(SOI)");
   tl7->Draw();
 
-  c7->Print("plot_simhit_avetime_pi50.png");
-  c7->Print("plot_simhit_avetime_pi50.pdf");
+  c7->Print("plots/plot_simhit_avetime_pi50.png");
+  c7->Print("plots/plot_simhit_avetime_pi50.pdf");
   
   // //----------
 

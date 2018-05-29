@@ -3,7 +3,8 @@ config = Configuration()
 
 config.section_("General")
 #config.General.requestName = 'HcalTupleMaker_RelValMinBias_MCfull'
-config.General.requestName = 'HcalTupleMaker_2018_ZeroBias_DataFull'
+config.General.requestName = 'HcalTupleMaker_2018_ZeroBias_DataFull_v3'
+#config.General.requestName = 'HcalTupleMaker_2018_HLTPhysics_DataFull_v3'
 config.General.transferOutputs = True
 config.General.transferLogs = True
 
@@ -14,6 +15,7 @@ config.JobType.psetName = 'run_HcalTupleMaker_2018_DataFull.py'
 config.JobType.allowUndistributedCMSSW = False
 #config.JobType.outputFiles=['trees_relval_minbias_2018_MCfull.root']
 config.JobType.outputFiles=['trees_2018_ZeroBias_DataFull.root']
+#config.JobType.outputFiles=['trees_2018_HLTPhysics_DataFull.root']
 
 config.section_("Data")
 # MC example
@@ -25,6 +27,7 @@ config.section_("Data")
 # MC example ends
 # Data example
 config.Data.inputDataset = '/ZeroBias/Run2018A-v1/RAW'
+#config.Data.inputDataset = '/HLTPhysics/Run2018A-v1/RAW'
 config.Data.runRange = '315361-315690'
 config.Data.splitting = 'FileBased'
 config.Data.unitsPerJob = 10

@@ -15,8 +15,16 @@
 // Usage : 
 //
 //   $ root -b  
-//   root> .L ana_DigiTiming.C++ 
+//   root> .L ana_DigiTiming.C+
 //   root> ana_DigiTiming("/cms/data/store/user/hatake/HCAL/ntuples/10_2_x/pi50_trees_MCfull_CMSSW_10_2_0_pre3_*.root","hcal_timestudy_pi50_histograms.root")
+//   or
+//   root> ana_DigiTiming("list_trees_pi50_MCfull_CMSSW_10_2_0_pre3.txt","hcal_timestudy_pi50_histograms.root")
+//   or
+//   from command line:
+//   root.exe -b -q 'ana_DigiTiming.C+("list_trees_pi50_MCfull_CMSSW_10_2_0_pre3.txt",   "hcal_timestudy_pi50_histograms.root")' >& log.log &
+//   root.exe -b -q 'ana_DigiTiming.C+("list_trees_minbias_MCfull_CMSSW_10_2_0_pre3.txt","hcal_timestudy_minbias_histograms.root")' >& log.log &
+//   root.exe -b -q 'ana_DigiTiming.C+("list_trees_ttbar_MCfull_CMSSW_10_2_0_pre3.txt",  "hcal_timestudy_ttbar_histograms.root")' >& log.log &
+//   root.exe -b -q 'ana_DigiTiming.C+("list_trees_2017Data_HLTPhysics_CMSSW_10_2_0_pre3.txt",  "hcal_timestudy_2017data_HLTPhysics_histograms.root")' >& log.log &
 //    
 // -----------------------------------------------------------------------------------
 // 
@@ -103,7 +111,27 @@ void HCALCheckRun(TString rootfile, TString outfile, int maxevents=-1, int optio
    // Get the tree from the PFG ntuple 
    //
    TChain *ch = new TChain("hcalTupleTree/tree");
-   ch->Add(rootfile);
+
+   std::string filename(rootfile);
+   std::string::size_type idx;
+   idx = filename.rfind('.');
+   std::string extension = filename.substr(idx+1);
+   std::string line;
+   
+   if(idx != std::string::npos && extension=="txt")
+     {
+       std::cout << rootfile << " " << extension << std::endl;
+       std::ifstream in(rootfile);
+       while (std::getline(in, line)) {     // Process line
+	 if (line.size()>0) ch->Add(line.c_str());
+       }
+     }
+   else
+     {
+       // No extension found
+       ch->Add(rootfile);
+     }
+
    printf("%d;\n",ch->GetNtrees());
    printf("%lld;\n",ch->GetEntries());
 

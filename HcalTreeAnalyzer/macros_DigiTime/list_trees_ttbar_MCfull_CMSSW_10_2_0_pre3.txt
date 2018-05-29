@@ -1,0 +1,3 @@
+root://kodiak-se.baylor.edu//store/user/hatake/HCAL/ntuples/10_2_x/trees_relval_ttbar_2018_MCfull_1.root
+root://kodiak-se.baylor.edu//store/user/hatake/HCAL/ntuples/10_2_x/trees_relval_ttbar_2018_MCfull_2.root
+root://kodiak-se.baylor.edu//store/user/hatake/HCAL/ntuples/10_2_x/trees_relval_ttbar_2018_MCfull_3.root
