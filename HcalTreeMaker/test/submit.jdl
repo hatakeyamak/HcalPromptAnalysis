@@ -18,8 +18,8 @@ Executable = cmsRun.csh
 Should_Transfer_Files = YES
 WhenToTransferOutput = ON_EXIT
 Transfer_Input_Files = cmsRun.csh, run_HcalTupleMaker_2018_MCfull.py
-Output = condorjob_$(Cluster)_$(Process).stdout
-Error = condorjob_$(Cluster)_$(Process).stdout
-Log = condorjob_$(Cluster)_$(Process).log
+Output = log/condorjob_$(Cluster)_$(Process).stdout
+Error = log/condorjob_$(Cluster)_$(Process).stdout
+Log = log/condorjob_$(Cluster)_$(Process).log
 Arguments = $(Process)
 Queue 25

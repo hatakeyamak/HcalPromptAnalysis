@@ -21,6 +21,7 @@ cmsRun run_HcalTupleMaker_2018_MCfull.py maxEvents=10 skipEvents=0
 voms-proxy-init -valid 192:0 -voms cms
 mkdir -p /cms/data/store/user/${USER}/condor/tarballs
 mkdir -p /cms/data/store/user/${USER}/condor/outputs
+mkdir -p log
 ../make_tarball.sh
 # also check condor.jdl, cmsRun.csh, run_HcalTupleMaker_2018_MCfull.py
 

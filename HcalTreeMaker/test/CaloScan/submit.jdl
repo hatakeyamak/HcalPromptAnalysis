@@ -14,9 +14,9 @@ Executable = cmsRun.csh
 Should_Transfer_Files = YES
 WhenToTransferOutput = ON_EXIT
 Transfer_Input_Files = cmsRun.csh, pi50.py
-Output = condorjob_$(Cluster)_$(Process).stdout
-Error = condorjob_$(Cluster)_$(Process).stdout
-Log = condorjob_$(Cluster)_$(Process).log
+Output = log/condorjob_$(Cluster)_$(Process).stdout
+Error = log/condorjob_$(Cluster)_$(Process).stdout
+Log = log/condorjob_$(Cluster)_$(Process).log
 x509userproxy = $ENV(X509_USER_PROXY)
 Arguments = $(Process)
 Queue 25
