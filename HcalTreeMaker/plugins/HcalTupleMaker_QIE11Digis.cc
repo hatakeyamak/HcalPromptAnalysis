@@ -165,6 +165,9 @@ void HcalTupleMaker_QIE11Digis::produce(edm::Event& iEvent, const edm::EventSetu
       DetId detid = qie11df.detid();
       HcalDetId hcaldetid = HcalDetId(detid);
 
+      int sub = hcaldetid.subdet();
+      if (sub!=1 && sub!=2) continue;
+      //KH std::cout << "check1: " << sub << std::endl;
       HcalCalibrations calibrations = conditions->getHcalCalibrations(detid);
       const HcalQIECoder* channelCoder = conditions->getHcalCoder(detid);
       const HcalQIEShape* shape = conditions->getHcalShape(channelCoder);
@@ -172,6 +175,7 @@ void HcalTupleMaker_QIE11Digis::produce(edm::Event& iEvent, const edm::EventSetu
       coder.adc2fC(qie11df, tool);
       int soi_digi = tool.presamples();
       //int lastbin = tool.size() - 1;
+      //KH std::cout << "check2" << std::endl;
 
       ieta    -> push_back ( hcaldetid.ieta()        );
       iphi    -> push_back ( hcaldetid.iphi()        );

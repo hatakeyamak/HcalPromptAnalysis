@@ -6,6 +6,10 @@
 #include "DataFormats/Common/interface/Handle.h"
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/Framework/interface/Event.h"
+/*TP Code*/
+#include "Geometry/CaloTopology/interface/HcalTopology.h"
+#include "CalibFormats/CaloTPG/interface/CaloTPGTranscoder.h"
+#include "CalibFormats/CaloTPG/interface/CaloTPGRecord.h"
 
 HcalTupleMaker_HcalTriggerPrimitives::HcalTupleMaker_HcalTriggerPrimitives(const edm::ParameterSet& iConfig):
   inputTag    (iConfig.getUntrackedParameter<edm::InputTag>("source")),
@@ -14,6 +18,7 @@ HcalTupleMaker_HcalTriggerPrimitives::HcalTupleMaker_HcalTriggerPrimitives(const
   prefix      (iConfig.getUntrackedParameter<std::string>  ("Prefix")),
   suffix      (iConfig.getUntrackedParameter<std::string>  ("Suffix"))
 {
+  produces <std::vector<float> >             (prefix + "Et"              + suffix );
   produces <std::vector<int> >               (prefix + "IEta"            + suffix );
   produces <std::vector<int> >               (prefix + "IPhi"            + suffix );
   produces <std::vector<int> >               (prefix + "CompressedEtSOI" + suffix );
@@ -32,6 +37,7 @@ HcalTupleMaker_HcalTriggerPrimitives::HcalTupleMaker_HcalTriggerPrimitives(const
 
 void HcalTupleMaker_HcalTriggerPrimitives::produce(edm::Event& iEvent, const edm::EventSetup& iSetup){
 
+  std::unique_ptr<std::vector<float > >            Et                ( new std::vector<float>            ());
   std::unique_ptr<std::vector<int   > >            ieta              ( new std::vector<int>              ());
   std::unique_ptr<std::vector<int   > >            iphi              ( new std::vector<int>              ());
   std::unique_ptr<std::vector<int   > >            SOI_compressedEt  ( new std::vector<int>              ());
@@ -43,6 +49,10 @@ void HcalTupleMaker_HcalTriggerPrimitives::produce(edm::Event& iEvent, const edm
   std::unique_ptr<std::vector<std::vector<int> > > hbheDigiIndex     ( new std::vector<std::vector<int> >());
   std::unique_ptr<std::vector<std::vector<int> > > hfDigiIndex       ( new std::vector<std::vector<int> >());
 
+  //TP Code
+  edm::ESHandle<CaloTPGTranscoder> decoder;
+  iSetup.get<CaloTPGRecord>().get(decoder);
+  
   edm::ESHandle<HcalTrigTowerGeometry> geometry;
   iSetup.get<CaloGeometryRecord>().get(geometry);
 
@@ -70,6 +80,8 @@ void HcalTupleMaker_HcalTriggerPrimitives::produce(edm::Event& iEvent, const edm
 
     int nsamples = itp -> size ();
     HcalTrigTowerDetId id = itp -> id();
+
+    float en = decoder->hcaletValue(itp->id(), itp->t0());
     
     ieta              -> push_back ( id.ieta() );
     iphi              -> push_back ( id.iphi() );
@@ -83,6 +95,8 @@ void HcalTupleMaker_HcalTriggerPrimitives::produce(edm::Event& iEvent, const edm
     hbheDigiIndex     -> push_back ( std::vector<int> () );
     hfDigiIndex       -> push_back ( std::vector<int> () );
 
+    Et -> push_back( en );
+    
     size_t last_entry = compressedEt -> size() - 1;
     
     for (int i = 0; i < nsamples; ++i){
@@ -118,7 +132,8 @@ void HcalTupleMaker_HcalTriggerPrimitives::produce(edm::Event& iEvent, const edm
     }
   }
   
-  iEvent.put(move( ieta            )  , prefix + "IEta"            + suffix );
+  iEvent.put(move( Et              ) , prefix + "Et"              + suffix );
+  iEvent.put(move( ieta            ) , prefix + "IEta"            + suffix );
   iEvent.put(move( iphi            ) , prefix + "IPhi"            + suffix );
   iEvent.put(move( SOI_compressedEt) , prefix + "CompressedEtSOI" + suffix );
   iEvent.put(move( SOI_fineGrain   ) , prefix + "FineGrainSOI"    + suffix );

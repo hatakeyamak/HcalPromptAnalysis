@@ -21,7 +21,7 @@ options.register ('skipEvents', 0, VarParsing.VarParsing.multiplicity.singleton,
 # dasgoclient --query 'file dataset=/RelValTTbar_13/CMSSW_10_2_0_pre3-101X_upgrade2018_realistic_v7-v1/GEN-SIM-RECO'
 #
 # MinBias sample
-options.inputFiles = '/store/data/Run2018A/ZeroBias/RAW/v1/000/315/690/00000/848EA8E5-254F-E811-A6A5-FA163EACFE1F.root'
+options.inputFiles = '/store/data/Run2018A/ZeroBias/RAW/v1/000/315/361/00000/005F7E86-654C-E811-BA20-FA163EFD9234.root'
 #options.secondaryInputFiles = 
 options.outputFile = 'trees_2018_ZeroBias_DataFull.root'
 #

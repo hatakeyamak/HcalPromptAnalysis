@@ -94,7 +94,6 @@ public:
     HcalCalibrations  * calibrations = 0;
     HcalQIEShape      * shape        = 0;
     
-    
     CaloSamples tool;
     IntegerCaloSamples itool;
     
@@ -261,7 +260,6 @@ public:
 	  (*FC    )[last_entry].push_back (tmp_FC);
 	  (*energy)[last_entry].push_back (tmp_FC * tmp_gain);
 	  (*gain  )[last_entry].push_back (calibrations -> rawgain ( tmp_capid ));
-	  
 
 	}
       }
@@ -287,6 +285,7 @@ public:
       
       }
     } // end of loop over digis
+
   }
 
   void adc2Linear ( const HBHEDataFrame      & frame, IntegerCaloSamples & tool ){ m_inputCoder -> adc2Linear ( frame, tool ); }

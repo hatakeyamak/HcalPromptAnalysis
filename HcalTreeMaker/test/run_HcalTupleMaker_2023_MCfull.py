@@ -97,8 +97,13 @@ process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_Tree_cfi")
 process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_Event_cfi")
 process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_GenParticles_cfi")
 process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HBHERecHits_cfi")
-process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HGCRecHits_cfi")
-process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HGCSimHits_cfi")
+process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HFRecHits_cfi")
+process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HORecHits_cfi")
+process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HcalSimHits_cfi")
+process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HBHEDigis_cfi")
+process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HFDigis_cfi")
+process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HODigis_cfi")
+process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_QIE11Digis_cfi")
 
 process.load("Validation.HGCalValidation.hgcalHitValidation_cfi")
 
@@ -109,22 +114,35 @@ from Configuration.AlCa.GlobalTag import GlobalTag
 #process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:phase2_realistic', '')
 
+#----------------------------
+# Paths/Sequences Definitions
+#----------------------------
+#process.load("RecoLocalCalo.Configuration.hcalLocalReco_cff")
+#process.load("EventFilter.HcalRawToDigi.HcalRawToDigi_cfi")
+
+process.digiPath = cms.Path(
+    process.hcalDigis
+)
+
 #------------------------------------------------------------------------------------
 # HcalTupleMaker sequence definition
 #------------------------------------------------------------------------------------
 process.tuple_step = cms.Sequence(
     # Make HCAL tuples: Event, run, ls number
     process.hcalTupleEvent*
-    #    # Make HCAL tuples: digi info
-    #    process.hcalTupleHBHEDigis*
-    #    process.hcalTupleHODigis*
-    #    process.hcalTupleHFDigis*
-    #    process.hcalTupleTriggerPrimitives*
-    #    # Make HCAL tuples: reco info
+    # Make HCAL tuples: digi info
+    process.hcalTupleHBHEDigis*
+    process.hcalTupleHODigis*
+    process.hcalTupleHFDigis*
+    process.hcalTupleQIE11Digis*
+    #process.hcalTupleTriggerPrimitives*
+    # Make HCAL tuples: reco info
     process.hcalTupleHBHERecHits*
-    process.hcalTupleHGCRecHits*
+    process.hcalTupleHFRecHits*
+    process.hcalTupleHORecHits*
+    # Make HCAL tuples: gen & simhit info
+    process.hcalTupleHcalSimHits*
     process.hcalTupleGenParticles*
-    process.hcalTupleHGCSimHits*
     #
     process.hcalTupleTree
 )

@@ -18,8 +18,6 @@ DEFINE_FWK_MODULE(HcalTupleMaker_HBHERecHits);
 DEFINE_FWK_MODULE(HcalTupleMaker_HORecHits);
 DEFINE_FWK_MODULE(HcalTupleMaker_HFRecHits);
 DEFINE_FWK_MODULE(HcalTupleMaker_HcalSimHits);
-DEFINE_FWK_MODULE(HcalTupleMaker_HORecHits);
-DEFINE_FWK_MODULE(HcalTupleMaker_HFRecHits);
 DEFINE_FWK_MODULE(HcalTupleMaker_HBHEDigis);
 DEFINE_FWK_MODULE(HcalTupleMaker_HODigis);
 DEFINE_FWK_MODULE(HcalTupleMaker_HFDigis);
