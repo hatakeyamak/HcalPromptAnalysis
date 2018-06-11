@@ -74,7 +74,7 @@ using namespace std;
 
 bool DRAWPLOTS  = false;  // draw plots or not (make "Fig" directory first before turning this on)
 bool VERBOSE    = false;  // print out mean +/- sigma for each channel or not
-
+bool isMC       = false;  // runs SimHits and other checks that will cause crashes if applied to data
 //
 // h2 cosmetics
 //
@@ -142,10 +142,12 @@ void HCALCheckRun(TString rootfile, TString outfile, int maxevents=-1, int optio
    // -- use MakeSelector of root
    //
    // Readers to access the data (delete the ones you do not need).
-   TTreeReaderArray<double> GenParEta = {fReader, "GenParEta"};
-   TTreeReaderArray<double> GenParM = {fReader, "GenParM"};
-   TTreeReaderArray<double> GenParPhi = {fReader, "GenParPhi"};
-   TTreeReaderArray<double> GenParPt = {fReader, "GenParPt"};
+   if (isMC){
+     TTreeReaderArray<double> GenParEta = {fReader, "GenParEta"};
+     TTreeReaderArray<double> GenParM = {fReader, "GenParM"};
+     TTreeReaderArray<double> GenParPhi = {fReader, "GenParPhi"};
+     TTreeReaderArray<double> GenParPt = {fReader, "GenParPt"};
+   } 
    TTreeReaderArray<vector<double>> QIE11DigiFC = {fReader, "QIE11DigiFC"};
    TTreeReaderArray<float> HBHEDigiEta = {fReader, "HBHEDigiEta"};
    TTreeReaderArray<float> HBHEDigiPhi = {fReader, "HBHEDigiPhi"};
@@ -163,14 +165,16 @@ void HCALCheckRun(TString rootfile, TString outfile, int maxevents=-1, int optio
    TTreeReaderArray<float> HODigiPhi = {fReader, "HODigiPhi"};
    TTreeReaderArray<float> HODigiRecEnergy = {fReader, "HODigiRecEnergy"};
    TTreeReaderArray<float> HODigiRecTime = {fReader, "HODigiRecTime"};
-   TTreeReaderArray<float> HcalSimHitsEnergy = {fReader, "HcalSimHitsEnergy"};
-   TTreeReaderArray<float> HcalSimHitsEta = {fReader, "HcalSimHitsEta"};
-   TTreeReaderArray<float> HcalSimHitsPhi = {fReader, "HcalSimHitsPhi"};
-   TTreeReaderArray<float> HcalSimHitsPosx = {fReader, "HcalSimHitsPosx"};
-   TTreeReaderArray<float> HcalSimHitsPosy = {fReader, "HcalSimHitsPosy"};
-   TTreeReaderArray<float> HcalSimHitsPosz = {fReader, "HcalSimHitsPosz"};
-   TTreeReaderArray<float> HcalSimHitsTime = {fReader, "HcalSimHitsTime"};
-   TTreeReaderArray<float> HcalSimHitsTimeTOF = {fReader, "HcalSimHitsTimeTOF"};
+   if (isMC){
+      TTreeReaderArray<float> HcalSimHitsEnergy = {fReader, "HcalSimHitsEnergy"};
+      TTreeReaderArray<float> HcalSimHitsEta = {fReader, "HcalSimHitsEta"};
+      TTreeReaderArray<float> HcalSimHitsPhi = {fReader, "HcalSimHitsPhi"};
+      TTreeReaderArray<float> HcalSimHitsPosx = {fReader, "HcalSimHitsPosx"};
+      TTreeReaderArray<float> HcalSimHitsPosy = {fReader, "HcalSimHitsPosy"};
+      TTreeReaderArray<float> HcalSimHitsPosz = {fReader, "HcalSimHitsPosz"};
+      TTreeReaderArray<float> HcalSimHitsTime = {fReader, "HcalSimHitsTime"};
+      TTreeReaderArray<float> HcalSimHitsTimeTOF = {fReader, "HcalSimHitsTimeTOF"};
+   }
    TTreeReaderArray<vector<float>> HBHEDigiAllFC = {fReader, "HBHEDigiAllFC"};
    TTreeReaderArray<vector<float>> HBHEDigiEnergy = {fReader, "HBHEDigiEnergy"};
    TTreeReaderArray<vector<float>> HBHEDigiFC = {fReader, "HBHEDigiFC"};
@@ -193,8 +197,10 @@ void HCALCheckRun(TString rootfile, TString outfile, int maxevents=-1, int optio
    TTreeReaderArray<vector<float>> HODigiPedFC = {fReader, "HODigiPedFC"};
    TTreeReaderArray<vector<float>> HODigiRCGain = {fReader, "HODigiRCGain"};
    TTreeReaderValue<Int_t> laserType = {fReader, "laserType"};
-   TTreeReaderArray<int> GenParPdgId = {fReader, "GenParPdgId"};
-   TTreeReaderArray<int> GenParStatus = {fReader, "GenParStatus"};
+   if (isMC){
+     TTreeReaderArray<int> GenParPdgId = {fReader, "GenParPdgId"};
+     TTreeReaderArray<int> GenParStatus = {fReader, "GenParStatus"};
+   }
    TTreeReaderArray<int> HBHEDigiDepth = {fReader, "HBHEDigiDepth"};
    TTreeReaderArray<int> HBHEDigiElectronicsID = {fReader, "HBHEDigiElectronicsID"};
    TTreeReaderArray<int> HBHEDigiFiberIdleOffset = {fReader, "HBHEDigiFiberIdleOffset"};
@@ -232,11 +238,13 @@ void HCALCheckRun(TString rootfile, TString outfile, int maxevents=-1, int optio
    TTreeReaderArray<int> HODigiSOI = {fReader, "HODigiSOI"};
    TTreeReaderArray<int> HODigiSize = {fReader, "HODigiSize"};
    TTreeReaderArray<int> HODigiSubdet = {fReader, "HODigiSubdet"};
-   TTreeReaderArray<int> HcalSimHitsDepth = {fReader, "HcalSimHitsDepth"};
-   TTreeReaderArray<int> HcalSimHitsIeta = {fReader, "HcalSimHitsIeta"};
-   TTreeReaderArray<int> HcalSimHitsIndex = {fReader, "HcalSimHitsIndex"};
-   TTreeReaderArray<int> HcalSimHitsIphi = {fReader, "HcalSimHitsIphi"};
-   TTreeReaderArray<int> HcalSimHitsSubdet = {fReader, "HcalSimHitsSubdet"};
+   if (isMC){
+     TTreeReaderArray<int> HcalSimHitsDepth = {fReader, "HcalSimHitsDepth"};
+     TTreeReaderArray<int> HcalSimHitsIeta = {fReader, "HcalSimHitsIeta"};
+     TTreeReaderArray<int> HcalSimHitsIndex = {fReader, "HcalSimHitsIndex"};
+     TTreeReaderArray<int> HcalSimHitsIphi = {fReader, "HcalSimHitsIphi"};
+     TTreeReaderArray<int> HcalSimHitsSubdet = {fReader, "HcalSimHitsSubdet"};
+   }
    TTreeReaderArray<int> QIE11DigiCapIDError = {fReader, "QIE11DigiCapIDError"};
    TTreeReaderArray<int> QIE11DigiDepth = {fReader, "QIE11DigiDepth"};
    TTreeReaderArray<int> QIE11DigiFlags = {fReader, "QIE11DigiFlags"};
@@ -313,7 +321,7 @@ void HCALCheckRun(TString rootfile, TString outfile, int maxevents=-1, int optio
      //--------------------
      // Loop over pions
      //------------------
-     for (int iGenPar = 0, nGenPar =  GenParPt.GetSize(); iGenPar < nGenPar; ++iGenPar) {
+     if (isMC){ for (int iGenPar = 0, nGenPar =  GenParPt.GetSize(); iGenPar < nGenPar; ++iGenPar) {
        //std::cout << GenParPdgId[iGenPar] << std::endl;
        TLorentzVector TLVPion; TLVPion.SetPtEtaPhiM(GenParPt[iGenPar],GenParEta[iGenPar],GenParPhi[iGenPar],GenParM[iGenPar]);
        //TLVPion.Print();
@@ -330,7 +338,7 @@ void HCALCheckRun(TString rootfile, TString outfile, int maxevents=-1, int optio
        }
        //std::cout << SumEt/TLVPion.Pt() <<std::endl;
        h_RecHitEtGenPt->Fill( SumEt/TLVPion.Pt());
-     } // Loop over pions ends	
+     }}// Loop over pions ends	
 
      //--------------------
      // Loop over digis 
@@ -437,7 +445,7 @@ void HCALCheckRun(TString rootfile, TString outfile, int maxevents=-1, int optio
 	 double aveSimTime=0.;
 	 double sumSimHitE=0.;
 	 
-	 for (int isim = 0, nsim =  HcalSimHitsEnergy.GetSize(); isim < nsim; ++isim) {
+	 if (isMC){ for (int isim = 0, nsim =  HcalSimHitsEnergy.GetSize(); isim < nsim; ++isim) {
 	   
 	   int ieta_sim=HcalSimHitsIeta[isim];
 	   int iphi_sim=HcalSimHitsIphi[isim];
@@ -452,7 +460,7 @@ void HCALCheckRun(TString rootfile, TString outfile, int maxevents=-1, int optio
 	   }	            
 	   }
 
-	 } // loop over simhits
+	 }}  // loop over simhits
 
 	 aveSimTime /= sumSimHitE; //KH
 	 if (goodtest) fill1D(v_hist,"Simhit_AveTime_PromptHits_HE", aveSimTime);

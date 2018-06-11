@@ -124,6 +124,15 @@ process.digiPath = cms.Path(
     process.hcalDigis
 )
 
+# Aging models -  4500/fb
+from SLHCUpgradeSimulations.Configuration.aging import customise_aging_4500_ultimate 
+process = customise_aging_4500_ultimate(process)
+# 
+process.es_hardcode.hbUpgrade.radiationDamage.depVsNeutrons = cms.vdouble(5.543e-10,8.012e-10)
+process.es_hardcode.heUpgrade.radiationDamage.depVsNeutrons = cms.vdouble(5.543e-10,8.012e-10)
+process.HBDarkeningEP.drdA = cms.double(2.7383)
+process.HBDarkeningEP.drdB = cms.double(0.37471)
+
 #------------------------------------------------------------------------------------
 # HcalTupleMaker sequence definition
 #------------------------------------------------------------------------------------
@@ -155,3 +164,8 @@ process.preparation = cms.Path(
     #process.hgcalHitValidation*
     process.tuple_step
 )
+
+#file = open('allDump_cfg.py','w')
+#file.write(str(process.dumpPython()))
+#file.close()
+
