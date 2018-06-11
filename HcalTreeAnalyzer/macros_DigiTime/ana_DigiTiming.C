@@ -142,12 +142,13 @@ void HCALCheckRun(TString rootfile, TString outfile, int maxevents=-1, int optio
    // -- use MakeSelector of root
    //
    // Readers to access the data (delete the ones you do not need).
-   if (isMC){
-     TTreeReaderArray<double> GenParEta = {fReader, "GenParEta"};
-     TTreeReaderArray<double> GenParM = {fReader, "GenParM"};
-     TTreeReaderArray<double> GenParPhi = {fReader, "GenParPhi"};
-     TTreeReaderArray<double> GenParPt = {fReader, "GenParPt"};
-   } 
+
+   // if (isMC){
+   // TTreeReaderArray<double> GenParEta = {fReader, "GenParEta"};
+   // TTreeReaderArray<double> GenParM = {fReader, "GenParM"};
+   // TTreeReaderArray<double> GenParPhi = {fReader, "GenParPhi"};
+   // TTreeReaderArray<double> GenParPt = {fReader, "GenParPt"};
+   // }   
    TTreeReaderArray<vector<double>> QIE11DigiFC = {fReader, "QIE11DigiFC"};
    TTreeReaderArray<float> HBHEDigiEta = {fReader, "HBHEDigiEta"};
    TTreeReaderArray<float> HBHEDigiPhi = {fReader, "HBHEDigiPhi"};
@@ -165,16 +166,25 @@ void HCALCheckRun(TString rootfile, TString outfile, int maxevents=-1, int optio
    TTreeReaderArray<float> HODigiPhi = {fReader, "HODigiPhi"};
    TTreeReaderArray<float> HODigiRecEnergy = {fReader, "HODigiRecEnergy"};
    TTreeReaderArray<float> HODigiRecTime = {fReader, "HODigiRecTime"};
-   if (isMC){
-      TTreeReaderArray<float> HcalSimHitsEnergy = {fReader, "HcalSimHitsEnergy"};
-      TTreeReaderArray<float> HcalSimHitsEta = {fReader, "HcalSimHitsEta"};
-      TTreeReaderArray<float> HcalSimHitsPhi = {fReader, "HcalSimHitsPhi"};
-      TTreeReaderArray<float> HcalSimHitsPosx = {fReader, "HcalSimHitsPosx"};
-      TTreeReaderArray<float> HcalSimHitsPosy = {fReader, "HcalSimHitsPosy"};
-      TTreeReaderArray<float> HcalSimHitsPosz = {fReader, "HcalSimHitsPosz"};
-      TTreeReaderArray<float> HcalSimHitsTime = {fReader, "HcalSimHitsTime"};
-      TTreeReaderArray<float> HcalSimHitsTimeTOF = {fReader, "HcalSimHitsTimeTOF"};
-   }
+
+   // TTreeReaderArray<float> HcalSimHitsEnergy = {fReader, "HcalSimHitsEnergy"};
+   // TTreeReaderArray<float> HcalSimHitsEta = {fReader, "HcalSimHitsEta"};
+   // TTreeReaderArray<float> HcalSimHitsPhi = {fReader, "HcalSimHitsPhi"};
+   // TTreeReaderArray<float> HcalSimHitsPosx = {fReader, "HcalSimHitsPosx"};
+   // TTreeReaderArray<float> HcalSimHitsPosy = {fReader, "HcalSimHitsPosy"};
+   // TTreeReaderArray<float> HcalSimHitsPosz = {fReader, "HcalSimHitsPosz"};
+   // TTreeReaderArray<float> HcalSimHitsTime = {fReader, "HcalSimHitsTime"};
+   // TTreeReaderArray<float> HcalSimHitsTimeTOF = {fReader, "HcalSimHitsTimeTOF"};
+   // if (isMC){
+   //    TTreeReaderArray<float> HcalSimHitsEnergy = {fReader, "HcalSimHitsEnergy"};
+   //    TTreeReaderArray<float> HcalSimHitsEta = {fReader, "HcalSimHitsEta"};
+   //    TTreeReaderArray<float> HcalSimHitsPhi = {fReader, "HcalSimHitsPhi"};
+   //    TTreeReaderArray<float> HcalSimHitsPosx = {fReader, "HcalSimHitsPosx"};
+   //    TTreeReaderArray<float> HcalSimHitsPosy = {fReader, "HcalSimHitsPosy"};
+   //    TTreeReaderArray<float> HcalSimHitsPosz = {fReader, "HcalSimHitsPosz"};
+   //    TTreeReaderArray<float> HcalSimHitsTime = {fReader, "HcalSimHitsTime"};
+   //    TTreeReaderArray<float> HcalSimHitsTimeTOF = {fReader, "HcalSimHitsTimeTOF"};
+   // }
    TTreeReaderArray<vector<float>> HBHEDigiAllFC = {fReader, "HBHEDigiAllFC"};
    TTreeReaderArray<vector<float>> HBHEDigiEnergy = {fReader, "HBHEDigiEnergy"};
    TTreeReaderArray<vector<float>> HBHEDigiFC = {fReader, "HBHEDigiFC"};
@@ -238,13 +248,14 @@ void HCALCheckRun(TString rootfile, TString outfile, int maxevents=-1, int optio
    TTreeReaderArray<int> HODigiSOI = {fReader, "HODigiSOI"};
    TTreeReaderArray<int> HODigiSize = {fReader, "HODigiSize"};
    TTreeReaderArray<int> HODigiSubdet = {fReader, "HODigiSubdet"};
-   if (isMC){
-     TTreeReaderArray<int> HcalSimHitsDepth = {fReader, "HcalSimHitsDepth"};
-     TTreeReaderArray<int> HcalSimHitsIeta = {fReader, "HcalSimHitsIeta"};
-     TTreeReaderArray<int> HcalSimHitsIndex = {fReader, "HcalSimHitsIndex"};
-     TTreeReaderArray<int> HcalSimHitsIphi = {fReader, "HcalSimHitsIphi"};
-     TTreeReaderArray<int> HcalSimHitsSubdet = {fReader, "HcalSimHitsSubdet"};
-   }
+
+   // if (isMC){
+   //   TTreeReaderArray<int> HcalSimHitsDepth = {fReader, "HcalSimHitsDepth"};
+   //   TTreeReaderArray<int> HcalSimHitsIeta = {fReader, "HcalSimHitsIeta"};
+   //   TTreeReaderArray<int> HcalSimHitsIndex = {fReader, "HcalSimHitsIndex"};
+   //   TTreeReaderArray<int> HcalSimHitsIphi = {fReader, "HcalSimHitsIphi"};
+   //   TTreeReaderArray<int> HcalSimHitsSubdet = {fReader, "HcalSimHitsSubdet"};
+   // }
    TTreeReaderArray<int> QIE11DigiCapIDError = {fReader, "QIE11DigiCapIDError"};
    TTreeReaderArray<int> QIE11DigiDepth = {fReader, "QIE11DigiDepth"};
    TTreeReaderArray<int> QIE11DigiFlags = {fReader, "QIE11DigiFlags"};
@@ -310,35 +321,42 @@ void HCALCheckRun(TString rootfile, TString outfile, int maxevents=-1, int optio
 
    int ievent=0;
    while (fReader.Next()) {
-  
+     
      // Progress indicator 
      ievent++;
      if(ievent%1000==0) cout << "[HCAL analyzer] Processed " << ievent << " out of " << nentries << " events" << endl; 
      if (maxevents>0 && ievent>maxevents) break;
+
+     if (*run>=315361){ // very loosely defining 2018 data period
+       if ( (*run>=315361) && (*run<=315366) && (*bx!=823) && (*bx!=2608) ) continue; // fill 6621, if not bx=823 or 2608, skip events
+       if ( (*run>=315420) && (*run<=315420) && (*bx!=823) && (*bx!=2608) ) continue; // fill 6624
+     }
      
      //std::cout << *event << std::endl;
 	
      //--------------------
      // Loop over pions
      //------------------
-     if (isMC){ for (int iGenPar = 0, nGenPar =  GenParPt.GetSize(); iGenPar < nGenPar; ++iGenPar) {
-       //std::cout << GenParPdgId[iGenPar] << std::endl;
-       TLorentzVector TLVPion; TLVPion.SetPtEtaPhiM(GenParPt[iGenPar],GenParEta[iGenPar],GenParPhi[iGenPar],GenParM[iGenPar]);
-       //TLVPion.Print();
-       //if (fabs(TLVPion.Eta())<1.8 || fabs(TLVPion.Eta())>2.4) continue;
+     // if (isMC){
+     // for (int iGenPar = 0, nGenPar =  GenParPt.GetSize(); iGenPar < nGenPar; ++iGenPar) {
+     //   //std::cout << GenParPdgId[iGenPar] << std::endl;
+     //   TLorentzVector TLVPion; TLVPion.SetPtEtaPhiM(GenParPt[iGenPar],GenParEta[iGenPar],GenParPhi[iGenPar],GenParM[iGenPar]);
+     //   //TLVPion.Print();
+     //   //if (fabs(TLVPion.Eta())<1.8 || fabs(TLVPion.Eta())>2.4) continue;
        
-       // Loop over HBHERecHits
-       double SumEt=0.;
-       for (int irc = 0, nrc =  HBHERecHitEnergy.GetSize(); irc < nrc; ++irc) {
-	 TLorentzVector TLVRecHit; 
-	 double RecHitPt=HBHERecHitEnergy[irc]/cosh(HBHERecHitEta[irc]); //p=E for rechits
-	 TLVRecHit.SetPtEtaPhiE(RecHitPt,HBHERecHitEta[irc],HBHERecHitPhi[irc],HBHERecHitEnergy[irc]);	  
-	 double dR=TLVRecHit.DeltaR(TLVPion);
-	 if (dR<0.3) SumEt+=TLVRecHit.Pt();	  
-       }
-       //std::cout << SumEt/TLVPion.Pt() <<std::endl;
-       h_RecHitEtGenPt->Fill( SumEt/TLVPion.Pt());
-     }}// Loop over pions ends	
+     //   // Loop over HBHERecHits
+     //   double SumEt=0.;
+     //   for (int irc = 0, nrc =  HBHERecHitEnergy.GetSize(); irc < nrc; ++irc) {
+     // 	 TLorentzVector TLVRecHit; 
+     // 	 double RecHitPt=HBHERecHitEnergy[irc]/cosh(HBHERecHitEta[irc]); //p=E for rechits
+     // 	 TLVRecHit.SetPtEtaPhiE(RecHitPt,HBHERecHitEta[irc],HBHERecHitPhi[irc],HBHERecHitEnergy[irc]);	  
+     // 	 double dR=TLVRecHit.DeltaR(TLVPion);
+     // 	 if (dR<0.3) SumEt+=TLVRecHit.Pt();	  
+     //   }
+     //   //std::cout << SumEt/TLVPion.Pt() <<std::endl;
+     //   h_RecHitEtGenPt->Fill( SumEt/TLVPion.Pt());
+     // }// Loop over pions ends	
+     // }
 
      //--------------------
      // Loop over digis 
@@ -445,24 +463,26 @@ void HCALCheckRun(TString rootfile, TString outfile, int maxevents=-1, int optio
 	 double aveSimTime=0.;
 	 double sumSimHitE=0.;
 	 
-	 if (isMC){ for (int isim = 0, nsim =  HcalSimHitsEnergy.GetSize(); isim < nsim; ++isim) {
+	 // if (isMC){
+	 // for (int isim = 0, nsim =  HcalSimHitsEnergy.GetSize(); isim < nsim; ++isim) {
 	   
-	   int ieta_sim=HcalSimHitsIeta[isim];
-	   int iphi_sim=HcalSimHitsIphi[isim];
-	   int depth_sim=HcalSimHitsDepth[isim];
-	   double ttime=HcalSimHitsTime[isim];
-	   double ten=HcalSimHitsEnergy[isim];
-	   
-	   if (ieta==ieta_sim && iphi==iphi_sim && depth==depth_sim){
-	   if (ttime<135.){  // simhits beyond 135 ns won't contribute to digis
-	     aveSimTime += ten*ttime; // KH
-	     sumSimHitE += ten; // KH	     
-	   }	            
-	   }
+	 //   int ieta_sim=HcalSimHitsIeta[isim];
+	 //   int iphi_sim=HcalSimHitsIphi[isim];
+	 //   int depth_sim=HcalSimHitsDepth[isim];
+	 //   double ttime=HcalSimHitsTime[isim];
+	 //   double ten=HcalSimHitsEnergy[isim];
+	     
+	 //   if (ieta==ieta_sim && iphi==iphi_sim && depth==depth_sim){
+	 //     if (ttime<135.){  // simhits beyond 135 ns won't contribute to digis
+	 //       aveSimTime += ten*ttime; // KH
+	 //       sumSimHitE += ten; // KH	     
+	 //     }	            
+	 //   }
 
-	 }}  // loop over simhits
+	 // }  // loop over simhits
+	 // }  // isMC
 
-	 aveSimTime /= sumSimHitE; //KH
+	 // aveSimTime /= sumSimHitE; //KH
 	 if (goodtest) fill1D(v_hist,"Simhit_AveTime_PromptHits_HE", aveSimTime);
 	 else          fill1D(v_hist,"Simhit_AveTime_DelayedHits_HE", aveSimTime);
 	 
