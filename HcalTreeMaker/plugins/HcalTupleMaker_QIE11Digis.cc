@@ -94,6 +94,9 @@ HcalTupleMaker_QIE11Digis::HcalTupleMaker_QIE11Digis(const edm::ParameterSet& iC
   produces<std::vector<int>   >                  ( "QIE11DigiSOI"        );
   produces<std::vector<std::vector<int>   > >    ( "QIE11DigiADC"        );
   produces<std::vector<std::vector<double>   > > ( "QIE11DigiFC"         );
+  produces<std::vector<std::vector<double>   > > ( "QIE11DigiRawFC"      );
+  produces<std::vector<std::vector<double>   > > ( "QIE11DigiRC"         );
+  produces<std::vector<std::vector<double>   > > ( "QIE11DigiGain"       );
   produces<std::vector<std::vector<int>   > >    ( "QIE11DigiTDC"        );
   produces<std::vector<std::vector<int>   > >    ( "QIE11DigiCapID"      );
   produces <int>                                 ( "laserType"           );
@@ -112,7 +115,10 @@ void HcalTupleMaker_QIE11Digis::produce(edm::Event& iEvent, const edm::EventSetu
   // std::unique_ptr<int>                                  lasertype (new int() );
   std::unique_ptr<std::vector<int> >                    soi     ( new std::vector<int>   ());
   std::unique_ptr<std::vector<std::vector<int  > > >    adc     ( new std::vector<std::vector<int  > >    ());
+  std::unique_ptr<std::vector<std::vector<double  > > > rawfc   ( new std::vector<std::vector<double  > > ());
   std::unique_ptr<std::vector<std::vector<double  > > > fc      ( new std::vector<std::vector<double  > > ());
+  std::unique_ptr<std::vector<std::vector<double  > > > gain    ( new std::vector<std::vector<double  > > ());
+  std::unique_ptr<std::vector<std::vector<double  > > > respcorr( new std::vector<std::vector<double  > > ());
   std::unique_ptr<std::vector<std::vector<int  > > >    tdc     ( new std::vector<std::vector<int  > >    ());
   std::unique_ptr<std::vector<std::vector<int  > > >    capid   ( new std::vector<std::vector<int  > >    ());
   
@@ -196,21 +202,46 @@ void HcalTupleMaker_QIE11Digis::produce(edm::Event& iEvent, const edm::EventSetu
       
       //KH soi   -> push_back ( std::vector<int  >   () ) ;
       adc   -> push_back ( std::vector<int  >   () ) ;
+      rawfc -> push_back ( std::vector<double  >() ) ;
       fc    -> push_back ( std::vector<double  >() ) ;
+      gain  -> push_back ( std::vector<double  >() ) ;
+      respcorr -> push_back ( std::vector<double  >() ) ;
       tdc   -> push_back ( std::vector<int  >   () ) ;
       capid -> push_back ( std::vector<int  >   () ) ;
       size_t last_entry = adc -> size() - 1;
 
       // TS
       int nTS = qie11df.samples();
-
+      
+      //KH const bool saveEffectivePeds = channelInfo->hasEffectivePedestals();
+      
       for (int its=0; its<nTS; ++its) {
 	//KH (*soi  )[last_entry].push_back ( qie11df[its].soi()               ); // soi is a bool, but stored as an int
 	(*adc  )[last_entry].push_back ( qie11df[its].adc()               );
 	//KH (*fc   )[last_entry].push_back ( adc2fC_QIE11[qie11df[its].adc()] );
-	(*fc   )[last_entry].push_back ( tool[its]-calibrations.pedestal(qie11df[its].capid()) );
+
+	(*rawfc)[last_entry].push_back ( tool[its] );
+	(*fc   )[last_entry].push_back ( tool[its]-calibrations.effpedestal(qie11df[its].capid()) );
+
+	double respcorrgain = calibrations.respcorrgain(qie11df[its].capid());
+	double rawgain = calibrations.rawgain(qie11df[its].capid());
+	double rc = respcorrgain;
+	if (rawgain!=0.) rc /= rawgain;
+	//double rc = 0.;
+	//double rawgain = 0.;
+	(*respcorr)[last_entry].push_back ( rc  );
+	(*gain)[last_entry].push_back ( rawgain );
+
 	(*tdc  )[last_entry].push_back ( qie11df[its].tdc()                );
 	(*capid)[last_entry].push_back ( qie11df[its].capid()              );	
+
+	/*
+	std::cout << tool[its] << " "
+		  << calibrations.effpedestal(qie11df[its].capid()) << " "
+		  << calibrations.pedestal(qie11df[its].capid()) << " "
+		  << rawgain << " " << rc << std::endl;
+	*/
+
       }
       
     }
@@ -225,7 +256,10 @@ void HcalTupleMaker_QIE11Digis::produce(edm::Event& iEvent, const edm::EventSetu
     iEvent.put(move( flags  )       , "QIE11DigiFlags"     );
     iEvent.put(move( soi    )       , "QIE11DigiSOI"       );
     iEvent.put(move( adc    )       , "QIE11DigiADC"       );
+    iEvent.put(move( rawfc  )       , "QIE11DigiRawFC"     );
     iEvent.put(move( fc     )       , "QIE11DigiFC"        );
+    iEvent.put(move( gain   )       , "QIE11DigiGain"      );
+    iEvent.put(move( respcorr )     , "QIE11DigiRC"        );
     iEvent.put(move( tdc    )       , "QIE11DigiTDC"       );
     iEvent.put(move( capid  )       , "QIE11DigiCapID"     );
   }

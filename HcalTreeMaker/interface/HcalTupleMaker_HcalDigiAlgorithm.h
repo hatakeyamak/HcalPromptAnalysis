@@ -146,7 +146,7 @@ public:
         const HcalQIESample * qieSample = & digi -> sample (iTS);
 	int   tmp_capid = qieSample -> capid();
 	float tmp_allFC = tool[iTS];
-	float tmp_pedFC = calibrations -> pedestal     ( tmp_capid );
+	float tmp_pedFC = calibrations -> effpedestal     ( tmp_capid );
 	float tmp_FC    = tmp_allFC - tmp_pedFC;
 	totalFC+=tmp_FC;
       }
