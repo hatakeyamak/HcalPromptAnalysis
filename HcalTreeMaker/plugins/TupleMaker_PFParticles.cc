@@ -73,8 +73,42 @@ void TupleMaker_PFCandidates::produce(edm::Event& iEvent, const edm::EventSetup&
     for (unsigned int i = 0; i < packedParticleFlow->size(); i++) {
       const pat::PackedCandidate& c = packedParticleFlow->at(i);
       std::cout << c.pt() << std::endl;
-    }
+
+      pt->push_back(c.pt());
+      eta->push_back(c.eta());
+      phi->push_back(c.phi());
+      mass->push_back(c.mass());
+
+      pdgid->push_back(c.pdgId());
+      status->push_back(c.status());
+
+      if (c.energy()>0.){
+	hcalEnergyFrac->push_back(c.hcalFraction());
+	ecalEnergyFrac->push_back(0.);
+	hoEnergyFrac->push_back(0.);
+      } else {
+	hcalEnergyFrac->push_back(0.);
+	ecalEnergyFrac->push_back(0.);
+	hoEnergyFrac->push_back(0.);
+      }
+
+      hcalFrac1->push_back(c.hcalDepthEnergyFraction(1));
+      hcalFrac2->push_back(c.hcalDepthEnergyFraction(2));
+      hcalFrac3->push_back(c.hcalDepthEnergyFraction(3));
+      hcalFrac4->push_back(c.hcalDepthEnergyFraction(4));
+      hcalFrac5->push_back(c.hcalDepthEnergyFraction(5));
+      hcalFrac6->push_back(c.hcalDepthEnergyFraction(6));
+      hcalFrac7->push_back(c.hcalDepthEnergyFraction(7));
+      std::cout << c.hcalDepthEnergyFraction(1) << " "
+		<< c.hcalDepthEnergyFraction(2) << " "
+		<< c.hcalDepthEnergyFraction(3) << " "
+		<< c.hcalDepthEnergyFraction(4) << " "
+		<< c.hcalDepthEnergyFraction(5) << " "
+		<< c.hcalDepthEnergyFraction(6) << " "
+		<< c.hcalDepthEnergyFraction(7) << std::endl;
       
+    }
+    
   //
   //-----
   //
