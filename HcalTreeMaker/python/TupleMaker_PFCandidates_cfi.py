@@ -7,8 +7,7 @@ tuplePFCandidates = cms.EDProducer("TupleMaker_PFCandidates",
   Suffix    = cms.untracked.string  ("")
 )
 
-tuplePFCandidates_PackedCandidate = tuplePFCandidates.clone(
+tuplePackedPFCandidates = tuplePFCandidates.clone(
   source    = cms.untracked.InputTag('packedPFCandidates', ''),
   PackedCandidate = cms.untracked.bool(True),
 )
-

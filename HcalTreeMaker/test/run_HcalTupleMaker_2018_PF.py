@@ -13,25 +13,54 @@ import FWCore.ParameterSet.VarParsing as VarParsing
 options = VarParsing.VarParsing ('analysis')
 process = cms.Process("Trees",eras.Run2_2018)
 
+
+
+##
+## Setup command line options
+##
 options.register ('skipEvents', 0, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.int, "no of skipped events")
+options.register ('isMINIAOD', False, VarParsing.VarParsing.multiplicity.singleton, VarParsing.VarParsing.varType.bool, "MINIAODSIM input file(s)?")
+
+##
+## Default
+##
+options.maxEvents = 10 # -1 means all events
+#options.skipEvents = 0 # default is 0.
+
+##
+## get and parse the command line arguments
+##
+options.parseArguments()
+print("isMINIAOD: ", options.isMINIAOD)
+print("maxEvents: ", options.maxEvents)
+
 #
 # Dataset e.g.
 # dasgoclient --query 'dataset dataset=/RelValTTbar_13/CMSSW_10_2_0_pre3-*realistic*/GEN-SIM-RECO'                 
 # dasgoclient --query 'file dataset=/RelValTTbar_13/CMSSW_10_2_0_pre3-101X_upgrade2018_realistic_v7-v1/GEN-SIM-RECO'
 #
 # TTbar sample
-options.inputFiles = '/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/GEN-SIM-RECO/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/7C1DE9C4-2CDF-6745-9636-A49AF087FDF8.root','/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/GEN-SIM-RECO/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/571D7C0D-EB5B-AC4B-8D5A-353C2A1E5984.root','/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/GEN-SIM-RECO/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/EE898FC9-66FA-5044-96D6-82CFC22F847F.root','/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/GEN-SIM-RECO/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/81CF7193-F950-C44F-A164-94DEF2E788FF.root','/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/GEN-SIM-RECO/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/0671F9F2-0539-5549-BAFF-1356C29BE98C.root','/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/GEN-SIM-RECO/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/21369212-DA68-8A41-8176-5D2C6A0E1B12.root','/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/GEN-SIM-RECO/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/D55D802E-CABC-4747-B288-784330B17B80.root','/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/GEN-SIM-RECO/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/286A33FA-698B-084B-9521-AB48E9AAA8E8.root','/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/GEN-SIM-RECO/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/CC74C106-6A60-4143-8734-1AF16F588FAA.root'
-#'/store/relval/CMSSW_10_2_0_pre3/RelValTTbar_13/GEN-SIM-RECO/101X_upgrade2018_realistic_v7-v1/20000/D8D612AA-0153-E811-9080-0CC47A4D7614.root','/store/relval/CMSSW_10_2_0_pre3/RelValTTbar_13/GEN-SIM-RECO/101X_upgrade2018_realistic_v7-v1/20000/0C125E68-0153-E811-93FB-0025905A60A8.root','/store/relval/CMSSW_10_2_0_pre3/RelValTTbar_13/GEN-SIM-RECO/101X_upgrade2018_realistic_v7-v1/20000/C2B32CAF-0253-E811-9221-0025905A607E.root'
-#options.secondaryInputFiles = '/store/relval/CMSSW_10_2_0_pre3/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/20000/D8EFF5FA-F552-E811-AC44-0CC47A7C3638.root','/store/relval/CMSSW_10_2_0_pre3/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/20000/B28C2E00-F652-E811-B1E4-0CC47A78A3EC.root','/store/relval/CMSSW_10_2_0_pre3/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/20000/BA2C73FF-F552-E811-9923-0CC47A4D767A.root','/store/relval/CMSSW_10_2_0_pre3/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/20000/82A8DE13-F652-E811-87CD-0CC47A7C35A8.root','/store/relval/CMSSW_10_2_0_pre3/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/20000/EACBA822-F652-E811-AEA8-0CC47A4C8E26.root','/store/relval/CMSSW_10_2_0_pre3/RelValTTbar_13/GEN-SIM-DIGI-RAW/101X_upgrade2018_realistic_v7-v1/20000/0C0BAB5E-F752-E811-958A-0025905A48D0.root'
-options.outputFile = 'relval_ttbar_2018_pmx25ns.root'
 #
-options.maxEvents = 10 # -1 means all events
-#options.skipEvents = 0 # default is 0.
+# MINIAODSIM
+if options.isMINIAOD: 
+    options.inputFiles = '/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/MINIAODSIM/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/17E57223-3406-7340-B867-2DDC36E7C371.root'
+    options.outputFile = 'relval_ttbar_2018_pmx25ns_miniaodsim.root'
+# GEN-SIM-RECO
+else:
+    options.inputFiles = '/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/GEN-SIM-RECO/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/7C1DE9C4-2CDF-6745-9636-A49AF087FDF8.root','/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/GEN-SIM-RECO/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/571D7C0D-EB5B-AC4B-8D5A-353C2A1E5984.root','/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/GEN-SIM-RECO/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/EE898FC9-66FA-5044-96D6-82CFC22F847F.root','/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/GEN-SIM-RECO/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/81CF7193-F950-C44F-A164-94DEF2E788FF.root','/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/GEN-SIM-RECO/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/0671F9F2-0539-5549-BAFF-1356C29BE98C.root','/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/GEN-SIM-RECO/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/21369212-DA68-8A41-8176-5D2C6A0E1B12.root','/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/GEN-SIM-RECO/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/D55D802E-CABC-4747-B288-784330B17B80.root','/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/GEN-SIM-RECO/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/286A33FA-698B-084B-9521-AB48E9AAA8E8.root','/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/GEN-SIM-RECO/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/CC74C106-6A60-4143-8734-1AF16F588FAA.root'
+    options.outputFile = 'relval_ttbar_2018_pmx25ns.root'
+#
+
+#
+#
+#
+print("maxEvents: ", options.maxEvents)
+print("inputFiles: ", options.inputFiles)
+print("outputFile: ", options.outputFile)
 
 #------------------------------------------------------------------------------------
 # Get and parse the command line arguments
 #------------------------------------------------------------------------------------
-options.parseArguments()
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(options.maxEvents) )
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(options.inputFiles),
@@ -62,9 +91,9 @@ process.load('Configuration.StandardSequences.GeometryDB_cff')
 process.load('Configuration.StandardSequences.MagneticField_cff')
 process.load('Configuration.StandardSequences.RawToDigi_cff')
 process.load('Configuration.StandardSequences.L1Reco_cff')
-process.load('Configuration.StandardSequences.Reconstruction_cff')
-process.load('PhysicsTools.PatAlgos.slimming.metFilterPaths_cff')
-process.load('Configuration.StandardSequences.PATMC_cff')
+#process.load('Configuration.StandardSequences.Reconstruction_cff')
+#process.load('Configuration.StandardSequences.PATMC_cff')
+#process.load('PhysicsTools.PatAlgos.slimming.metFilterPaths_cff')
 process.load('Configuration.StandardSequences.Validation_cff')
 process.load('DQMOffline.Configuration.DQMOfflineMC_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
@@ -114,6 +143,20 @@ process.tuple_step = cms.Sequence(
     process.hcalTupleTree
 )
 
+#
+# in case we are using MINIAOD files
+#
+if options.isMINIAOD: 
+    process.tuple_step = cms.Sequence(
+        # Make HCAL tuples: Event, run, ls number
+        process.hcalTupleEvent*
+        # Make HCAL tuples: gen info
+        #process.hcalTupleGenParticles*
+        #
+        process.tuplePackedPFCandidates*
+        #
+        process.hcalTupleTree
+    )
 
 #-----------------------------------------------------------------------------------
 # Path and EndPath definitions

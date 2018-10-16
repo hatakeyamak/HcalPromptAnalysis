@@ -37,6 +37,8 @@ TupleMaker_PFCandidates::TupleMaker_PFCandidates(const edm::ParameterSet& iConfi
     pflowToken_ = consumes<std::vector<reco::PFCandidate> >(inputTag);
   }
 
+  debug=true;
+  
 }
 
 void TupleMaker_PFCandidates::produce(edm::Event& iEvent, const edm::EventSetup& iSetup){
@@ -61,7 +63,6 @@ void TupleMaker_PFCandidates::produce(edm::Event& iEvent, const edm::EventSetup&
   std::unique_ptr<std::vector<float>  >            hcalFrac5             ( new std::vector<float>            ());
   std::unique_ptr<std::vector<float>  >            hcalFrac6             ( new std::vector<float>            ());
   std::unique_ptr<std::vector<float>  >            hcalFrac7             ( new std::vector<float>            ());
-
   
   //
   //-----
@@ -72,7 +73,31 @@ void TupleMaker_PFCandidates::produce(edm::Event& iEvent, const edm::EventSetup&
 
     for (unsigned int i = 0; i < packedParticleFlow->size(); i++) {
       const pat::PackedCandidate& c = packedParticleFlow->at(i);
-      std::cout << c.pt() << std::endl;
+      
+      if (debug){
+	//if (c.pdgId()==130){ // K0L neutral hadron
+	if (fabs(c.pdgId())==211){ // charged hadron
+	  std::cout << "pt,eta: " << c.pt() << " " << c.eta() << std::endl;
+	  //std::cout << c.ecalEnergy() << std::endl;
+	  std::cout << c.rawCaloFraction() << std::endl;
+	  std::cout << c.hcalFraction() << std::endl;
+	  /*
+	    std::cout << c.hoEnergy() << std::endl;
+	    std::cout << c.hcalDepthEnergyFraction(1) << " "
+	    << c.hcalDepthEnergyFraction(2) << " "
+	    << c.hcalDepthEnergyFraction(3) << std::endl;
+	  */
+	}
+      }
+
+      pt->push_back(c.pt());
+      eta->push_back(c.eta());
+      phi->push_back(c.phi());
+      mass->push_back(c.mass());
+
+      pdgid->push_back(c.pdgId());
+      status->push_back(c.status());
+
     }
       
   //
@@ -85,21 +110,21 @@ void TupleMaker_PFCandidates::produce(edm::Event& iEvent, const edm::EventSetup&
     for (unsigned int i = 0; i < particleFlow->size(); i++) {
       const reco::PFCandidate& c = particleFlow->at(i);
 
-      /*
-      std::cout << "pt,eta: " << c.pt() << " " << c.eta() << std::endl;
-      std::cout << c.ecalEnergy() << std::endl;
-      std::cout << c.hcalEnergy() << std::endl;
-      std::cout << c.hoEnergy() << std::endl;
-      std::cout << c.hcalDepthEnergyFraction(1) << " "
-		<< c.hcalDepthEnergyFraction(2) << " "
-		<< c.hcalDepthEnergyFraction(3) << std::endl;
-      */
-
       double track_Pt=0.;
       const reco::Track * tr=c.bestTrack();
       if(tr!=nullptr) track_Pt=tr->pt();
-      std::cout << track_Pt << std::endl;
 
+      if (debug){
+	std::cout << "pt,eta: " << c.pt() << " " << c.eta() << std::endl;
+	std::cout << c.ecalEnergy() << std::endl;
+	std::cout << c.hcalEnergy() << std::endl;
+	std::cout << c.hoEnergy() << std::endl;
+	std::cout << c.hcalDepthEnergyFraction(1) << " "
+		  << c.hcalDepthEnergyFraction(2) << " "
+		  << c.hcalDepthEnergyFraction(3) << std::endl;
+	std::cout << track_Pt << std::endl;
+      }
+      
       pt->push_back(c.pt());
       eta->push_back(c.eta());
       phi->push_back(c.phi());
