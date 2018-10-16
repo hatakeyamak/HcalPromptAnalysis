@@ -33,8 +33,8 @@ class TupleMaker_PFCandidates : public edm::EDProducer {
   edm::EDGetTokenT<std::vector<reco::PFCandidate> > pflowToken_;
   edm::EDGetTokenT<std::vector<pat::PackedCandidate> > pflowPackedToken_;
 
-  bool bool_debug;
   bool bool_PackedCandidate;
+  bool bool_debug;
   
 };
 

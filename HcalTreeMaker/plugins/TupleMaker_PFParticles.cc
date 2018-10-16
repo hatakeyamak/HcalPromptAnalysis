@@ -7,7 +7,7 @@ TupleMaker_PFCandidates::TupleMaker_PFCandidates(const edm::ParameterSet& iConfi
   inputTag    (iConfig.getUntrackedParameter<edm::InputTag>("source")),
   prefix      (iConfig.getUntrackedParameter<std::string>  ("Prefix")),
   suffix      (iConfig.getUntrackedParameter<std::string>  ("Suffix")),
-  bool_PackedCandidate (iConfig.getUntrackedParameter<bool>("PackedCandidate")
+  bool_PackedCandidate (iConfig.getUntrackedParameter<bool>("PackedCandidate")),
   bool_debug  (iConfig.getUntrackedParameter<bool>("debug"))
 {
 
@@ -74,11 +74,11 @@ void TupleMaker_PFCandidates::produce(edm::Event& iEvent, const edm::EventSetup&
       const pat::PackedCandidate& c = packedParticleFlow->at(i);
       
       if (bool_debug){
-	//if (c.pdgId()==130){ // K0L neutral hadron
-	if (fabs(c.pdgId())==211){ // charged hadron
+	if (c.pdgId()==130){ // K0L neutral hadron
+	  //if (fabs(c.pdgId())==211){ // charged hadron
 	  std::cout << "pt,eta: " << c.pt() << " " << c.eta() << std::endl;
 	  //std::cout << c.ecalEnergy() << std::endl;
-	  std::cout << c.rawCaloFraction() << std::endl;
+	  //std::cout << c.rawCaloFraction() << std::endl;
 	  std::cout << c.hcalFraction() << std::endl;
 	  /*
 	    std::cout << c.hoEnergy() << std::endl;
@@ -115,7 +115,7 @@ void TupleMaker_PFCandidates::produce(edm::Event& iEvent, const edm::EventSetup&
       hcalFrac6->push_back(c.hcalDepthEnergyFraction(6));
       hcalFrac7->push_back(c.hcalDepthEnergyFraction(7));
       
-      if (debug){
+      if (bool_debug){
       std::cout << c.hcalDepthEnergyFraction(1) << " "
 		<< c.hcalDepthEnergyFraction(2) << " "
 		<< c.hcalDepthEnergyFraction(3) << " "
@@ -126,8 +126,6 @@ void TupleMaker_PFCandidates::produce(edm::Event& iEvent, const edm::EventSetup&
       }
     }
       
-    }
-    
   //
   //-----
   //
