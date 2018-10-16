@@ -7,7 +7,8 @@ TupleMaker_PFCandidates::TupleMaker_PFCandidates(const edm::ParameterSet& iConfi
   inputTag    (iConfig.getUntrackedParameter<edm::InputTag>("source")),
   prefix      (iConfig.getUntrackedParameter<std::string>  ("Prefix")),
   suffix      (iConfig.getUntrackedParameter<std::string>  ("Suffix")),
-  bool_PackedCandidate (iConfig.getUntrackedParameter<bool>("PackedCandidate"))
+  bool_PackedCandidate (iConfig.getUntrackedParameter<bool>("PackedCandidate")
+  bool_debug  (iConfig.getUntrackedParameter<bool>("debug"))
 {
 
   produces< std::vector< double > >(prefix + "Pt"  + suffix );
@@ -61,7 +62,6 @@ void TupleMaker_PFCandidates::produce(edm::Event& iEvent, const edm::EventSetup&
   std::unique_ptr<std::vector<float>  >            hcalFrac5             ( new std::vector<float>            ());
   std::unique_ptr<std::vector<float>  >            hcalFrac6             ( new std::vector<float>            ());
   std::unique_ptr<std::vector<float>  >            hcalFrac7             ( new std::vector<float>            ());
-
   
   //
   //-----
@@ -72,7 +72,22 @@ void TupleMaker_PFCandidates::produce(edm::Event& iEvent, const edm::EventSetup&
 
     for (unsigned int i = 0; i < packedParticleFlow->size(); i++) {
       const pat::PackedCandidate& c = packedParticleFlow->at(i);
-      std::cout << c.pt() << std::endl;
+      
+      if (bool_debug){
+	//if (c.pdgId()==130){ // K0L neutral hadron
+	if (fabs(c.pdgId())==211){ // charged hadron
+	  std::cout << "pt,eta: " << c.pt() << " " << c.eta() << std::endl;
+	  //std::cout << c.ecalEnergy() << std::endl;
+	  std::cout << c.rawCaloFraction() << std::endl;
+	  std::cout << c.hcalFraction() << std::endl;
+	  /*
+	    std::cout << c.hoEnergy() << std::endl;
+	    std::cout << c.hcalDepthEnergyFraction(1) << " "
+	    << c.hcalDepthEnergyFraction(2) << " "
+	    << c.hcalDepthEnergyFraction(3) << std::endl;
+	  */
+	}
+      }
 
       pt->push_back(c.pt());
       eta->push_back(c.eta());
@@ -99,6 +114,8 @@ void TupleMaker_PFCandidates::produce(edm::Event& iEvent, const edm::EventSetup&
       hcalFrac5->push_back(c.hcalDepthEnergyFraction(5));
       hcalFrac6->push_back(c.hcalDepthEnergyFraction(6));
       hcalFrac7->push_back(c.hcalDepthEnergyFraction(7));
+      
+      if (debug){
       std::cout << c.hcalDepthEnergyFraction(1) << " "
 		<< c.hcalDepthEnergyFraction(2) << " "
 		<< c.hcalDepthEnergyFraction(3) << " "
@@ -106,6 +123,8 @@ void TupleMaker_PFCandidates::produce(edm::Event& iEvent, const edm::EventSetup&
 		<< c.hcalDepthEnergyFraction(5) << " "
 		<< c.hcalDepthEnergyFraction(6) << " "
 		<< c.hcalDepthEnergyFraction(7) << std::endl;
+      }
+    }
       
     }
     
@@ -119,21 +138,21 @@ void TupleMaker_PFCandidates::produce(edm::Event& iEvent, const edm::EventSetup&
     for (unsigned int i = 0; i < particleFlow->size(); i++) {
       const reco::PFCandidate& c = particleFlow->at(i);
 
-      /*
-      std::cout << "pt,eta: " << c.pt() << " " << c.eta() << std::endl;
-      std::cout << c.ecalEnergy() << std::endl;
-      std::cout << c.hcalEnergy() << std::endl;
-      std::cout << c.hoEnergy() << std::endl;
-      std::cout << c.hcalDepthEnergyFraction(1) << " "
-		<< c.hcalDepthEnergyFraction(2) << " "
-		<< c.hcalDepthEnergyFraction(3) << std::endl;
-      */
-
       double track_Pt=0.;
       const reco::Track * tr=c.bestTrack();
       if(tr!=nullptr) track_Pt=tr->pt();
-      std::cout << track_Pt << std::endl;
 
+      if (bool_debug){
+	std::cout << "pt,eta: " << c.pt() << " " << c.eta() << std::endl;
+	std::cout << c.ecalEnergy() << std::endl;
+	std::cout << c.hcalEnergy() << std::endl;
+	std::cout << c.hoEnergy() << std::endl;
+	std::cout << c.hcalDepthEnergyFraction(1) << " "
+		  << c.hcalDepthEnergyFraction(2) << " "
+		  << c.hcalDepthEnergyFraction(3) << std::endl;
+	std::cout << track_Pt << std::endl;
+      }
+      
       pt->push_back(c.pt());
       eta->push_back(c.eta());
       phi->push_back(c.phi());
