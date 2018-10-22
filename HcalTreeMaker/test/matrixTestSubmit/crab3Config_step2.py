@@ -8,7 +8,7 @@ config.General.transferLogs = True
 
 config.section_("JobType")
 config.JobType.pluginName = 'Analysis'
-config.JobType.psetName = 'step2_DIGI_L1_L1TrackTrigger_DIGI2RAW_HLT.py'
+config.JobType.psetName = 'step2_DIGI_L1_DIGI2RAW_HLT.py'
 config.JobType.allowUndistributedCMSSW = True
 #config.JobType.outputFiles=['step2.root']
 
@@ -30,7 +30,7 @@ config.Data.unitsPerJob = 1
 
 config.Data.publication = True
 config.Data.publishDBS = 'https://cmsweb.cern.ch/dbs/prod/phys03/DBSWriter/' # Parameter Data.publishDbsUrl has been renamed to Data.publishDBS
-config.Data.outputDatasetTag = 'CMSSW_10_3_0_pre1_Step2_v1' # <== Check!!!
+config.Data.outputDatasetTag = 'CMSSW_10_3_0_pre6_Step2_v1' # <== Check!!!
 
 config.Data.outLFNDirBase = '/store/user/hatake/crab_outputs'  # Data.outLFN has been renamed to Data.outLFNDirBase
 config.Data.ignoreLocality = True

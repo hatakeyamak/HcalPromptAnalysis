@@ -32,7 +32,7 @@ config.Data.unitsPerJob = 2
 
 config.Data.publication = True
 config.Data.publishDBS = 'https://cmsweb.cern.ch/dbs/prod/phys03/DBSWriter/' # Parameter Data.publishDbsUrl has been renamed to Data.publishDBS
-config.Data.outputDatasetTag = 'CMSSW_10_3_0_pre1_Step3_v1' # <== Check!!!
+config.Data.outputDatasetTag = 'CMSSW_10_3_0_pre6_Step3_v1' # <== Check!!!
 
 config.Data.outLFNDirBase = '/store/user/hatake/crab_outputs'  # Data.outLFN has been renamed to Data.outLFNDirBase
 config.Data.ignoreLocality = True

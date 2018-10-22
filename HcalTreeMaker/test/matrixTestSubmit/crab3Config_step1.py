@@ -34,4 +34,3 @@ config.Site.whitelist = ['T3_US_Baylor','T2_US_*']
 config.Site.blacklist = ['T3_US_UCR','T3_US_UMiss']
 
 config.General.transferLogs=True 
-
