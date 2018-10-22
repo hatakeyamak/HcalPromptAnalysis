@@ -114,6 +114,7 @@ process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HODigis_cfi")
 process.load("HcalPromptAnalysis.HcalTreeMaker.HcalTupleMaker_HcalTriggerPrimitives_cfi")
 
 process.load("HcalPromptAnalysis.HcalTreeMaker.TupleMaker_PFCandidates_cfi")
+#process.tuplePackedPFCandidates.debug = cms.untracked.bool(True)
 
 #------------------------------------------------------------------------------------
 # Specify Global Tag
