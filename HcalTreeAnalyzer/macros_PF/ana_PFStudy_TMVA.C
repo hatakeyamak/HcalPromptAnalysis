@@ -224,6 +224,12 @@ void PFCheckRun(TString rootfile, TString outfile, int maxevents=-1, int option=
    dataloader->AddVariable( "var1", "Variable 1", "units", 'F' );
    dataloader->AddVariable( "var2", "Variable 2", "units", 'F' );
 
+   // You can add so-called "Spectator variables", which are not used in the MVA training,
+   // but will appear in the final "TestTree" produced by TMVA. This TestTree will contain the
+   // input variables, the response values of all trained MVAs, and the spectator variables
+   dataloader->AddSpectator( "spec1:=var1*2",  "Spectator 1", "units", 'F' );
+   dataloader->AddSpectator( "spec2:=var1*3",  "Spectator 2", "units", 'F' );   
+   
    // Add the variable carrying the regression target
    dataloader->AddTarget( "fvalue" );
 
@@ -279,6 +285,9 @@ void PFCheckRun(TString rootfile, TString outfile, int maxevents=-1, int option=
 
    factory->BookMethod( dataloader,  TMVA::Types::kLD, "LD",
 			"!H:!V:VarTransform=None" );
+
+   factory->BookMethod( dataloader,  TMVA::Types::kMLP, "MLP",
+			"!H:!V:VarTransform=Norm:NeuronType=tanh:NCycles=20000:HiddenLayers=N+20:TestRate=6:TrainingMethod=BFGS:Sampling=0.3:SamplingEpoch=0.8:ConvergenceImprove=1e-6:ConvergenceTests=15:!UseRegulator" );
    
    // --------------------------------------------------------------------------------------------------
   
