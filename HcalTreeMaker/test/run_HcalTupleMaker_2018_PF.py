@@ -43,12 +43,15 @@ print("maxEvents: ", options.maxEvents)
 #
 # MINIAODSIM
 if options.isMINIAOD: 
-    options.inputFiles = '/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/MINIAODSIM/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/17E57223-3406-7340-B867-2DDC36E7C371.root'
-    options.outputFile = 'relval_ttbar_2018_pmx25ns_miniaodsim.root'
+    options.inputFiles = open('RelValNuGun_Default_MiniAOD.txt').readlines()
+    #options.inputFiles = open('RelValMinBias_Calib.txt').readlines()
+    #'/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/MINIAODSIM/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/17E57223-3406-7340-B867-2DDC36E7C371.root'
+    options.outputFile = 'relval_nugun_2018_pmx25ns_miniaodsim.root'
 # GEN-SIM-RECO
 else:
-    options.inputFiles = '/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/GEN-SIM-RECO/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/7C1DE9C4-2CDF-6745-9636-A49AF087FDF8.root','/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/GEN-SIM-RECO/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/571D7C0D-EB5B-AC4B-8D5A-353C2A1E5984.root','/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/GEN-SIM-RECO/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/EE898FC9-66FA-5044-96D6-82CFC22F847F.root','/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/GEN-SIM-RECO/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/81CF7193-F950-C44F-A164-94DEF2E788FF.root','/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/GEN-SIM-RECO/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/0671F9F2-0539-5549-BAFF-1356C29BE98C.root','/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/GEN-SIM-RECO/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/21369212-DA68-8A41-8176-5D2C6A0E1B12.root','/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/GEN-SIM-RECO/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/D55D802E-CABC-4747-B288-784330B17B80.root','/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/GEN-SIM-RECO/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/286A33FA-698B-084B-9521-AB48E9AAA8E8.root','/store/relval/CMSSW_10_3_0_pre4/RelValTTbar_13/GEN-SIM-RECO/PUpmx25ns_103X_upgrade2018_realistic_v4-v1/20000/CC74C106-6A60-4143-8734-1AF16F588FAA.root'
-    options.outputFile = 'relval_ttbar_2018_pmx25ns.root'
+    options.inputFiles = open('RelValNuGun_Default.txt').readlines()
+    #options.inputFiles = '/store/relval/CMSSW_10_4_0_pre3/RelValMinBias_13/GEN-SIM-RECO/103X_upgrade2018_realistic_v8-v1/20000/F5A3B356-D2B7-9D44-819E-AD2E300601D5.root','/store/relval/CMSSW_10_4_0_pre3/RelValMinBias_13/GEN-SIM-RECO/103X_upgrade2018_realistic_v8-v1/20000/EDF4FA12-68A1-2949-A4DF-314BE46B57D5.root','/store/relval/CMSSW_10_4_0_pre3/RelValMinBias_13/GEN-SIM-RECO/103X_upgrade2018_realistic_v8-v1/20000/A620CAFF-ACF6-1042-B6CB-8B2A5EE7AFEC.root','/store/relval/CMSSW_10_4_0_pre3/RelValMinBias_13/GEN-SIM-RECO/103X_upgrade2018_realistic_v8-v1/20000/97346745-2D06-FE49-9335-6BA4DF5E35F5.root','/store/relval/CMSSW_10_4_0_pre3/RelValMinBias_13/GEN-SIM-RECO/103X_upgrade2018_realistic_v8-v1/20000/763194EA-CD2C-5E49-8CC6-5FCD144DBEF7.root','/store/relval/CMSSW_10_4_0_pre3/RelValMinBias_13/GEN-SIM-RECO/103X_upgrade2018_realistic_v8-v1/20000/57829579-EA9D-B14D-A6D7-8364B31721B8.root','/store/relval/CMSSW_10_4_0_pre3/RelValMinBias_13/GEN-SIM-RECO/103X_upgrade2018_realistic_v8-v1/20000/571B56F0-275C-BB4B-918D-E484970D065C.root','/store/relval/CMSSW_10_4_0_pre3/RelValMinBias_13/GEN-SIM-RECO/103X_upgrade2018_realistic_v8-v1/20000/45C8B284-6695-2A44-9471-045DF2A560CC.root'
+    options.outputFile = 'relval_nugun_pmix_2018.root'
 #
 
 #
